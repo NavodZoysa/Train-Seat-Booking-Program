@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+        <option value="JavaFXApplication" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1XqJBAtS5mSMMU5IXsAe1PYyDig" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RunManager" selected="Application.Booking">
+    <configuration name="Booking" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Booking" />
+      <module name="Train Seating Booking" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookingGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="BookingGUI" />
+      <module name="Train Seating Booking" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Booking" />
+        <item itemvalue="Application.BookingGUI" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="" />
+      <created>1581767552103</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581767552103</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories" timestamp="1582101440626">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories/0.0.1920.1040@0.0.1920.1040" timestamp="1582101440626" />
+    <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1582298430492">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582298430492" />
+    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl" timestamp="1582706991961">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582706991961" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1582821517782">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582821517782" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1582821517782">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582821517782" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1582821517782">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582821517782" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1582821517782">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582821517782" />
+    <state x="482" y="173" width="1024" height="840" key="SettingsEditor" timestamp="1582717028916">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="482" y="173" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582717028916" />
+    <state x="643" y="346" key="com.intellij.ide.util.TipDialog" timestamp="1582707330554">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="643" y="346" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582707330554" />
+    <state x="342" y="141" width="1157" height="585" key="new project wizard" timestamp="1582707371098">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="342" y="141" width="1157" height="585" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1582707371098" />
+    <state x="624" y="238" key="run.anything.popup" timestamp="1582698352859">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="624" y="238" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1582698352859" />
+    <state x="552" y="180" key="scopes" timestamp="1582377140490">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="180" key="scopes/0.0.1920.1040@0.0.1920.1040" timestamp="1582377140490" />
+  </component>
+</project>
