@@ -10,7 +10,6 @@ import java.util.Scanner;
 
 public class Booking extends Application {
     static final int seatingCapacity = 42;
-    static Scanner scan = new Scanner(System.in);
 
     public static void main(String[] args) {
         launch(args);
@@ -25,15 +24,14 @@ public class Booking extends Application {
         consoleMenu(root, stage, scene);
     }
 
-    List<Integer> bookedList = new ArrayList<>(seatingCapacity);
-    public void createSeats(Pane root,Stage stage, Scene scene, String input) {
+    public void createSeats(Pane root,Stage stage, Scene scene, String input, List<Integer> seatlist) {
         int colYCord = 60;
         int labelNo = 0;
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" +(++labelNo));
                 seat.setId(String.valueOf(labelNo));
-                bookedList.add(0);
+                seatlist.add(0);
                 seat.setPrefSize(50, 50);
                 seat.setLayoutX(j * 80);
                 seat.setLayoutY(i * colYCord);
@@ -43,10 +41,10 @@ public class Booking extends Application {
                 if(input.equals("a")) {
                     int selectedSeat = labelNo-1;
                     seat.setOnMouseClicked(event -> {
-                        if(bookedList.get(selectedSeat)!=1) {
+                        if(seatlist.get(selectedSeat)!=1) {
                             seat.setStyle("-fx-background-color:RED");
-                            bookedList.set(selectedSeat,1);
-                            System.out.println(bookedList);
+                            seatlist.set(selectedSeat,1);
+                            System.out.println(seatlist);
                         }
                     });
                 }
@@ -64,19 +62,21 @@ public class Booking extends Application {
         stage.close();
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String input) {
-        createSeats(root, stage, scene, input);
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String input, List<Integer> seatlist) {
+        createSeats(root, stage, scene, input, seatlist);
     }
 
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, String input) {
-        createSeats(root, stage, scene, input);
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, String input, List<Integer> seatlist) {
+        createSeats(root, stage, scene, input, seatlist);
     }
 
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, String input){
-        createSeats(root, stage, scene, input);
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, String input, List<Integer> seatlist){
+        createSeats(root, stage, scene, input, seatlist);
     }
 
     public void consoleMenu(Pane root, Stage stage, Scene scene) {
+        Scanner scan = new Scanner(System.in);
+        List<Integer> bookedList = new ArrayList<>(seatingCapacity);
         while(true) {
             System.out.println("\nWelcome To Fort Railway Station\n" +
                     "Denuwara Menike Intercity Express Train departure from Colombo to Badulla\n"+
@@ -93,13 +93,13 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    addCustomerToSeat(root, stage, scene, userInput);
+                    addCustomerToSeat(root, stage, scene, userInput, bookedList);
                     break;
                 case "v":
-                    viewAllSeats(root, stage, scene, userInput);
+                    viewAllSeats(root, stage, scene, userInput, bookedList);
                     break;
                 case "e":
-                    displayEmptySeats(root, stage, scene, userInput);
+                    displayEmptySeats(root, stage, scene, userInput, bookedList);
                     break;
                 /*case "d":
                     break;
