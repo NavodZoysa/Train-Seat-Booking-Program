@@ -3,6 +3,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +25,15 @@ public class Booking extends Application {
         consoleMenu(root, stage, scene);
     }
 
-    public void createSeats(Pane root,Stage stage, Scene scene, String input, List<Integer> seatlist) {
+    public void createSeats(Pane root,Stage stage, Scene scene, String input, List<String> seatlist) {
         int colYCord = 60;
         int labelNo = 0;
+        int bookedSeatIndex = 0;
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" +(++labelNo));
                 seat.setId(String.valueOf(labelNo));
-                seatlist.add(0);
+                seatlist.add("nb");
                 seat.setPrefSize(50, 50);
                 seat.setLayoutX(j * 80);
                 seat.setLayoutY(i * colYCord);
@@ -40,19 +42,37 @@ public class Booking extends Application {
                 seat.setAlignment(Pos.CENTER);
                 if(input.equals("a")) {
                     int selectedSeat = labelNo-1;
+                    System.out.println(selectedSeat);
                     seat.setOnMouseClicked(event -> {
-                        if(seatlist.get(selectedSeat)!=1) {
+                        if(!seatlist.get(selectedSeat).equals("b")) {
+                            System.out.println(selectedSeat);
                             seat.setStyle("-fx-background-color:RED");
-                            seatlist.set(selectedSeat,1);
+                            seatlist.set(selectedSeat,"b");
                             System.out.println(seatlist);
                         }
                     });
+                    if(seatlist.get(selectedSeat).equals("b")){
+                        seat.setStyle("-fx-background-color:RED");
+                    }
                 }
                 else if(input.equals("v")){
-                    System.out.println("v");
+                    if(seatlist.get(bookedSeatIndex++).equals("b")){
+                        System.out.println(bookedSeatIndex);
+                        seat.setStyle("-fx-background-color:RED");
+                    }
+                    else{
+                        seat.setStyle("-fx-background-color:GREEN");
+                    }
                 }
                 else{
                     System.out.println("e");
+                    if(seatlist.get(bookedSeatIndex++).equals("b")){
+                        seat.setStyle("-fx-background-color:GRAY");
+                        seat.setTextFill(Paint.valueOf("gray"));
+                    }
+                    else{
+                        seat.setStyle("-fx-background-color:GREEN");
+                    }
                 }
             }
         }
@@ -62,21 +82,21 @@ public class Booking extends Application {
         stage.close();
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String input, List<Integer> seatlist) {
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String input, List<String> seatlist) {
         createSeats(root, stage, scene, input, seatlist);
     }
 
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, String input, List<Integer> seatlist) {
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, String input, List<String> seatlist) {
         createSeats(root, stage, scene, input, seatlist);
     }
 
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, String input, List<Integer> seatlist){
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, String input, List<String> seatlist){
         createSeats(root, stage, scene, input, seatlist);
     }
 
     public void consoleMenu(Pane root, Stage stage, Scene scene) {
         Scanner scan = new Scanner(System.in);
-        List<Integer> bookedList = new ArrayList<>(seatingCapacity);
+        List<String> bookedList = new ArrayList<>(seatingCapacity);
         while(true) {
             System.out.println("\nWelcome To Fort Railway Station\n" +
                     "Denuwara Menike Intercity Express Train departure from Colombo to Badulla\n"+
