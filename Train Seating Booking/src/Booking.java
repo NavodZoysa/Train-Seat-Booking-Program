@@ -2,6 +2,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class Booking extends Application {
     public void start(Stage primaryStage) {
         Stage stage = new Stage();
         Pane root = new Pane();
+        //root.setHgap(5);
+        //root.setVgap(5);
         root.setStyle("-fx-background-color:GRAY");
         Scene scene = new Scene(root, 700, 800);
         consoleMenu(root, stage, scene);
@@ -27,6 +30,7 @@ public class Booking extends Application {
     public void createSeats(Pane root,Stage stage, Scene scene, String input, List<Integer> seatlist) {
         int colYCord = 60;
         int labelNo = 0;
+        int bookedSeatIndex = 0;
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" +(++labelNo));
@@ -47,12 +51,30 @@ public class Booking extends Application {
                             System.out.println(seatlist);
                         }
                     });
+                    if(seatlist.get(selectedSeat)==1){
+                        seat.setStyle("-fx-background-color:RED");
+                    }
                 }
                 else if(input.equals("v")){
-                    System.out.println("v");
+                    for(i=0;i<seatingCapacity;i++){
+                        if(seatlist.get(i)==1){
+                            seat.setStyle("-fx-background-color:RED");
+                        }
+                        else{
+                            seat.setStyle("-fx-background-color:GREEN");
+                        }
+                    }
                 }
                 else{
                     System.out.println("e");
+                    for(i=0;i<seatingCapacity;i++){
+                        if(seatlist.get(i)==1){
+                            seat.setVisible(false);
+                        }
+                        else{
+                            seat.setStyle("-fx-background-color:GREEN");
+                        }
+                    }
                 }
             }
         }
@@ -63,6 +85,16 @@ public class Booking extends Application {
     }
 
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String input, List<Integer> seatlist) {
+        /*int labelNo = 0;
+        for(int i=0;i<seatingCapacity;i++){
+            System.out.println("h");
+            Label seat = new Label("S-"+(++labelNo));
+            root.getChildren().addAll(seat);
+        }
+        stage.setTitle("Train Seat Booking Application");
+        stage.setScene(scene);
+        stage.showAndWait();
+        stage.close();*/
         createSeats(root, stage, scene, input, seatlist);
     }
 
