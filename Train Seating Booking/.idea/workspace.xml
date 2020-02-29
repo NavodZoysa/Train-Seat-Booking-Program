@@ -2,17 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Train Seating Booking.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Train Seating Booking.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Booking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" afterDir="false" />
     </list>
+    <list id="3a1c9dab-66b7-4788-9167-adfd46704e33" name="local history" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="Train Seating Booking" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -26,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="testing" />
+        <entry key="$PROJECT_DIR$/.." value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -42,21 +44,14 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
-  <component name="RunManager" selected="Application.Booking">
-    <configuration name="Booking" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager">
+    <configuration name="Booking" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Booking" />
-      <module name="Train Seating Booking" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BookingGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="BookingGUI" />
       <module name="Train Seating Booking" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -65,7 +60,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Booking" />
-        <item itemvalue="Application.BookingGUI" />
       </list>
     </recent_temporary>
   </component>
@@ -94,51 +88,94 @@
     </task>
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories" timestamp="1582101440626">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories/0.0.1920.1040@0.0.1920.1040" timestamp="1582101440626" />
+    <state x="552" y="178" key="#Project_Structure" timestamp="1582991916050">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="178" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1582991916050" />
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582992117673">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582992117673" />
+    <state x="689" y="304" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1582992083631">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="689" y="304" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582992083631" />
     <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1582298430492">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582298430492" />
-    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl" timestamp="1582706991961">
+    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1582992274288">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582706991961" />
-    <state width="293" height="184" key="Git.Branch.Popup" timestamp="1582871592452">
+    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1582992274288" />
+    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl" timestamp="1582992184520">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="293" height="184" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1582871592452" />
-    <state width="1878" height="276" key="GridCell.Tab.0.bottom" timestamp="1582871872571">
+    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582992184520" />
+    <state width="313" height="204" key="Git.Branch.Popup" timestamp="1582992348102">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582871872571" />
-    <state width="1878" height="276" key="GridCell.Tab.0.center" timestamp="1582871872569">
+    <state width="313" height="204" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1582992348102" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1582992220941">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582871872569" />
-    <state width="1878" height="276" key="GridCell.Tab.0.left" timestamp="1582871872567">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582992220941" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1582992220941">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582871872567" />
-    <state width="1878" height="276" key="GridCell.Tab.0.right" timestamp="1582871872570">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582992220941" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1582992220940">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1878" height="276" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582871872570" />
-    <state x="482" y="173" width="1024" height="840" key="SettingsEditor" timestamp="1582869873331">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582992220940" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1582992220941">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="482" y="173" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582869873331" />
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1582822119580">
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582992220941" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1582992185603">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1582822119580" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582992185603" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1582992185603">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582992185603" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1582992185603">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582992185603" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1582992185603">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582992185603" />
+    <state x="482" y="173" width="1024" height="840" key="SettingsEditor" timestamp="1582991990576">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="482" y="173" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582991990576" />
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1582992352399">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1582992352399" />
     <state x="643" y="346" key="com.intellij.ide.util.TipDialog" timestamp="1582871425226">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="643" y="346" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582871425226" />
+    <state x="485" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1582992344127">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="485" y="233" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582992344127" />
+    <state x="565" y="311" key="git4idea.merge.GitPullDialog" timestamp="1582992167751">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="565" y="311" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582992167751" />
     <state x="342" y="141" width="1157" height="585" key="new project wizard" timestamp="1582707371098">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -151,5 +188,8 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="180" key="scopes/0.0.1920.1040@0.0.1920.1040" timestamp="1582377140490" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Train_Seating_Booking$Booking.ic" NAME="Booking Coverage Results" MODIFIED="1582992003880" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
