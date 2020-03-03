@@ -6,7 +6,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-
 import java.io.*;
 import java.util.*;
 
@@ -26,15 +25,14 @@ public class Booking extends Application {
         consoleMenu(root, stage, scene);
     }
 
-    public void createSeats(Pane root,Stage stage, Scene scene, String input, List<String> seatlist, HashMap<Integer,String> customerNames) {
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, List<String> seatlist, HashMap<Integer,String> customerNames) {
         int colYCord = 60;
         int labelNo = 0;
-        int bookedSeatIndex = 0;
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
-                Label seat = new Label("S-" +(++labelNo));
+                Label seat = new Label("S-" + (++labelNo));
                 seat.setId(String.valueOf(labelNo));
-                if(seatlist.size()<seatingCapacity) {
+                if (seatlist.size() < seatingCapacity) {
                     seatlist.add("nb");
                 }
                 seat.setPrefSize(50, 50);
@@ -43,44 +41,57 @@ public class Booking extends Application {
                 root.getChildren().addAll(seat);
                 seat.setStyle("-fx-background-color:GREEN");
                 seat.setAlignment(Pos.CENTER);
-                if(input.equals("a")) {
-                    int selectedSeat = labelNo-1;
-                    System.out.println(selectedSeat);
-                    seat.setOnMouseClicked(event -> {
-                        if(!seatlist.get(selectedSeat).equals("b")) {
-                            seat.setStyle("-fx-background-color:RED");
-                            seatlist.set(selectedSeat,"b");
-                            System.out.println(seatlist);
-                        }
-                        TextInputDialog customerNameBox = new TextInputDialog();
-                        customerNameBox.setTitle("Customer name");
-                        customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
-                        customerNameBox.setContentText("Please enter your name : ");
-                        Optional<String> customerNameField = customerNameBox.showAndWait();
-                        customerNameField.ifPresent(s -> customerNames.put(selectedSeat, s));
-                    });
-                    if(seatlist.get(selectedSeat).equals("b")){
+
+                int selectedSeat = labelNo-1;
+                seat.setOnMouseClicked(event -> {
+                    if(seatlist.get(selectedSeat).equals("nb")) {
                         seat.setStyle("-fx-background-color:RED");
+                        seatlist.set(selectedSeat,"b");
+                        System.out.println(seatlist);
                     }
+                    TextInputDialog customerNameBox = new TextInputDialog();
+                    customerNameBox.setTitle("Customer name");
+                    customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
+                    customerNameBox.setContentText("Please enter your name : ");
+                    Optional<String> customerNameField = customerNameBox.showAndWait();
+                    customerNameField.ifPresent(s -> customerNames.put(selectedSeat, s));
+                });
+                if(seatlist.get(selectedSeat).equals("b")){
+                    seat.setStyle("-fx-background-color:RED");
                 }
-                else if(input.equals("v")){
-                    if(seatlist.get(bookedSeatIndex++).equals("b")){
-                        System.out.println(bookedSeatIndex);
-                        seat.setStyle("-fx-background-color:RED");
-                    }
-                    else{
-                        seat.setStyle("-fx-background-color:GREEN");
-                    }
+
+            }
+        }
+        stage.setTitle("Train Seat Booking Application");
+        stage.setScene(scene);
+        stage.showAndWait();
+        stage.close();
+    }
+
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, List<String> seatlist) {
+        int colYCord = 60;
+        int labelNo = 0;
+        int bookedSeatIndex = 0;
+        for (int i = 1; i <= 6; i++) {
+            for (int j = 1; j <= 7; j++) {
+                Label seat = new Label("S-" + (++labelNo));
+                seat.setId(String.valueOf(labelNo));
+                if (seatlist.size() < seatingCapacity) {
+                    seatlist.add("nb");
+                }
+                seat.setPrefSize(50, 50);
+                seat.setLayoutX(j * 80);
+                seat.setLayoutY(i * colYCord);
+                root.getChildren().addAll(seat);
+                seat.setStyle("-fx-background-color:GREEN");
+                seat.setAlignment(Pos.CENTER);
+
+                if(seatlist.get(bookedSeatIndex++).equals("b")){
+                    System.out.println(bookedSeatIndex);
+                    seat.setStyle("-fx-background-color:RED");
                 }
                 else{
-                    System.out.println("e");
-                    if(seatlist.get(bookedSeatIndex++).equals("b")){
-                        seat.setStyle("-fx-background-color:GRAY");
-                        seat.setTextFill(Paint.valueOf("gray"));
-                    }
-                    else{
-                        seat.setStyle("-fx-background-color:GREEN");
-                    }
+                    seat.setStyle("-fx-background-color:GREEN");
                 }
             }
         }
@@ -88,19 +99,39 @@ public class Booking extends Application {
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
-        System.out.println(customerNames);
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String input, List<String> seatlist, HashMap<Integer,String> customerNames) {
-        createSeats(root, stage, scene, input, seatlist, customerNames);
-    }
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, List<String> seatlist){
+        int colYCord = 60;
+        int labelNo = 0;
+        int bookedSeatIndex = 0;
+        for (int i = 1; i <= 6; i++) {
+            for (int j = 1; j <= 7; j++) {
+                Label seat = new Label("S-" + (++labelNo));
+                seat.setId(String.valueOf(labelNo));
+                if (seatlist.size() < seatingCapacity) {
+                    seatlist.add("nb");
+                }
+                seat.setPrefSize(50, 50);
+                seat.setLayoutX(j * 80);
+                seat.setLayoutY(i * colYCord);
+                root.getChildren().addAll(seat);
+                seat.setStyle("-fx-background-color:GREEN");
+                seat.setAlignment(Pos.CENTER);
 
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, String input, List<String> seatlist, HashMap<Integer,String> customerNames) {
-        createSeats(root, stage, scene, input, seatlist, customerNames);
-    }
-
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, String input, List<String> seatlist, HashMap<Integer,String> customerNames){
-        createSeats(root, stage, scene, input, seatlist, customerNames);
+                if(seatlist.get(bookedSeatIndex++).equals("b")){
+                    seat.setStyle("-fx-background-color:GRAY");
+                    seat.setTextFill(Paint.valueOf("gray"));
+                }
+                else{
+                    seat.setStyle("-fx-background-color:GREEN");
+                }
+            }
+        }
+        stage.setTitle("Train Seat Booking Application");
+        stage.setScene(scene);
+        stage.showAndWait();
+        stage.close();
     }
 
     public void deleteCustomer(Scanner scanner, List<String> seatlist, HashMap<Integer, String> customerNames){
@@ -164,13 +195,13 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    addCustomerToSeat(root, stage, scene, userInput, bookedList, customerList);
+                    addCustomerToSeat(root, stage, scene, bookedList, customerList);
                     break;
                 case "v":
-                    viewAllSeats(root, stage, scene, userInput, bookedList, customerList);
+                    viewAllSeats(root, stage, scene, bookedList);
                     break;
                 case "e":
-                    displayEmptySeats(root, stage, scene, userInput, bookedList, customerList);
+                    displayEmptySeats(root, stage, scene, bookedList);
                     break;
                 case "d":
                     deleteCustomer(scanner, bookedList, customerList);
