@@ -2,12 +2,12 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+
+import java.util.*;
 
 public class Booking extends Application {
     static final int seatingCapacity = 42;
@@ -25,7 +25,7 @@ public class Booking extends Application {
         consoleMenu(root, stage, scene);
     }
 
-    public void createSeats(Pane root,Stage stage, Scene scene, String input, List<String> seatlist) {
+    public void createSeats(Pane root,Stage stage, Scene scene, String input, List<String> seatlist, HashMap<Integer,String> customerNames) {
         int colYCord = 60;
         int labelNo = 0;
         int bookedSeatIndex = 0;
@@ -45,11 +45,16 @@ public class Booking extends Application {
                     System.out.println(selectedSeat);
                     seat.setOnMouseClicked(event -> {
                         if(!seatlist.get(selectedSeat).equals("b")) {
-                            System.out.println(selectedSeat);
                             seat.setStyle("-fx-background-color:RED");
                             seatlist.set(selectedSeat,"b");
                             System.out.println(seatlist);
                         }
+                        TextInputDialog customerNameBox = new TextInputDialog();
+                        customerNameBox.setTitle("Customer name");
+                        customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
+                        customerNameBox.setContentText("Please enter your name : ");
+                        Optional<String> customerNameField = customerNameBox.showAndWait();
+                        customerNameField.ifPresent(s -> customerNames.put(selectedSeat, s));
                     });
                     if(seatlist.get(selectedSeat).equals("b")){
                         seat.setStyle("-fx-background-color:RED");
@@ -80,23 +85,25 @@ public class Booking extends Application {
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
+        System.out.println(customerNames);
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String input, List<String> seatlist) {
-        createSeats(root, stage, scene, input, seatlist);
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String input, List<String> seatlist, HashMap<Integer,String> customerNames) {
+        createSeats(root, stage, scene, input, seatlist, customerNames);
     }
 
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, String input, List<String> seatlist) {
-        createSeats(root, stage, scene, input, seatlist);
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, String input, List<String> seatlist, HashMap<Integer,String> customerNames) {
+        createSeats(root, stage, scene, input, seatlist, customerNames);
     }
 
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, String input, List<String> seatlist){
-        createSeats(root, stage, scene, input, seatlist);
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, String input, List<String> seatlist, HashMap<Integer,String> customerNames){
+        createSeats(root, stage, scene, input, seatlist, customerNames);
     }
 
     public void consoleMenu(Pane root, Stage stage, Scene scene) {
         Scanner scan = new Scanner(System.in);
         List<String> bookedList = new ArrayList<>(seatingCapacity);
+        HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
         while(true) {
             System.out.println("\nWelcome To Fort Railway Station\n" +
                     "Denuwara Menike Intercity Express Train departure from Colombo to Badulla\n"+
@@ -113,13 +120,13 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    addCustomerToSeat(root, stage, scene, userInput, bookedList);
+                    addCustomerToSeat(root, stage, scene, userInput, bookedList, customerList);
                     break;
                 case "v":
-                    viewAllSeats(root, stage, scene, userInput, bookedList);
+                    viewAllSeats(root, stage, scene, userInput, bookedList, customerList);
                     break;
                 case "e":
-                    displayEmptySeats(root, stage, scene, userInput, bookedList);
+                    displayEmptySeats(root, stage, scene, userInput, bookedList, customerList);
                     break;
                 /*case "d":
                     break;
