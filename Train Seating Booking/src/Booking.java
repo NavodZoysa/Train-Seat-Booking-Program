@@ -100,8 +100,17 @@ public class Booking extends Application {
         createSeats(root, stage, scene, input, seatlist, customerNames);
     }
 
+    public void deleteCustomer(Scanner scanner,List<String> seatlist, HashMap<Integer,String> customerNames){
+        System.out.print("Please enter the seat number you want to remove : S-");
+        int deleteSeatNo = scanner.nextInt();
+        seatlist.set(deleteSeatNo-1,"nb");
+        customerNames.remove(deleteSeatNo-1);
+        System.out.println(seatlist);
+        System.out.println(customerNames);
+    }
+
     public void consoleMenu(Pane root, Stage stage, Scene scene) {
-        Scanner scan = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         List<String> bookedList = new ArrayList<>(seatingCapacity);
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
         while(true) {
@@ -116,7 +125,7 @@ public class Booking extends Application {
                     "Please enter 'L' to load the booking details from a file\n" +
                     "Please enter 'O' to view seats ordered alphabetically by customer name\n" +
                     "Please enter 'Q' to quit the program");
-            String userInput = scan.next().toLowerCase();
+            String userInput = scanner.next().toLowerCase();
 
             switch (userInput) {
                 case "a":
@@ -128,9 +137,10 @@ public class Booking extends Application {
                 case "e":
                     displayEmptySeats(root, stage, scene, userInput, bookedList, customerList);
                     break;
-                /*case "d":
+                case "d":
+                    deleteCustomer(scanner, bookedList, customerList);
                     break;
-                case "f":
+                /*case "f":
                     break;
                 case "s":
                     break;
