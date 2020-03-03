@@ -100,13 +100,28 @@ public class Booking extends Application {
         createSeats(root, stage, scene, input, seatlist, customerNames);
     }
 
-    public void deleteCustomer(Scanner scanner,List<String> seatlist, HashMap<Integer,String> customerNames){
+    public void deleteCustomer(Scanner scanner, List<String> seatlist, HashMap<Integer, String> customerNames){
         System.out.print("Please enter the seat number you want to remove : S-");
         int deleteSeatNo = scanner.nextInt();
         seatlist.set(deleteSeatNo-1,"nb");
         customerNames.remove(deleteSeatNo-1);
         System.out.println(seatlist);
         System.out.println(customerNames);
+    }
+
+    public void findCustomer(Scanner scanner, List<String> seatlist, HashMap<Integer,String> customerNames){
+        System.out.print("Please enter the name of the customer to find the related seat booked : ");
+        String findCustomerName = scanner.next();
+        if(customerNames.containsValue(findCustomerName)) {
+            for (int item : customerNames.keySet()) {
+                if (findCustomerName.equals(customerNames.getOrDefault(item, findCustomerName))) {
+                    System.out.println("Customer seat with name " + findCustomerName + " is S-" + (item + 1));
+                }
+            }
+        }
+        else{
+            System.out.println("Customer name invalid");
+        }
     }
 
     public void consoleMenu(Pane root, Stage stage, Scene scene) {
@@ -140,9 +155,10 @@ public class Booking extends Application {
                 case "d":
                     deleteCustomer(scanner, bookedList, customerList);
                     break;
-                /*case "f":
+                case "f":
+                    findCustomer(scanner, bookedList, customerList);
                     break;
-                case "s":
+                /*case "s":
                     break;
                 case "l":
                     break;
