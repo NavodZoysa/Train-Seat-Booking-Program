@@ -6,8 +6,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+
+import java.beans.EventHandler;
 import java.io.*;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Booking extends Application {
     static final int seatingCapacity = 42;
@@ -47,19 +50,20 @@ public class Booking extends Application {
                     if(seatlist.get(selectedSeat).equals("nb")) {
                         seat.setStyle("-fx-background-color:RED");
                         seatlist.set(selectedSeat,"b");
-                        System.out.println(seatlist);
                     }
                     TextInputDialog customerNameBox = new TextInputDialog();
                     customerNameBox.setTitle("Customer name");
                     customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
                     customerNameBox.setContentText("Please enter your name : ");
                     Optional<String> customerNameField = customerNameBox.showAndWait();
-                    customerNameField.ifPresent(s -> customerNames.put(selectedSeat, s));
+                    customerNameField.ifPresent(name -> {
+                        seatlist.set(selectedSeat, name);
+                        customerNames.put(selectedSeat, name);
+                    });
                 });
-                if(seatlist.get(selectedSeat).equals("b")){
+                if(!seatlist.get(selectedSeat).equals("nb")){
                     seat.setStyle("-fx-background-color:RED");
                 }
-
             }
         }
         stage.setTitle("Train Seat Booking Application");
@@ -86,8 +90,7 @@ public class Booking extends Application {
                 seat.setStyle("-fx-background-color:GREEN");
                 seat.setAlignment(Pos.CENTER);
 
-                if(seatlist.get(bookedSeatIndex++).equals("b")){
-                    System.out.println(bookedSeatIndex);
+                if(!seatlist.get(bookedSeatIndex++).equals("nb")){
                     seat.setStyle("-fx-background-color:RED");
                 }
                 else{
@@ -119,7 +122,7 @@ public class Booking extends Application {
                 seat.setStyle("-fx-background-color:GREEN");
                 seat.setAlignment(Pos.CENTER);
 
-                if(seatlist.get(bookedSeatIndex++).equals("b")){
+                if(!seatlist.get(bookedSeatIndex++).equals("nb")){
                     seat.setStyle("-fx-background-color:GRAY");
                     seat.setTextFill(Paint.valueOf("gray"));
                 }
@@ -134,13 +137,11 @@ public class Booking extends Application {
         stage.close();
     }
 
-    public void deleteCustomer(Scanner scanner, List<String> seatlist, HashMap<Integer, String> customerNames){
+    public void deleteCustomer(Scanner scanner, List<String> seatlist, HashMap<Integer,String> customerNames){
         System.out.print("Please enter the seat number you want to remove : S-");
         int deleteSeatNo = scanner.nextInt();
         seatlist.set(deleteSeatNo-1,"nb");
         customerNames.remove(deleteSeatNo-1);
-        System.out.println(seatlist);
-        System.out.println(customerNames);
     }
 
     public void findCustomer(Scanner scanner, HashMap<Integer,String> customerNames){
