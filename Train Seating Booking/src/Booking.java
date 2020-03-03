@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.util.*;
 
 public class Booking extends Application {
@@ -17,7 +18,7 @@ public class Booking extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         Stage stage = new Stage();
         Pane root = new Pane();
         root.setStyle("-fx-background-color:GRAY");
@@ -33,7 +34,9 @@ public class Booking extends Application {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" +(++labelNo));
                 seat.setId(String.valueOf(labelNo));
-                seatlist.add("nb");
+                if(seatlist.size()<seatingCapacity) {
+                    seatlist.add("nb");
+                }
                 seat.setPrefSize(50, 50);
                 seat.setLayoutX(j * 80);
                 seat.setLayoutY(i * colYCord);
@@ -109,7 +112,7 @@ public class Booking extends Application {
         System.out.println(customerNames);
     }
 
-    public void findCustomer(Scanner scanner, List<String> seatlist, HashMap<Integer,String> customerNames){
+    public void findCustomer(Scanner scanner, HashMap<Integer,String> customerNames){
         System.out.print("Please enter the name of the customer to find the related seat booked : ");
         String findCustomerName = scanner.next();
         if(customerNames.containsValue(findCustomerName)) {
@@ -124,7 +127,24 @@ public class Booking extends Application {
         }
     }
 
-    public void consoleMenu(Pane root, Stage stage, Scene scene) {
+    public void saveToFile(List<String> seatlist, HashMap<Integer,String> customerNames) throws IOException {
+        FileWriter writer = new FileWriter("src/customerData.txt");
+        for(String i:seatlist){
+            writer.write(i+"\n");
+        }
+        writer.close();
+    }
+
+    public void loadFromFile() throws FileNotFoundException {
+        FileReader reader = new FileReader("src/customerData.txt");
+    }
+
+    public void orderCustomerNames(HashMap<Integer,String> customerNames){
+        List<String> orderList = new ArrayList<>(customerNames.values());
+        System.out.println(orderList);
+    }
+
+    public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
         Scanner scanner = new Scanner(System.in);
         List<String> bookedList = new ArrayList<>(seatingCapacity);
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
@@ -156,14 +176,17 @@ public class Booking extends Application {
                     deleteCustomer(scanner, bookedList, customerList);
                     break;
                 case "f":
-                    findCustomer(scanner, bookedList, customerList);
+                    findCustomer(scanner, customerList);
                     break;
-                /*case "s":
+                case "s":
+                    saveToFile(bookedList, customerList);
                     break;
                 case "l":
+                    loadFromFile();
                     break;
                 case "o":
-                    break;*/
+                    orderCustomerNames(customerList);
+                    break;
                 case "q":
                     System.exit(0);
                 default:
