@@ -172,7 +172,10 @@ public class Booking extends Application {
     }
 
     public void orderCustomerNames(HashMap<Integer,String> customerNames){
-        List<String> orderList = new ArrayList<>(customerNames.values());
+        List<String> orderList = new ArrayList<>();
+        /*for(int i=0;){
+
+        }*/
         System.out.println(orderList);
     }
 
