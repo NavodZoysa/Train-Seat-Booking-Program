@@ -6,11 +6,8 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-
-import java.beans.EventHandler;
 import java.io.*;
 import java.util.*;
-import java.util.function.Consumer;
 
 public class Booking extends Application {
     static final int seatingCapacity = 42;
@@ -28,15 +25,15 @@ public class Booking extends Application {
         consoleMenu(root, stage, scene);
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, List<String> seatlist, HashMap<Integer,String> customerNames) {
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
         int colYCord = 60;
         int labelNo = 0;
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" + (++labelNo));
                 seat.setId(String.valueOf(labelNo));
-                if (seatlist.size() < seatingCapacity) {
-                    seatlist.add("nb");
+                if (customerNames.size()<seatingCapacity) {
+                    customerNames.put(labelNo,"nb");
                 }
                 seat.setPrefSize(50, 50);
                 seat.setLayoutX(j * 80);
@@ -45,23 +42,14 @@ public class Booking extends Application {
                 seat.setStyle("-fx-background-color:GREEN");
                 seat.setAlignment(Pos.CENTER);
 
-                int selectedSeat = labelNo-1;
+                int selectedSeat = labelNo;
                 seat.setOnMouseClicked(event -> {
-                    if(seatlist.get(selectedSeat).equals("nb")) {
+                    if(customerNames.get(selectedSeat).equals("nb")) {
                         seat.setStyle("-fx-background-color:RED");
-                        seatlist.set(selectedSeat,"b");
+                        customerNames.put(selectedSeat,"b");
                     }
-                    TextInputDialog customerNameBox = new TextInputDialog();
-                    customerNameBox.setTitle("Customer name");
-                    customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
-                    customerNameBox.setContentText("Please enter your name : ");
-                    Optional<String> customerNameField = customerNameBox.showAndWait();
-                    customerNameField.ifPresent(name -> {
-                        seatlist.set(selectedSeat, name);
-                        customerNames.put(selectedSeat, name);
-                    });
                 });
-                if(!seatlist.get(selectedSeat).equals("nb")){
+                if(!customerNames.get(selectedSeat).equals("nb")){
                     seat.setStyle("-fx-background-color:RED");
                 }
             }
@@ -69,19 +57,34 @@ public class Booking extends Application {
         stage.setTitle("Train Seat Booking Application");
         stage.setScene(scene);
         stage.showAndWait();
+
+        TextInputDialog customerNameBox = new TextInputDialog();
+        customerNameBox.setTitle("Customer name");
+        customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
+        customerNameBox.setContentText("Please enter your name : ");
+        Optional<String> customerNameField = customerNameBox.showAndWait();
+        customerNameField.ifPresent(name -> {
+            for(int item : customerNames.keySet()) {
+                if(customerNames.get(item).equals("b")) {
+                    customerNames.put(item,name);
+                }
+            }
+        });
+
         stage.close();
+        System.out.println(customerNames);
+        System.out.println(customerNames.size());
     }
 
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, List<String> seatlist) {
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
         int colYCord = 60;
         int labelNo = 0;
-        int bookedSeatIndex = 0;
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" + (++labelNo));
                 seat.setId(String.valueOf(labelNo));
-                if (seatlist.size() < seatingCapacity) {
-                    seatlist.add("nb");
+                if (customerNames.size()<seatingCapacity) {
+                    customerNames.put(labelNo,"nb");
                 }
                 seat.setPrefSize(50, 50);
                 seat.setLayoutX(j * 80);
@@ -90,7 +93,7 @@ public class Booking extends Application {
                 seat.setStyle("-fx-background-color:GREEN");
                 seat.setAlignment(Pos.CENTER);
 
-                if(!seatlist.get(bookedSeatIndex++).equals("nb")){
+                if(!customerNames.get(labelNo).equals("nb")){
                     seat.setStyle("-fx-background-color:RED");
                 }
                 else{
@@ -104,16 +107,15 @@ public class Booking extends Application {
         stage.close();
     }
 
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, List<String> seatlist){
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames){
         int colYCord = 60;
         int labelNo = 0;
-        int bookedSeatIndex = 0;
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" + (++labelNo));
                 seat.setId(String.valueOf(labelNo));
-                if (seatlist.size() < seatingCapacity) {
-                    seatlist.add("nb");
+                if (customerNames.size()<seatingCapacity) {
+                    customerNames.put(labelNo,"nb");
                 }
                 seat.setPrefSize(50, 50);
                 seat.setLayoutX(j * 80);
@@ -122,7 +124,7 @@ public class Booking extends Application {
                 seat.setStyle("-fx-background-color:GREEN");
                 seat.setAlignment(Pos.CENTER);
 
-                if(!seatlist.get(bookedSeatIndex++).equals("nb")){
+                if(!customerNames.get(labelNo).equals("nb")){
                     seat.setStyle("-fx-background-color:GRAY");
                     seat.setTextFill(Paint.valueOf("gray"));
                 }
@@ -137,20 +139,46 @@ public class Booking extends Application {
         stage.close();
     }
 
-    public void deleteCustomer(Scanner scanner, List<String> seatlist, HashMap<Integer,String> customerNames){
-        System.out.print("Please enter the seat number you want to remove : S-");
-        int deleteSeatNo = scanner.nextInt();
-        seatlist.set(deleteSeatNo-1,"nb");
-        customerNames.remove(deleteSeatNo-1);
+    public void deleteCustomer(Scanner scanner, HashMap<Integer,String> customerNames){
+        System.out.print("Please choose whether you want to remove all the seats related to your name or not(y/n) : ");
+        String choice = scanner.next().toLowerCase();
+        if (choice.equals("y")) {
+            System.out.print("Please enter your name to remove all seats booked for you : ");
+            String deleteName = scanner.next();
+            if(customerNames.containsValue(deleteName)) {
+                for (int item : customerNames.keySet()) {
+                    if (customerNames.get(item).equals(deleteName)) {
+                        customerNames.put(item, "nb");
+                    }
+                }
+                System.out.println("Successfully deleted all seats booked under your name");
+            } else {
+                System.out.println("Invalid name please try again");
+            }
+        }
+        else if (choice.equals("n")) {
+            System.out.print("Please enter the seat number you want to remove : S-");
+            int deleteSeatNo = scanner.nextInt();
+            if (customerNames.containsKey(deleteSeatNo)) {
+                customerNames.put(deleteSeatNo,"nb");
+                System.out.println("Successfully deleted booked seat");
+            } else{
+                System.out.println("Invalid seat number please try again");
+            }
+        }
+        else {
+            System.out.println("Invalid input please try again");
+        }
     }
 
     public void findCustomer(Scanner scanner, HashMap<Integer,String> customerNames){
         System.out.print("Please enter the name of the customer to find the related seat booked : ");
         String findCustomerName = scanner.next();
         if(customerNames.containsValue(findCustomerName)) {
+            System.out.print("Customer seat with name "+findCustomerName+" includes seat ");
             for (int item : customerNames.keySet()) {
                 if (findCustomerName.equals(customerNames.getOrDefault(item, findCustomerName))) {
-                    System.out.println("Customer seat with name " + findCustomerName + " is S-" + (item + 1));
+                    System.out.print("|S-" + (item)+"| ");
                 }
             }
         }
@@ -159,32 +187,49 @@ public class Booking extends Application {
         }
     }
 
-    public void saveToFile(List<String> seatlist, HashMap<Integer,String> customerNames) throws IOException {
+    public void saveToFile(HashMap<Integer,String> customerNames) throws IOException {
         FileWriter writer = new FileWriter("src/customerData.txt");
-        for(String i:seatlist){
-            writer.write(i+"\n");
+        for(int item:customerNames.keySet()){
+            writer.write(item+"="+customerNames.get(item)+"\n");
         }
         writer.close();
+        System.out.println("Successfully save to file");
     }
 
-    public void loadFromFile() throws FileNotFoundException {
-        FileReader reader = new FileReader("src/customerData.txt");
+    public void loadFromFile(HashMap<Integer,String> customerNames) throws FileNotFoundException {
+        Scanner read = new Scanner(new File("src/customerData.txt"));
+        while(read.hasNextLine()){
+            String line = read.nextLine();
+            String[] pairs = line.split("=");
+            customerNames.put(Integer.parseInt(pairs[0]),pairs[1]);
+        }
+        read.close();
+        System.out.println("Successfully loaded from file");
     }
 
     public void orderCustomerNames(HashMap<Integer,String> customerNames){
-        List<String> orderList = new ArrayList<>();
-        /*for(int i=0;){
+        ArrayList<String> orderList = new ArrayList<>(seatingCapacity);
+        for(int i=1;i<=seatingCapacity;i++){
+            orderList.add(customerNames.get((i)));
+        }
 
-        }*/
+        for(int i=0;i<orderList.size();i++){
+            for(int j=i+1;j<orderList.size();j++){
+                if(orderList.get(i).compareTo(orderList.get(j))>0){
+                    String temp = orderList.get(i);
+                    orderList.set(i,orderList.get(j));
+                    orderList.set(j,temp);
+                }
+            }
+        }
         System.out.println(orderList);
     }
 
     public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        List<String> bookedList = new ArrayList<>(seatingCapacity);
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
         while(true) {
-            System.out.println("\nWelcome To Fort Railway Station\n" +
+            System.out.println("\n\nWelcome To Fort Railway Station\n" +
                     "Denuwara Menike Intercity Express Train departure from Colombo to Badulla\n"+
                     "\nPlease enter 'A' to add a customer to a seat\n" +
                     "Please enter 'V' to view all seats\n" +
@@ -199,25 +244,25 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    addCustomerToSeat(root, stage, scene, bookedList, customerList);
+                    addCustomerToSeat(root, stage, scene, customerList);
                     break;
                 case "v":
-                    viewAllSeats(root, stage, scene, bookedList);
+                    viewAllSeats(root, stage, scene, customerList);
                     break;
                 case "e":
-                    displayEmptySeats(root, stage, scene, bookedList);
+                    displayEmptySeats(root, stage, scene, customerList);
                     break;
                 case "d":
-                    deleteCustomer(scanner, bookedList, customerList);
+                    deleteCustomer(scanner, customerList);
                     break;
                 case "f":
                     findCustomer(scanner, customerList);
                     break;
                 case "s":
-                    saveToFile(bookedList, customerList);
+                    saveToFile(customerList);
                     break;
                 case "l":
-                    loadFromFile();
+                    loadFromFile(customerList);
                     break;
                 case "o":
                     orderCustomerNames(customerList);
