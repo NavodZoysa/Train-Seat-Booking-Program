@@ -208,21 +208,26 @@ public class Booking extends Application {
     }
 
     public void orderCustomerNames(HashMap<Integer,String> customerNames){
-        ArrayList<String> orderList = new ArrayList<>(seatingCapacity);
-        for(int i=1;i<=seatingCapacity;i++){
-            orderList.add(customerNames.get((i)));
+        HashMap<Integer ,String> orderList = new HashMap<>(seatingCapacity);
+        for(int i=1;i<=customerNames.size();i++){
+            orderList.put(i,customerNames.get(i)+" - "+(i));
         }
 
-        for(int i=0;i<orderList.size();i++){
-            for(int j=i+1;j<orderList.size();j++){
+        for(int i=1;i<orderList.size()+1;i++){
+            for(int j=i+1;j<orderList.size()+1;j++){
                 if(orderList.get(i).compareTo(orderList.get(j))>0){
-                    String temp = orderList.get(i);
-                    orderList.set(i,orderList.get(j));
-                    orderList.set(j,temp);
+                    String temp =orderList.get(i);
+                    orderList.put(i,orderList.get(j));
+                    orderList.put(j,temp);
                 }
             }
         }
-        System.out.println(orderList);
+
+        for(int item : orderList.keySet()){
+            if(!orderList.get(item).contains("nb -")) {
+                System.out.println(orderList.get(item));
+            }
+        }
     }
 
     public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
