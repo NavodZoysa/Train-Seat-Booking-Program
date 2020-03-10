@@ -6,8 +6,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-
-import java.beans.EventHandler;
 import java.io.*;
 import java.util.*;
 
@@ -22,18 +20,29 @@ public class Booking extends Application {
     public void start(Stage primaryStage) throws IOException {
         Stage stage = new Stage();
         Pane root = new Pane();
-        root.setStyle("-fx-background-color:#1b87c2");
+        root.setStyle("-fx-background-color: #1b87c2");
         Scene scene = new Scene(root, 800, 500);
         stage.setTitle("Train Seat Booking Application");
         Label title = new Label("Welcome to Colombo Fort Railway Station");
-        title.setStyle("-fx-font: 30 arial;-fx-font-weight:bold;-fx-text-fill:black");
+        title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
         title.setLayoutY(5);
-        root.getChildren().addAll(title);
-        consoleMenu(root, stage, scene, title);
+        Label details = new Label(
+                "Train name - Denuwara Menike\n"+
+                "Train number - 1001\n"+
+                "Train departure - Colombo\n"+
+                "Train arrival - Badulla\n"+
+                "Departure time - 06:45AM\n"+
+                "Arrival  time - 02:27PM\n"+
+                "Class - 1st Class A/C Compartment\n");
+        details.setStyle("-fx-font: 18 arial; -fx-text-fill: black;");
+        details.setLayoutX(500);
+        details.setLayoutY(100);
+        root.getChildren().addAll(title,details);
+        consoleMenu(root, stage, scene);
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, Label title, HashMap<Integer,String> customerNames) {
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
         int colXCord = 60;
         int colYCord = 60;
         int labelNo = 0;
@@ -54,12 +63,12 @@ public class Booking extends Application {
                 int selectedSeat = labelNo;
                 seat.setOnMouseClicked(event -> {
                     if(customerNames.get(selectedSeat).equals("nb")) {
-                        seat.setStyle("-fx-background-color:RED");
+                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                         customerNames.put(selectedSeat,"b");
                     }
                 });
                 if(!customerNames.get(selectedSeat).equals("nb")){
-                    seat.setStyle("-fx-background-color:RED");
+                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                 }
             }
         }
@@ -88,7 +97,7 @@ public class Booking extends Application {
         stage.close();
     }
 
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, Label title, HashMap<Integer,String> customerNames) {
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
         int colXCord = 60;
         int colYCord = 60;
         int labelNo = 0;
@@ -103,14 +112,14 @@ public class Booking extends Application {
                 seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color:GREEN");
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                 seat.setAlignment(Pos.CENTER);
 
                 if(!customerNames.get(labelNo).equals("nb")){
-                    seat.setStyle("-fx-background-color:RED");
+                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                 }
                 else{
-                    seat.setStyle("-fx-background-color:GREEN");
+                    seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                 }
             }
         }
@@ -119,7 +128,7 @@ public class Booking extends Application {
         stage.close();
     }
 
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, Label title, HashMap<Integer,String> customerNames){
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames){
         int colXCord = 60;
         int colYCord = 60;
         int labelNo = 0;
@@ -134,15 +143,15 @@ public class Booking extends Application {
                 seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color:GREEN");
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                 seat.setAlignment(Pos.CENTER);
 
                 if(!customerNames.get(labelNo).equals("nb")){
-                    seat.setStyle("-fx-background-color:GRAY");
+                    seat.setStyle("-fx-background-color: GRAY; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                     seat.setTextFill(Paint.valueOf("gray"));
                 }
                 else{
-                    seat.setStyle("-fx-background-color:GREEN");
+                    seat.setStyle("-fx-background-color:GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                 }
             }
         }
@@ -234,7 +243,7 @@ public class Booking extends Application {
                 }
             }
         }
-
+        System.out.println("\nCustomer names ordered in the ascending order\n");
         for(int item : orderList.keySet()){
             if(!orderList.get(item).contains("nb -")) {
                 System.out.println(orderList.get(item));
@@ -242,7 +251,7 @@ public class Booking extends Application {
         }
     }
 
-    public void consoleMenu(Pane root, Stage stage, Scene scene, Label title) throws IOException {
+    public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
         Scanner scanner = new Scanner(System.in);
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
         while(true) {
@@ -261,13 +270,13 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    addCustomerToSeat(root, stage, scene, title, customerList);
+                    addCustomerToSeat(root, stage, scene, customerList);
                     break;
                 case "v":
-                    viewAllSeats(root, stage, scene, title, customerList);
+                    viewAllSeats(root, stage, scene, customerList);
                     break;
                 case "e":
-                    displayEmptySeats(root, stage, scene, title, customerList);
+                    displayEmptySeats(root, stage, scene, customerList);
                     break;
                 case "d":
                     deleteCustomer(scanner, customerList);
