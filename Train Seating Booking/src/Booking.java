@@ -1,5 +1,4 @@
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -38,7 +37,12 @@ public class Booking extends Application {
         details.setStyle("-fx-font: 18 arial; -fx-text-fill: black;");
         details.setLayoutX(500);
         details.setLayoutY(100);
-        root.getChildren().addAll(title,details);
+        Label emptySeat = new Label("Available");
+        emptySeat.setPrefSize(80, 50);
+        emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+        emptySeat.setLayoutX(60);
+        emptySeat.setLayoutY(440);
+        root.getChildren().addAll(title,details,emptySeat);
         consoleMenu(root, stage, scene);
     }
 
@@ -57,21 +61,26 @@ public class Booking extends Application {
                 seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
-                seat.setAlignment(Pos.CENTER);
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
 
                 int selectedSeat = labelNo;
                 seat.setOnMouseClicked(event -> {
                     if(customerNames.get(selectedSeat).equals("nb")) {
-                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
+                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
                         customerNames.put(selectedSeat,"b");
                     }
                 });
                 if(!customerNames.get(selectedSeat).equals("nb")){
-                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
+                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
                 }
             }
         }
+        Label bookedSeat = new Label("Unavailable");
+        bookedSeat.setPrefSize(80, 50);
+        bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+        bookedSeat.setLayoutX(160);
+        bookedSeat.setLayoutY(440);
+        root.getChildren().add(bookedSeat);
         stage.setScene(scene);
         stage.showAndWait();
 
@@ -93,7 +102,6 @@ public class Booking extends Application {
                 customerNames.put(item,"nb");
             }
         }
-
         stage.close();
     }
 
@@ -112,17 +120,22 @@ public class Booking extends Application {
                 seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
-                seat.setAlignment(Pos.CENTER);
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
 
                 if(!customerNames.get(labelNo).equals("nb")){
-                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
+                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
                 }
                 else{
-                    seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
+                    seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
                 }
             }
         }
+        Label bookedSeat = new Label("Unavailable");
+        bookedSeat.setPrefSize(80, 50);
+        bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+        bookedSeat.setLayoutX(160);
+        bookedSeat.setLayoutY(440);
+        root.getChildren().add(bookedSeat);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
@@ -143,15 +156,14 @@ public class Booking extends Application {
                 seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
-                seat.setAlignment(Pos.CENTER);
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
 
                 if(!customerNames.get(labelNo).equals("nb")){
-                    seat.setStyle("-fx-background-color: GRAY; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
-                    seat.setTextFill(Paint.valueOf("gray"));
+                    seat.setStyle("-fx-background-color: #1b87c2;");
+                    seat.setTextFill(Paint.valueOf("#1b87c2"));
                 }
                 else{
-                    seat.setStyle("-fx-background-color:GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
+                    seat.setStyle("-fx-background-color:GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
                 }
             }
         }
