@@ -6,6 +6,8 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+
+import java.beans.EventHandler;
 import java.io.*;
 import java.util.*;
 
@@ -20,12 +22,19 @@ public class Booking extends Application {
     public void start(Stage primaryStage) throws IOException {
         Stage stage = new Stage();
         Pane root = new Pane();
-        root.setStyle("-fx-background-color:GRAY");
-        Scene scene = new Scene(root, 700, 800);
-        consoleMenu(root, stage, scene);
+        root.setStyle("-fx-background-color:#1b87c2");
+        Scene scene = new Scene(root, 800, 500);
+        stage.setTitle("Train Seat Booking Application");
+        Label title = new Label("Welcome to Colombo Fort Railway Station");
+        title.setStyle("-fx-font: 30 arial;-fx-font-weight:bold;-fx-text-fill:black");
+        title.setLayoutX(95);
+        title.setLayoutY(5);
+        root.getChildren().addAll(title);
+        consoleMenu(root, stage, scene, title);
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, Label title, HashMap<Integer,String> customerNames) {
+        int colXCord = 60;
         int colYCord = 60;
         int labelNo = 0;
         for (int i = 1; i <= 6; i++) {
@@ -36,10 +45,10 @@ public class Booking extends Application {
                     customerNames.put(labelNo,"nb");
                 }
                 seat.setPrefSize(50, 50);
-                seat.setLayoutX(j * 80);
+                seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
-                root.getChildren().addAll(seat);
-                seat.setStyle("-fx-background-color:GREEN");
+                root.getChildren().add(seat);
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black");
                 seat.setAlignment(Pos.CENTER);
 
                 int selectedSeat = labelNo;
@@ -54,7 +63,6 @@ public class Booking extends Application {
                 }
             }
         }
-        stage.setTitle("Train Seat Booking Application");
         stage.setScene(scene);
         stage.showAndWait();
 
@@ -71,12 +79,17 @@ public class Booking extends Application {
             }
         });
 
+        for(int item : customerNames.keySet()) {
+            if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
+                customerNames.put(item,"nb");
+            }
+        }
+
         stage.close();
-        System.out.println(customerNames);
-        System.out.println(customerNames.size());
     }
 
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, Label title, HashMap<Integer,String> customerNames) {
+        int colXCord = 60;
         int colYCord = 60;
         int labelNo = 0;
         for (int i = 1; i <= 6; i++) {
@@ -87,9 +100,9 @@ public class Booking extends Application {
                     customerNames.put(labelNo,"nb");
                 }
                 seat.setPrefSize(50, 50);
-                seat.setLayoutX(j * 80);
+                seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
-                root.getChildren().addAll(seat);
+                root.getChildren().add(seat);
                 seat.setStyle("-fx-background-color:GREEN");
                 seat.setAlignment(Pos.CENTER);
 
@@ -101,13 +114,13 @@ public class Booking extends Application {
                 }
             }
         }
-        stage.setTitle("Train Seat Booking Application");
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
     }
 
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames){
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, Label title, HashMap<Integer,String> customerNames){
+        int colXCord = 60;
         int colYCord = 60;
         int labelNo = 0;
         for (int i = 1; i <= 6; i++) {
@@ -118,9 +131,9 @@ public class Booking extends Application {
                     customerNames.put(labelNo,"nb");
                 }
                 seat.setPrefSize(50, 50);
-                seat.setLayoutX(j * 80);
+                seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
-                root.getChildren().addAll(seat);
+                root.getChildren().add(seat);
                 seat.setStyle("-fx-background-color:GREEN");
                 seat.setAlignment(Pos.CENTER);
 
@@ -133,7 +146,6 @@ public class Booking extends Application {
                 }
             }
         }
-        stage.setTitle("Train Seat Booking Application");
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
@@ -230,7 +242,7 @@ public class Booking extends Application {
         }
     }
 
-    public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
+    public void consoleMenu(Pane root, Stage stage, Scene scene, Label title) throws IOException {
         Scanner scanner = new Scanner(System.in);
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
         while(true) {
@@ -249,13 +261,13 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    addCustomerToSeat(root, stage, scene, customerList);
+                    addCustomerToSeat(root, stage, scene, title, customerList);
                     break;
                 case "v":
-                    viewAllSeats(root, stage, scene, customerList);
+                    viewAllSeats(root, stage, scene, title, customerList);
                     break;
                 case "e":
-                    displayEmptySeats(root, stage, scene, customerList);
+                    displayEmptySeats(root, stage, scene, title, customerList);
                     break;
                 case "d":
                     deleteCustomer(scanner, customerList);
