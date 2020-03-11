@@ -1,5 +1,7 @@
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
@@ -68,7 +70,15 @@ public class Booking extends Application {
                     if(customerNames.get(selectedSeat).equals("nb")) {
                         seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
                         customerNames.put(selectedSeat,"b");
+                        System.out.println(customerNames);
                     }
+                    seat.setOnMouseClicked(event1 -> {
+                        if(customerNames.get(selectedSeat).equals("b")){
+                            seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                            customerNames.put(selectedSeat,"nb");
+                            System.out.println(customerNames);
+                        }
+                    });
                 });
                 if(!customerNames.get(selectedSeat).equals("nb")){
                     seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
@@ -80,28 +90,42 @@ public class Booking extends Application {
         bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
         bookedSeat.setLayoutX(160);
         bookedSeat.setLayoutY(440);
-        root.getChildren().add(bookedSeat);
-        stage.setScene(scene);
-        stage.showAndWait();
 
-        TextInputDialog customerNameBox = new TextInputDialog();
-        customerNameBox.setTitle("Customer name");
-        customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
-        customerNameBox.setContentText("Please enter your name : ");
-        Optional<String> customerNameField = customerNameBox.showAndWait();
-        customerNameField.ifPresent(name -> {
+        Button bookButton = new Button("Confirm Booking");
+        bookButton.setPrefSize(150,40);
+        bookButton.setLayoutX(550);
+        bookButton.setLayoutY(310);
+        root.getChildren().addAll(bookedSeat,bookButton);
+
+        bookButton.setOnAction(event -> {
+            TextInputDialog customerNameBox = new TextInputDialog();
+            customerNameBox.setTitle("Customer name");
+            customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
+            customerNameBox.setContentText("Please enter your name : ");
+            Optional<String> customerNameField = customerNameBox.showAndWait();
+            customerNameField.ifPresent(name -> {
+                for(int item : customerNames.keySet()) {
+                    if(customerNames.get(item).equals("b")) {
+                        customerNames.put(item,name);
+                    }
+                }
+                System.out.println(customerNames);
+            });
+
+            Alert emptyName = new Alert(Alert.AlertType.WARNING);
+            emptyName.setTitle("No name entered");
+            emptyName.setHeaderText("Warning! No name entered!");
+            emptyName.setContentText("Please enter a valid name when booking a seat! Try again.");
             for(int item : customerNames.keySet()) {
-                if(customerNames.get(item).equals("b")) {
-                    customerNames.put(item,name);
+                if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
+                    customerNames.put(item,"nb");
+                    emptyName.showAndWait();
+                    stage.close();
                 }
             }
         });
-
-        for(int item : customerNames.keySet()) {
-            if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
-                customerNames.put(item,"nb");
-            }
-        }
+        stage.setScene(scene);
+        stage.showAndWait();
         stage.close();
     }
 
@@ -130,12 +154,18 @@ public class Booking extends Application {
                 }
             }
         }
-        Label bookedSeat = new Label("Unavailable");
-        bookedSeat.setPrefSize(80, 50);
-        bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
-        bookedSeat.setLayoutX(160);
-        bookedSeat.setLayoutY(440);
-        root.getChildren().add(bookedSeat);
+        Label coverLabel = new Label("Unavailable");
+        coverLabel.setPrefSize(80, 50);
+        coverLabel.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+        coverLabel.setLayoutX(160);
+        coverLabel.setLayoutY(440);
+
+        Label coverButton = new Label();
+        coverButton.setPrefSize(150,40);
+        coverButton.setStyle("-fx-background-color: #1b87c2");
+        coverButton.setLayoutX(550);
+        coverButton.setLayoutY(310);
+        root.getChildren().addAll(coverLabel,coverButton);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
@@ -167,6 +197,18 @@ public class Booking extends Application {
                 }
             }
         }
+        Label coverLabel = new Label();
+        coverLabel.setPrefSize(80, 50);
+        coverLabel.setStyle("-fx-background-color: #1b87c2");
+        coverLabel.setLayoutX(160);
+        coverLabel.setLayoutY(440);
+
+        Label coverButton = new Label();
+        coverButton.setPrefSize(150,40);
+        coverButton.setStyle("-fx-background-color: #1b87c2");
+        coverButton.setLayoutX(550);
+        coverButton.setLayoutY(310);
+        root.getChildren().addAll(coverLabel,coverButton);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
