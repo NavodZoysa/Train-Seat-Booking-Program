@@ -22,12 +22,13 @@ public class Booking extends Application {
         Stage stage = new Stage();
         Pane root = new Pane();
         root.setStyle("-fx-background-color: #1b87c2");
-        Scene scene = new Scene(root, 800, 500);
+        Scene scene = new Scene(root, 820, 500);
         stage.setTitle("Train Seat Booking Application");
         Label title = new Label("Welcome to Colombo Fort Railway Station");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
         title.setLayoutY(5);
+
         Label details = new Label(
                 "Train name - Denuwara Menike\n"+
                 "Train number - 1001\n"+
@@ -36,12 +37,13 @@ public class Booking extends Application {
                 "Departure time - 06:45AM\n"+
                 "Arrival  time - 02:27PM\n"+
                 "Class - 1st Class A/C Compartment\n");
-        details.setStyle("-fx-font: 18 arial; -fx-text-fill: black;");
+        details.setStyle("-fx-font: 18 arial; -fx-text-fill: black; -fx-font-weight: bold");
         details.setLayoutX(500);
         details.setLayoutY(100);
+
         Label emptySeat = new Label("Available");
         emptySeat.setPrefSize(80, 50);
-        emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+        emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
         emptySeat.setLayoutX(60);
         emptySeat.setLayoutY(440);
         root.getChildren().addAll(title,details,emptySeat);
@@ -55,7 +57,6 @@ public class Booking extends Application {
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" + (++labelNo));
-                seat.setId(String.valueOf(labelNo));
                 if (customerNames.size()<seatingCapacity) {
                     customerNames.put(labelNo,"nb");
                 }
@@ -63,70 +64,111 @@ public class Booking extends Application {
                 seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
 
                 int selectedSeat = labelNo;
                 seat.setOnMouseClicked(event -> {
                     if(customerNames.get(selectedSeat).equals("nb")) {
-                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                         customerNames.put(selectedSeat,"b");
-                        System.out.println(customerNames);
                     }
                     seat.setOnMouseClicked(event1 -> {
                         if(customerNames.get(selectedSeat).equals("b")){
-                            seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                            seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                             customerNames.put(selectedSeat,"nb");
-                            System.out.println(customerNames);
                         }
                     });
                 });
                 if(!customerNames.get(selectedSeat).equals("nb")){
-                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                 }
             }
         }
         Label bookedSeat = new Label("Unavailable");
         bookedSeat.setPrefSize(80, 50);
-        bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+        bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
         bookedSeat.setLayoutX(160);
         bookedSeat.setLayoutY(440);
 
         Button bookButton = new Button("Confirm Booking");
-        bookButton.setPrefSize(150,40);
-        bookButton.setLayoutX(550);
+        bookButton.setPrefSize(120,40);
+        bookButton.setStyle("-fx-background-color: #2144cf; -fx-border-width: 1.5; -fx-border-radius: 3; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-insets: 0");
+        bookButton.setLayoutX(500);
         bookButton.setLayoutY(310);
-        root.getChildren().addAll(bookedSeat,bookButton);
+
+        Button clearButton = new Button("Clear Seats");
+        clearButton.setPrefSize(100,40);
+        clearButton.setStyle("-fx-background-color: #bd1520; -fx-border-width: 1.5; -fx-border-radius: 3; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-insets: 0");
+        clearButton.setLayoutX(650);
+        clearButton.setLayoutY(310);
+        root.getChildren().addAll(bookedSeat,bookButton,clearButton);
 
         bookButton.setOnAction(event -> {
             TextInputDialog customerNameBox = new TextInputDialog();
             customerNameBox.setTitle("Customer name");
             customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
-            customerNameBox.setContentText("Please enter your name : ");
+            customerNameBox.setContentText("Please enter your name (Numbers,'b' and 'nb' not allowed): ");
             Optional<String> customerNameField = customerNameBox.showAndWait();
             customerNameField.ifPresent(name -> {
+                if(name.toLowerCase().equals("b") || name.toLowerCase().equals("nb") || !name.matches("[.a-zA-Z\\s]+") || name.trim().isEmpty()){
+                    for(int item : customerNames.keySet()) {
+                        if(customerNames.get(item).equals("b")) {
+                            customerNames.put(item,"nb");
+                        }
+                    }
+                    Alert invalidName = new Alert(Alert.AlertType.WARNING);
+                    invalidName.setTitle("Invalid Name");
+                    invalidName.setHeaderText("Warning! Invalid Name Input!");
+                    invalidName.setContentText(name+" is not valid! "+"Please enter a valid name when booking a seat (Only letters with or without spaces allowed. Numbers,special characters,'b' and 'nb' is not allowed)! Try again.");
+                    invalidName.showAndWait();
+                    stage.close();
+                }
                 for(int item : customerNames.keySet()) {
                     if(customerNames.get(item).equals("b")) {
                         customerNames.put(item,name);
                     }
                 }
-                System.out.println(customerNames);
             });
 
             Alert emptyName = new Alert(Alert.AlertType.WARNING);
             emptyName.setTitle("No name entered");
-            emptyName.setHeaderText("Warning! No name entered!");
-            emptyName.setContentText("Please enter a valid name when booking a seat! Try again.");
+            emptyName.setHeaderText("Warning! No name entered or Invalid input!");
+            emptyName.setContentText("Please enter a valid name when booking a seat('b' and 'nb' is not allowed)! Try again.");
             for(int item : customerNames.keySet()) {
                 if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
                     customerNames.put(item,"nb");
                     emptyName.showAndWait();
                     stage.close();
+                    break;
+                }
+            }
+        });
+
+        clearButton.setOnAction(event -> {
+            Alert clearSeats = new Alert(Alert.AlertType.INFORMATION);
+            clearSeats.setTitle("Clear Seats");
+            clearSeats.setHeaderText("You are removing selected seats for this session!");
+            clearSeats.setContentText("To remove a seat that is already booked with a name please select option 'D' from the menu.");
+            for(int item : customerNames.keySet()) {
+                if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
+                    customerNames.put(item,"nb");
+                    clearSeats.showAndWait();
+                    clearSeats.close();
+                    stage.close();
+                    break;
                 }
             }
         });
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
+
+        for(int item : customerNames.keySet()) {
+            if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
+                customerNames.put(item,"nb");
+            }
+        }
+        root.getChildren().removeAll(bookedSeat,bookButton,clearButton);
     }
 
     public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
@@ -136,7 +178,6 @@ public class Booking extends Application {
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" + (++labelNo));
-                seat.setId(String.valueOf(labelNo));
                 if (customerNames.size()<seatingCapacity) {
                     customerNames.put(labelNo,"nb");
                 }
@@ -144,31 +185,26 @@ public class Booking extends Application {
                 seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
 
                 if(!customerNames.get(labelNo).equals("nb")){
-                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                 }
                 else{
-                    seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                    seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                 }
             }
         }
-        Label coverLabel = new Label("Unavailable");
-        coverLabel.setPrefSize(80, 50);
-        coverLabel.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
-        coverLabel.setLayoutX(160);
-        coverLabel.setLayoutY(440);
-
-        Label coverButton = new Label();
-        coverButton.setPrefSize(150,40);
-        coverButton.setStyle("-fx-background-color: #1b87c2");
-        coverButton.setLayoutX(550);
-        coverButton.setLayoutY(310);
-        root.getChildren().addAll(coverLabel,coverButton);
+        Label bookedSeat = new Label("Unavailable");
+        bookedSeat.setPrefSize(80, 50);
+        bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+        bookedSeat.setLayoutX(160);
+        bookedSeat.setLayoutY(440);
+        root.getChildren().add(bookedSeat);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
+        root.getChildren().remove(bookedSeat);
     }
 
     public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames){
@@ -178,7 +214,6 @@ public class Booking extends Application {
         for (int i = 1; i <= 6; i++) {
             for (int j = 1; j <= 7; j++) {
                 Label seat = new Label("S-" + (++labelNo));
-                seat.setId(String.valueOf(labelNo));
                 if (customerNames.size()<seatingCapacity) {
                     customerNames.put(labelNo,"nb");
                 }
@@ -186,36 +221,30 @@ public class Booking extends Application {
                 seat.setLayoutX(j * colXCord);
                 seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
 
                 if(!customerNames.get(labelNo).equals("nb")){
                     seat.setStyle("-fx-background-color: #1b87c2;");
                     seat.setTextFill(Paint.valueOf("#1b87c2"));
                 }
                 else{
-                    seat.setStyle("-fx-background-color:GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
+                    seat.setStyle("-fx-background-color:GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                 }
             }
         }
-        Label coverLabel = new Label();
-        coverLabel.setPrefSize(80, 50);
-        coverLabel.setStyle("-fx-background-color: #1b87c2");
-        coverLabel.setLayoutX(160);
-        coverLabel.setLayoutY(440);
-
-        Label coverButton = new Label();
-        coverButton.setPrefSize(150,40);
-        coverButton.setStyle("-fx-background-color: #1b87c2");
-        coverButton.setLayoutX(550);
-        coverButton.setLayoutY(310);
-        root.getChildren().addAll(coverLabel,coverButton);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
     }
 
     public void deleteCustomer(Scanner scanner, HashMap<Integer,String> customerNames){
-        System.out.print("Please choose whether you want to remove all the seats related to your name or not(y/n) : ");
+        for(int item : customerNames.keySet()){
+            if(item%10==0){
+                System.out.println("\n");
+            }
+            System.out.print("S-"+item+" = "+customerNames.get(item)+"|");
+        }
+        System.out.print("\n\nPlease choose whether you want to remove all the seats related to your name or not(y/n) : ");
         String choice = scanner.next().toLowerCase();
         if (choice.equals("y")) {
             System.out.print("Please enter your name to remove all seats booked for you : ");
@@ -288,6 +317,12 @@ public class Booking extends Application {
             orderList.put(i,customerNames.get(i)+" - "+(i));
         }
 
+        System.out.println("Customer ordered on first come first served basis\n");
+        for(int item : orderList.keySet()) {
+            if(!orderList.get(item).contains("nb -")) {
+                System.out.println(orderList.get(item));
+            }
+        }
         for(int i=1;i<orderList.size()+1;i++){
             for(int j=i+1;j<orderList.size()+1;j++){
                 if(orderList.get(i).compareTo(orderList.get(j))>0){
