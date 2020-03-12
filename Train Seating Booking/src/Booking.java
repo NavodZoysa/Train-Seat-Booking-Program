@@ -70,13 +70,11 @@ public class Booking extends Application {
                     if(customerNames.get(selectedSeat).equals("nb")) {
                         seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
                         customerNames.put(selectedSeat,"b");
-                        System.out.println(customerNames);
                     }
                     seat.setOnMouseClicked(event1 -> {
                         if(customerNames.get(selectedSeat).equals("b")){
                             seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center");
                             customerNames.put(selectedSeat,"nb");
-                            System.out.println(customerNames);
                         }
                     });
                 });
@@ -92,40 +90,82 @@ public class Booking extends Application {
         bookedSeat.setLayoutY(440);
 
         Button bookButton = new Button("Confirm Booking");
-        bookButton.setPrefSize(150,40);
-        bookButton.setLayoutX(550);
+        bookButton.setPrefSize(120,40);
+        bookButton.setLayoutX(500);
         bookButton.setLayoutY(310);
-        root.getChildren().addAll(bookedSeat,bookButton);
+
+        Button clearButton = new Button("Clear Seats");
+        clearButton.setPrefSize(100,40);
+        clearButton.setLayoutX(650);
+        clearButton.setLayoutY(310);
+
+        root.getChildren().addAll(bookedSeat,bookButton,clearButton);
 
         bookButton.setOnAction(event -> {
             TextInputDialog customerNameBox = new TextInputDialog();
             customerNameBox.setTitle("Customer name");
             customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
-            customerNameBox.setContentText("Please enter your name : ");
+            customerNameBox.setContentText("Please enter your name (Numbers,'b' and 'nb' not allowed): ");
             Optional<String> customerNameField = customerNameBox.showAndWait();
             customerNameField.ifPresent(name -> {
+                if(name.toLowerCase().equals("b") || name.toLowerCase().equals("nb") || !name.matches("[.a-zA-Z\\s]+") || name.trim().isEmpty()){
+                    for(int item : customerNames.keySet()) {
+                        if(customerNames.get(item).equals("b")) {
+                            customerNames.put(item,"nb");
+                        }
+                    }
+                    Alert invalidName = new Alert(Alert.AlertType.WARNING);
+                    invalidName.setTitle("Invalid Name");
+                    invalidName.setHeaderText("Warning! "+name+" Invalid Name Input!");
+                    invalidName.setContentText(name+" is not valid! "+"Please enter a valid name when booking a seat (Only letters with or without spaces allowed. Numbers,special characters,'b' and 'nb' is not allowed)! Try again.");
+                    invalidName.showAndWait();
+                    stage.close();
+                }
                 for(int item : customerNames.keySet()) {
                     if(customerNames.get(item).equals("b")) {
                         customerNames.put(item,name);
                     }
                 }
-                System.out.println(customerNames);
             });
 
             Alert emptyName = new Alert(Alert.AlertType.WARNING);
             emptyName.setTitle("No name entered");
-            emptyName.setHeaderText("Warning! No name entered!");
-            emptyName.setContentText("Please enter a valid name when booking a seat! Try again.");
+            emptyName.setHeaderText("Warning! No name entered or Invalid input!");
+            emptyName.setContentText("Please enter a valid name when booking a seat('b' and 'nb' is not allowed)! Try again.");
             for(int item : customerNames.keySet()) {
                 if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
                     customerNames.put(item,"nb");
                     emptyName.showAndWait();
                     stage.close();
+                    break;
                 }
             }
         });
+
+        clearButton.setOnAction(event -> {
+            Alert clearSeats = new Alert(Alert.AlertType.INFORMATION);
+            clearSeats.setTitle("Clear Seats");
+            clearSeats.setHeaderText("You are removing selected seats for this session!");
+            clearSeats.setContentText("To remove a seat that is already booked with a name please select option 'D' from the menu.");
+            for(int item : customerNames.keySet()) {
+                if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
+                    customerNames.put(item,"nb");
+                    clearSeats.showAndWait();
+                    clearSeats.close();
+                    stage.close();
+                    break;
+                }
+            }
+        });
+
         stage.setScene(scene);
         stage.showAndWait();
+
+        for(int item : customerNames.keySet()) {
+            if(customerNames.get(item).equals("b") || customerNames.get(item).isEmpty()) {
+                customerNames.put(item,"nb");
+            }
+        }
         stage.close();
     }
 
