@@ -168,7 +168,7 @@ public class Booking extends Application {
                 customerNames.put(item,"nb");
             }
         }
-        root.getChildren().removeAll(bookButton,clearButton);
+        root.getChildren().removeAll(bookedSeat,bookButton,clearButton);
     }
 
     public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
@@ -195,9 +195,16 @@ public class Booking extends Application {
                 }
             }
         }
+        Label bookedSeat = new Label("Unavailable");
+        bookedSeat.setPrefSize(80, 50);
+        bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+        bookedSeat.setLayoutX(160);
+        bookedSeat.setLayoutY(440);
+        root.getChildren().add(bookedSeat);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
+        root.getChildren().remove(bookedSeat);
     }
 
     public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames){
