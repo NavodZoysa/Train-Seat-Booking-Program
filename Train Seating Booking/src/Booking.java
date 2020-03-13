@@ -1,3 +1,4 @@
+import com.mongodb.client.FindIterable;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -13,7 +14,6 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import com.mongodb.client.MongoCollection;
-
 
 public class Booking extends Application {
     static final int seatingCapacity = 42;
@@ -311,13 +311,32 @@ public class Booking extends Application {
             MongoClient mongoClient = new MongoClient("localhost",27017);
             MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
             MongoCollection<Document> collection = customerDatabase.getCollection("customerDetails");
+            System.out.println("Connected to the Database");
 
-            for(int item: customerNames.keySet()) {
-                Document document = new Document().append(String.valueOf(item), customerNames.get(item));
-                collection.insertOne(document);
+            FindIterable<Document> findDocument = collection.find();
+            if(collection.countDocuments()==0){
+                for(int item: customerNames.keySet()) {
+                    Document customerDocument = new Document();
+                    customerDocument.append("seatNumber",String.valueOf(item));
+                    customerDocument.append("customerName",customerNames.get(item));
+                    collection.insertOne(customerDocument);
+                }
+                System.out.println("Successfully stored 1st time");
+            }else if(collection.countDocuments()>1) {
+                for (Document document : findDocument) {
+                    collection.deleteOne(document);
+                }
+                for(int item: customerNames.keySet()) {
+                    Document customerDocument = new Document();
+                    customerDocument.append("seatNumber",String.valueOf(item));
+                    customerDocument.append("customerName",customerNames.get(item));
+                    collection.insertOne(customerDocument);
+                }
+                System.out.println("Successfully updated 2nd time");
             }
-            System.out.println("Saved the details to the database successfully");
             mongoClient.close();
+            System.out.println("Saved the details to the database successfully");
+
         }
         else {
             System.out.println("Invalid input. Please try again.");
@@ -338,6 +357,17 @@ public class Booking extends Application {
             System.out.println("Successfully loaded from file");
         }
         else if(choice.equals("d")){
+            MongoClient mongoClient = new MongoClient("localhost",27017);
+            MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
+            MongoCollection<Document> collection = customerDatabase.getCollection("customerDetails");
+            System.out.println("Connected to the Database");
+
+            FindIterable<Document> findDocument = collection.find();
+
+            for (Document document : findDocument) {
+                System.out.println(document);
+            }
+            mongoClient.close();
             System.out.println("Details loaded from the database successfully");
         }
         else {
