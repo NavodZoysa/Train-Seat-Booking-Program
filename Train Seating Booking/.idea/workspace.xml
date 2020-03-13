@@ -181,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584107412766</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Overwriting existing customer data successfully implemented.">
+      <created>1584132435019</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1584132435019</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -212,7 +219,8 @@
     <MESSAGE value="Name validation implemented." />
     <MESSAGE value="Added clear button and some styling." />
     <MESSAGE value="Added mongodb for saving (Overwriting existing save to be implemented)." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added mongodb for saving (Overwriting existing save to be implemented)." />
+    <MESSAGE value="Overwriting existing customer data successfully implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Overwriting existing customer data successfully implemented." />
   </component>
   <component name="WindowStateProjectService">
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories" timestamp="1582101440626">
@@ -239,10 +247,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1150" y="467" key="#com.intellij.tools.ToolEditorDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584040720896" />
-    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1584107411288">
+    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1584132433923">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584107411288" />
+    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584132433923" />
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl" timestamp="1584104631823">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -251,22 +259,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="423" height="314" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584107434477" />
-    <state width="1877" height="194" key="GridCell.Tab.0.bottom" timestamp="1584132196676">
+    <state width="1877" height="194" key="GridCell.Tab.0.bottom" timestamp="1584133495812">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584132196676" />
-    <state width="1877" height="194" key="GridCell.Tab.0.center" timestamp="1584132196675">
+    <state width="1877" height="194" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584133495812" />
+    <state width="1877" height="194" key="GridCell.Tab.0.center" timestamp="1584133495812">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584132196675" />
-    <state width="1877" height="194" key="GridCell.Tab.0.left" timestamp="1584132196675">
+    <state width="1877" height="194" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584133495812" />
+    <state width="1877" height="194" key="GridCell.Tab.0.left" timestamp="1584133495811">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584132196675" />
-    <state width="1877" height="194" key="GridCell.Tab.0.right" timestamp="1584132196675">
+    <state width="1877" height="194" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584133495811" />
+    <state width="1877" height="194" key="GridCell.Tab.0.right" timestamp="1584133495812">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584132196675" />
+    <state width="1877" height="194" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584133495812" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1582992185603">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

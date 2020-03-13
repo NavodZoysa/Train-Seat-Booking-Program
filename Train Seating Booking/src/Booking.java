@@ -363,10 +363,10 @@ public class Booking extends Application {
             System.out.println("Connected to the Database");
 
             FindIterable<Document> findDocument = collection.find();
-
             for (Document document : findDocument) {
-                System.out.println(document);
+                customerNames.put(Integer.parseInt(document.getString("seatNumber")),document.getString("customerName"));
             }
+            System.out.println(customerNames);
             mongoClient.close();
             System.out.println("Details loaded from the database successfully");
         }
