@@ -9,6 +9,11 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import java.io.*;
 import java.util.*;
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import com.mongodb.client.MongoCollection;
+
 
 public class Booking extends Application {
     static final int seatingCapacity = 42;
@@ -291,24 +296,53 @@ public class Booking extends Application {
         }
     }
 
-    public void saveToFile(HashMap<Integer,String> customerNames) throws IOException {
-        FileWriter writer = new FileWriter("src/customerData.txt");
-        for(int item:customerNames.keySet()){
-            writer.write(item+"="+customerNames.get(item)+"\n");
+    public void saveToFile(Scanner scanner, HashMap<Integer,String> customerNames) throws IOException {
+        System.out.print("Do you want to save the details to a text file(T) or store it in the database(D). Please select(T/D) : ");
+        String choice = scanner.next().toLowerCase();
+        if(choice.equals("t")) {
+            FileWriter writer = new FileWriter("src/customerData.txt");
+            for (int item : customerNames.keySet()) {
+                writer.write(item + "=" + customerNames.get(item) + "\n");
+            }
+            writer.close();
+            System.out.println("Successfully save to file");
         }
-        writer.close();
-        System.out.println("Successfully save to file");
+        else if(choice.equals("d")) {
+            MongoClient mongoClient = new MongoClient("localhost",27017);
+            MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
+            MongoCollection<Document> collection = customerDatabase.getCollection("customerDetails");
+
+            for(int item: customerNames.keySet()) {
+                Document document = new Document().append(String.valueOf(item), customerNames.get(item));
+                collection.insertOne(document);
+            }
+            System.out.println("Saved the details to the database successfully");
+            mongoClient.close();
+        }
+        else {
+            System.out.println("Invalid input. Please try again.");
+        }
     }
 
-    public void loadFromFile(HashMap<Integer,String> customerNames) throws FileNotFoundException {
-        Scanner read = new Scanner(new File("src/customerData.txt"));
-        while(read.hasNextLine()){
-            String line = read.nextLine();
-            String[] pairs = line.split("=");
-            customerNames.put(Integer.parseInt(pairs[0]),pairs[1]);
+    public void loadFromFile(Scanner scanner, HashMap<Integer,String> customerNames) throws FileNotFoundException {
+        System.out.print("Do you want to load the details from the text file(T) or retrieve it from the database(D). Please select(T/D) : ");
+        String choice = scanner.next().toLowerCase();
+        if(choice.equals("t")) {
+            Scanner read = new Scanner(new File("src/customerData.txt"));
+            while (read.hasNextLine()) {
+                String line = read.nextLine();
+                String[] pairs = line.split("=");
+                customerNames.put(Integer.parseInt(pairs[0]), pairs[1]);
+            }
+            read.close();
+            System.out.println("Successfully loaded from file");
         }
-        read.close();
-        System.out.println("Successfully loaded from file");
+        else if(choice.equals("d")){
+            System.out.println("Details loaded from the database successfully");
+        }
+        else {
+            System.out.println("Invalid input. Please try again.");
+        }
     }
 
     public void orderCustomerNames(HashMap<Integer,String> customerNames){
@@ -374,10 +408,10 @@ public class Booking extends Application {
                     findCustomer(scanner, customerList);
                     break;
                 case "s":
-                    saveToFile(customerList);
+                    saveToFile(scanner, customerList);
                     break;
                 case "l":
-                    loadFromFile(customerList);
+                    loadFromFile(scanner, customerList);
                     break;
                 case "o":
                     orderCustomerNames(customerList);
