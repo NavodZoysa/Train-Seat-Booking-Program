@@ -21,6 +21,7 @@
         <option value="FxmlFile" />
         <option value="Class" />
         <option value="JavaFXApplication" />
+        <option value="package-info" />
       </list>
     </option>
   </component>
@@ -40,13 +41,17 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/libs/mongodb-driver-3.6.3.jar!/" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="preferences.mongoOptions" />
   </component>
   <component name="RunManager">
     <configuration name="Booking" type="Application" factoryName="Application" nameIsGenerated="true">
@@ -169,7 +174,21 @@
       <option name="project" value="LOCAL" />
       <updated>1584023600018</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Added mongodb for saving (Overwriting existing save to be implemented).">
+      <created>1584107412766</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1584107412766</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Overwriting existing customer data successfully implemented.">
+      <created>1584132435019</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1584132435019</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -199,7 +218,9 @@
     <MESSAGE value="Added train details." />
     <MESSAGE value="Name validation implemented." />
     <MESSAGE value="Added clear button and some styling." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added clear button and some styling." />
+    <MESSAGE value="Added mongodb for saving (Overwriting existing save to be implemented)." />
+    <MESSAGE value="Overwriting existing customer data successfully implemented." />
+    <option name="LAST_COMMIT_MESSAGE" value="Overwriting existing customer data successfully implemented." />
   </component>
   <component name="WindowStateProjectService">
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories" timestamp="1582101440626">
@@ -210,10 +231,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="178" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1582991916050" />
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582992117673">
+    <state x="281" y="334" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1584040804063">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582992117673" />
+    <state x="281" y="334" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584040804063" />
     <state x="689" y="304" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1582992083631">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -222,34 +243,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582298430492" />
-    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1584023599241">
+    <state x="1150" y="467" key="#com.intellij.tools.ToolEditorDialog" timestamp="1584040720896">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584023599241" />
-    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl" timestamp="1583954256884">
+    <state x="1150" y="467" key="#com.intellij.tools.ToolEditorDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584040720896" />
+    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1584132433923">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="743" y="277" width="424" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1583954256884" />
-    <state width="417" height="308" key="Git.Branch.Popup" timestamp="1584023605667">
+    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584132433923" />
+    <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl" timestamp="1584104631823">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="417" height="308" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584023605667" />
-    <state width="1877" height="194" key="GridCell.Tab.0.bottom" timestamp="1584023863226">
+    <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1584104631823" />
+    <state width="423" height="314" key="Git.Branch.Popup" timestamp="1584107434477">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584023863226" />
-    <state width="1877" height="194" key="GridCell.Tab.0.center" timestamp="1584023863226">
+    <state width="423" height="314" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584107434477" />
+    <state width="1877" height="194" key="GridCell.Tab.0.bottom" timestamp="1584133495812">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584023863226" />
-    <state width="1877" height="194" key="GridCell.Tab.0.left" timestamp="1584023863225">
+    <state width="1877" height="194" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584133495812" />
+    <state width="1877" height="194" key="GridCell.Tab.0.center" timestamp="1584133495812">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584023863225" />
-    <state width="1877" height="194" key="GridCell.Tab.0.right" timestamp="1584023863226">
+    <state width="1877" height="194" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584133495812" />
+    <state width="1877" height="194" key="GridCell.Tab.0.left" timestamp="1584133495811">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="194" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584023863226" />
+    <state width="1877" height="194" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584133495811" />
+    <state width="1877" height="194" key="GridCell.Tab.0.right" timestamp="1584133495812">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="194" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584133495812" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1582992185603">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -266,14 +291,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582992185603" />
-    <state x="482" y="173" width="1024" height="840" key="SettingsEditor" timestamp="1582991990576">
+    <state x="674" y="200" width="1024" height="840" key="SettingsEditor" timestamp="1584095640357">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="482" y="173" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582991990576" />
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1584023607672">
+    <state x="674" y="200" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584095640357" />
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1584107436203">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1584023607672" />
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1584107436203" />
     <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1583000885996">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -282,6 +307,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="643" y="346" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582871425226" />
+    <state x="890" y="513" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1584042629477">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="890" y="513" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1920.1040@0.0.1920.1040" timestamp="1584042629477" />
     <state x="485" y="233" key="git4idea.branch.GitSmartOperationDialog" timestamp="1582992344127">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -290,10 +319,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="565" y="311" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582992167751" />
-    <state x="342" y="141" width="1157" height="585" key="new project wizard" timestamp="1583954260079">
+    <state x="342" y="141" width="1157" height="585" key="new project wizard" timestamp="1584039489440">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="342" y="141" width="1157" height="585" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1583954260079" />
+    <state x="342" y="141" width="1157" height="585" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1584039489440" />
     <state x="624" y="238" key="run.anything.popup" timestamp="1582698352859">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -302,6 +331,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="180" key="scopes/0.0.1920.1040@0.0.1920.1040" timestamp="1582377140490" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1584043407650">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584043407650" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Train_Seating_Booking$Booking.ic" NAME="Booking Coverage Results" MODIFIED="1582992003880" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
