@@ -148,41 +148,6 @@ public class Booking extends Application {
     }
 
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
-        /*int XCord = 60;
-        int YCord = 60;
-        int labelNo = 0;
-        for (int row = 1; row <= 6; row++) {
-            for (int column = 1; column <= 7; column++) {
-                Label seat = new Label("S-" + (++labelNo));
-                if (customerNames.size()<seatingCapacity) {
-                    customerNames.put(labelNo,"nb");
-                }
-                seat.setPrefSize(50, 50);
-                seat.setLayoutX(column * XCord);
-                seat.setLayoutY(row * YCord);
-                root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-
-                int selectedSeat = labelNo;
-                seat.setOnMouseClicked(event -> {
-                    if(customerNames.get(selectedSeat).equals("nb")) {
-                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-                        customerNames.put(selectedSeat,"b");
-                    }
-                    seat.setOnMouseClicked(event1 -> {
-                        if(customerNames.get(selectedSeat).equals("b")){
-                            seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-                            customerNames.put(selectedSeat,"nb");
-                        }
-                    });
-                });
-                if(!customerNames.get(selectedSeat).equals("nb")){
-                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-                }
-            }
-        }*/
-
-
         int seatNumber = 0;
         for(int row = 1; row <=6; row++){
             for(int column = 1; column <=7; column++){
@@ -304,22 +269,16 @@ public class Booking extends Application {
     }
 
     public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
-        int colXCord = 60;
-        int colYCord = 60;
-        int labelNo = 0;
-        for (int i = 1; i <= 6; i++) {
-            for (int j = 1; j <= 7; j++) {
-                Label seat = new Label("S-" + (++labelNo));
-                if (customerNames.size()<seatingCapacity) {
-                    customerNames.put(labelNo,"nb");
+        int seatNumber = 0;
+        for(int row = 1; row <=6; row++) {
+            for (int column = 1; column <= 7; column++) {
+                Label seat = createSeat(row, column, ++seatNumber);
+                if (customerNames.size() < seatingCapacity) {
+                    customerNames.put(seatNumber, "nb");
                 }
-                seat.setPrefSize(50, 50);
-                seat.setLayoutX(j * colXCord);
-                seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
 
-                if(!customerNames.get(labelNo).equals("nb")){
+                if(!customerNames.get(seatNumber).equals("nb")){
                     seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                 }
                 else{
@@ -327,6 +286,7 @@ public class Booking extends Application {
                 }
             }
         }
+
         Label emptySeat = new Label("Available");
         emptySeat.setPrefSize(80, 50);
         emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
@@ -346,22 +306,16 @@ public class Booking extends Application {
     }
 
     public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames){
-        int colXCord = 60;
-        int colYCord = 60;
-        int labelNo = 0;
-        for (int i = 1; i <= 6; i++) {
-            for (int j = 1; j <= 7; j++) {
-                Label seat = new Label("S-" + (++labelNo));
-                if (customerNames.size()<seatingCapacity) {
-                    customerNames.put(labelNo,"nb");
+        int seatNumber = 0;
+        for(int row = 1; row <=6; row++) {
+            for (int column = 1; column <= 7; column++) {
+                Label seat = createSeat(row, column, ++seatNumber);
+                if (customerNames.size() < seatingCapacity) {
+                    customerNames.put(seatNumber, "nb");
                 }
-                seat.setPrefSize(50, 50);
-                seat.setLayoutX(j * colXCord);
-                seat.setLayoutY(i * colYCord);
                 root.getChildren().add(seat);
-                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
 
-                if(!customerNames.get(labelNo).equals("nb")){
+                if(!customerNames.get(seatNumber).equals("nb")){
                     seat.setStyle("-fx-background-color: #1b87c2;");
                     seat.setTextFill(Paint.valueOf("#1b87c2"));
                 }
@@ -370,6 +324,7 @@ public class Booking extends Application {
                 }
             }
         }
+
         Label emptySeat = new Label("Available");
         emptySeat.setPrefSize(80, 50);
         emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
