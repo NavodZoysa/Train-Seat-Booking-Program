@@ -1,10 +1,6 @@
-import com.mongodb.client.FindIterable;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -14,6 +10,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.FindIterable;
 
 public class Booking extends Application {
     static final int seatingCapacity = 42;
@@ -29,45 +26,140 @@ public class Booking extends Application {
         root.setStyle("-fx-background-color: #1b87c2");
         Scene scene = new Scene(root, 820, 500);
         stage.setTitle("Train Seat Booking Application");
-        Label title = new Label("Welcome to Colombo Fort Railway Station");
+
+        Label title = new Label("Welcome to Sri Lanka Railways Department");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
         title.setLayoutY(5);
 
         Label details = new Label(
                 "Train name - Denuwara Menike\n"+
-                "Train number - 1001\n"+
-                "Train departure - Colombo\n"+
-                "Train arrival - Badulla\n"+
-                "Departure time - 06:45AM\n"+
-                "Arrival  time - 02:27PM\n"+
-                "Class - 1st Class A/C Compartment\n");
+                        "Train number - 1001\n"+
+                        "Train departure - Colombo\n"+
+                        "Train arrival - Badulla\n"+
+                        "Departure time - 06:45AM\n"+
+                        "Arrival  time - 02:27PM\n"+
+                        "Class - 1st Class A/C Compartment\n");
         details.setStyle("-fx-font: 18 arial; -fx-text-fill: black; -fx-font-weight: bold");
         details.setLayoutX(500);
         details.setLayoutY(100);
-
-        Label emptySeat = new Label("Available");
-        emptySeat.setPrefSize(80, 50);
-        emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-        emptySeat.setLayoutX(60);
-        emptySeat.setLayoutY(440);
-        root.getChildren().addAll(title,details,emptySeat);
+        root.getChildren().addAll(title, details);
         consoleMenu(root, stage, scene);
     }
 
+    public Label createSeat(int row, int column, int seatNumber){
+        int XCord = 60;
+        int YCord = 60;
+        Label seat = new Label("S-"+(seatNumber));
+        seat.setId(String.valueOf(seatNumber));
+        seat.setPrefSize(50, 50);
+        seat.setLayoutX(column * XCord);
+        seat.setLayoutY(row * YCord);
+        seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+        return seat;
+    }
+
+    public void selectDestination(Stage stage) {
+        Label title = new Label("Welcome to Sri Lanka Railways Department");
+        title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
+        title.setLayoutX(95);
+        title.setLayoutY(5);
+
+        Label details = new Label(
+                "Train name - Denuwara Menike\n"+
+                        //"Train number - 1001\n"+
+                        //"Train departure - Colombo\n"+
+                        //"Train arrival - Badulla\n"+
+                        //"Departure time - 06:45AM\n"+
+                        //"Arrival  time - 02:27PM\n"+
+                        "Class - 1st Class A/C Compartment\n");
+        details.setStyle("-fx-font: 18 arial; -fx-text-fill: black; -fx-font-weight: bold");
+        details.setLayoutX(250);
+        details.setLayoutY(100);
+
+        ComboBox<String> colomboToBadullaRoutes = new ComboBox<>();
+        colomboToBadullaRoutes.setPromptText("Colombo to Badulla");
+        colomboToBadullaRoutes.setPrefSize(150, 40);
+        colomboToBadullaRoutes.setLayoutX(220);
+        colomboToBadullaRoutes.setLayoutY(250);
+        String[] colomboToBadullaArray = new String[]{"Polgahawela","Peradeniya Junction","Gampola","Nawalapitiya","Hatton","Thalawakele","Nanuoya","Haputale","Diyatalawa","Bandarawela","Ella","Badulla"};
+        for(String item : colomboToBadullaArray) {
+            colomboToBadullaRoutes.getItems().add(item);
+        }
+
+        ComboBox<String> badullaToColomboRoutes = new ComboBox<>();
+        badullaToColomboRoutes.setPromptText("Badulla to Colombo");
+        badullaToColomboRoutes.setPrefSize(150, 40);
+        badullaToColomboRoutes.setLayoutX(420);
+        badullaToColomboRoutes.setLayoutY(250);
+        String[] badullaToColomboArray = new String[]{"Ella","Bandarawela","Diyatalawa","Haputale","Nanuoya","Thalawakele","Hatton","Nawalapitiya","Gampola","Peradeniya Junction","Polgahawela","Maradana","Colombo Fort"};
+        for(String item : badullaToColomboArray) {
+            badullaToColomboRoutes.getItems().add(item);
+        }
+
+        RadioButton colomboStart = new RadioButton("Colombo to Badulla");
+        colomboStart.setLayoutX(230);
+        colomboStart.setLayoutY(200);
+        RadioButton badullaStart = new RadioButton("Badulla to Colombo");
+        badullaStart.setLayoutX(430);
+        badullaStart.setLayoutY(200);
+
+        ToggleGroup destinationStart = new ToggleGroup();
+        colomboStart.setToggleGroup(destinationStart);
+        badullaStart.setToggleGroup(destinationStart);
+
+        Button confirmDestination = new Button("Confirm Destination");
+        confirmDestination.setPrefSize(150, 40);
+        confirmDestination.setLayoutX(320);
+        confirmDestination.setLayoutY(350);
+
+        colomboStart.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            badullaToColomboRoutes.setDisable(true);
+            colomboToBadullaRoutes.setDisable(false);
+        });
+
+        badullaStart.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            badullaToColomboRoutes.setDisable(false);
+            colomboToBadullaRoutes.setDisable(true);
+        });
+        confirmDestination.setOnAction(event -> {
+            if(colomboStart.selectedProperty().getValue().equals(true)){
+                String endLocation = colomboToBadullaRoutes.getSelectionModel().getSelectedItem();
+                stage.close();
+                startAndEndLocation("Colombo",endLocation);
+            }
+            else if(badullaStart.selectedProperty().getValue().equals(true)){
+                String endLocation = badullaToColomboRoutes.getSelectionModel().getSelectedItem();
+                stage.close();
+                startAndEndLocation("Badulla",endLocation);
+            }
+        });
+
+        Pane root1 = new Pane();
+        root1.setStyle("-fx-background-color: #1b87c2");
+        Scene scene1 = new Scene(root1, 820, 500);
+        root1.getChildren().addAll(title, details, colomboStart, badullaStart, colomboToBadullaRoutes, badullaToColomboRoutes, confirmDestination);
+        stage.setScene(scene1);
+        stage.showAndWait();
+    }
+
+    public void startAndEndLocation(String startLocation, String endLocation){
+        System.out.println("Starting location : "+startLocation+" and ending location : "+endLocation);
+    }
+
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
-        int colXCord = 60;
-        int colYCord = 60;
+        /*int XCord = 60;
+        int YCord = 60;
         int labelNo = 0;
-        for (int i = 1; i <= 6; i++) {
-            for (int j = 1; j <= 7; j++) {
+        for (int row = 1; row <= 6; row++) {
+            for (int column = 1; column <= 7; column++) {
                 Label seat = new Label("S-" + (++labelNo));
                 if (customerNames.size()<seatingCapacity) {
                     customerNames.put(labelNo,"nb");
                 }
                 seat.setPrefSize(50, 50);
-                seat.setLayoutX(j * colXCord);
-                seat.setLayoutY(i * colYCord);
+                seat.setLayoutX(column * XCord);
+                seat.setLayoutY(row * YCord);
                 root.getChildren().add(seat);
                 seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
 
@@ -88,7 +180,42 @@ public class Booking extends Application {
                     seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                 }
             }
+        }*/
+
+
+        int seatNumber = 0;
+        for(int row = 1; row <=6; row++){
+            for(int column = 1; column <=7; column++){
+                Label seat = createSeat(row, column, ++seatNumber);
+                if(customerNames.size()<seatingCapacity) {
+                    customerNames.put(seatNumber,"nb");
+                }
+                root.getChildren().add(seat);
+
+                int selectedSeat = seatNumber;
+                seat.setOnMouseClicked(event -> {
+                    if(customerNames.get(selectedSeat).equals("nb")) {
+                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+                        customerNames.put(selectedSeat,"b");
+                    }
+                    seat.setOnMouseClicked(event1 -> {
+                        if(customerNames.get(selectedSeat).equals("b")){
+                            seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+                            customerNames.put(selectedSeat,"nb");
+                        }
+                    });
+                });
+                if(!customerNames.get(selectedSeat).equals("nb")){
+                    seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+                }
+            }
         }
+        Label emptySeat = new Label("Available");
+        emptySeat.setPrefSize(80, 50);
+        emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+        emptySeat.setLayoutX(60);
+        emptySeat.setLayoutY(440);
+
         Label bookedSeat = new Label("Unavailable");
         bookedSeat.setPrefSize(80, 50);
         bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
@@ -106,7 +233,7 @@ public class Booking extends Application {
         clearButton.setStyle("-fx-background-color: #bd1520; -fx-border-width: 1.5; -fx-border-radius: 3; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black; -fx-background-insets: 0");
         clearButton.setLayoutX(650);
         clearButton.setLayoutY(310);
-        root.getChildren().addAll(bookedSeat,bookButton,clearButton);
+        root.getChildren().addAll(emptySeat, bookedSeat, bookButton, clearButton);
 
         bookButton.setOnAction(event -> {
             TextInputDialog customerNameBox = new TextInputDialog();
@@ -173,7 +300,7 @@ public class Booking extends Application {
                 customerNames.put(item,"nb");
             }
         }
-        root.getChildren().removeAll(bookedSeat,bookButton,clearButton);
+        root.getChildren().removeAll(root,emptySeat, bookedSeat, bookButton, clearButton);
     }
 
     public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
@@ -200,16 +327,22 @@ public class Booking extends Application {
                 }
             }
         }
+        Label emptySeat = new Label("Available");
+        emptySeat.setPrefSize(80, 50);
+        emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+        emptySeat.setLayoutX(60);
+        emptySeat.setLayoutY(440);
+
         Label bookedSeat = new Label("Unavailable");
         bookedSeat.setPrefSize(80, 50);
         bookedSeat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
         bookedSeat.setLayoutX(160);
         bookedSeat.setLayoutY(440);
-        root.getChildren().add(bookedSeat);
+        root.getChildren().addAll(emptySeat,bookedSeat);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
-        root.getChildren().remove(bookedSeat);
+        root.getChildren().removeAll(root,emptySeat,bookedSeat);
     }
 
     public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames){
@@ -237,9 +370,16 @@ public class Booking extends Application {
                 }
             }
         }
+        Label emptySeat = new Label("Available");
+        emptySeat.setPrefSize(80, 50);
+        emptySeat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+        emptySeat.setLayoutX(60);
+        emptySeat.setLayoutY(440);
+        root.getChildren().add(emptySeat);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
+        root.getChildren().removeAll(root,emptySeat);
     }
 
     public void deleteCustomer(Scanner scanner, HashMap<Integer,String> customerNames){
@@ -423,6 +563,7 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
+                    selectDestination(stage);
                     addCustomerToSeat(root, stage, scene, customerList);
                     break;
                 case "v":
