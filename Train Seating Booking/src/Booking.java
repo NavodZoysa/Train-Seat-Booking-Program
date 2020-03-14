@@ -59,7 +59,7 @@ public class Booking extends Application {
         return seat;
     }
 
-    public void selectDestination(Stage stage) {
+    public void selectDestination(Stage stage, ArrayList<String> trainNumber) {
         Label title = new Label("Welcome to Sri Lanka Railways Department");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
@@ -67,11 +67,6 @@ public class Booking extends Application {
 
         Label details = new Label(
                 "Train name - Denuwara Menike\n"+
-                        //"Train number - 1001\n"+
-                        //"Train departure - Colombo\n"+
-                        //"Train arrival - Badulla\n"+
-                        //"Departure time - 06:45AM\n"+
-                        //"Arrival  time - 02:27PM\n"+
                         "Class - 1st Class A/C Compartment\n");
         details.setStyle("-fx-font: 18 arial; -fx-text-fill: black; -fx-font-weight: bold");
         details.setLayoutX(250);
@@ -126,12 +121,16 @@ public class Booking extends Application {
             if(colomboStart.selectedProperty().getValue().equals(true)){
                 String endLocation = colomboToBadullaRoutes.getSelectionModel().getSelectedItem();
                 stage.close();
-                startAndEndLocation("Colombo",endLocation);
+                trainNumber.add(0,"1001");
+                trainNumber.add(1,"Colombo");
+                trainNumber.add(2,endLocation);
             }
             else if(badullaStart.selectedProperty().getValue().equals(true)){
                 String endLocation = badullaToColomboRoutes.getSelectionModel().getSelectedItem();
                 stage.close();
-                startAndEndLocation("Badulla",endLocation);
+                trainNumber.add(0,"1002");
+                trainNumber.add(1,"Badulla");
+                trainNumber.add(2,endLocation);
             }
         });
 
@@ -143,8 +142,15 @@ public class Booking extends Application {
         stage.showAndWait();
     }
 
-    public void startAndEndLocation(String startLocation, String endLocation){
-        System.out.println("Starting location : "+startLocation+" and ending location : "+endLocation);
+    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> trainNumber, HashMap<Integer,String> colomboTrain, HashMap<Integer,String> badullaTrain){
+        if(trainNumber.get(0).equals("1001")){
+            addCustomerToSeat(root, stage, scene, colomboTrain);
+            System.out.println(colomboTrain);
+        }
+        else if(trainNumber.get(0).equals("1002")){
+            addCustomerToSeat(root, stage, scene, badullaTrain);
+            System.out.println(badullaTrain);
+        }
     }
 
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
@@ -502,6 +508,9 @@ public class Booking extends Application {
     public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
         Scanner scanner = new Scanner(System.in);
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
+        HashMap<Integer, String> colomboTrain = new HashMap<>(seatingCapacity);
+        HashMap<Integer, String> badullaTrain = new HashMap<>(seatingCapacity);
+        ArrayList<String> trainNumber = new ArrayList<>();
         while(true) {
             System.out.println("\n\nWelcome To Fort Railway Station\n" +
                     "Denuwara Menike Intercity Express Train departure from Colombo to Badulla\n"+
@@ -518,8 +527,8 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    selectDestination(stage);
-                    addCustomerToSeat(root, stage, scene, customerList);
+                    selectDestination(stage, trainNumber);
+                    trainDestination(root, stage, scene, trainNumber, colomboTrain, badullaTrain);
                     break;
                 case "v":
                     viewAllSeats(root, stage, scene, customerList);
