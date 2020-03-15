@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
@@ -92,6 +93,21 @@ public class Booking extends Application {
             badullaToColomboRoutes.getItems().add(item);
         }
 
+        DatePicker selectDate = new DatePicker(LocalDate.now());
+        selectDate.setLayoutX(310);
+        selectDate.setLayoutY(320);
+        selectDate.setDayCellFactory(restrictDate -> new DateCell(){
+            @Override
+            public void updateItem(LocalDate item, boolean empty) {
+                super.updateItem(item, empty);
+                LocalDate presentDay = LocalDate.now();
+                if(item.compareTo(presentDay)<0) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: red");
+                }
+            }
+        });
+
         RadioButton colomboStart = new RadioButton("Colombo to Badulla");
         colomboStart.setLayoutX(230);
         colomboStart.setLayoutY(200);
@@ -105,8 +121,8 @@ public class Booking extends Application {
 
         Button confirmDestination = new Button("Confirm Destination");
         confirmDestination.setPrefSize(150, 40);
-        confirmDestination.setLayoutX(320);
-        confirmDestination.setLayoutY(350);
+        confirmDestination.setLayoutX(310);
+        confirmDestination.setLayoutY(400);
 
         colomboStart.selectedProperty().addListener((observable, oldValue, newValue) -> {
             badullaToColomboRoutes.setDisable(true);
@@ -120,34 +136,40 @@ public class Booking extends Application {
         confirmDestination.setOnAction(event -> {
             if(colomboStart.selectedProperty().getValue().equals(true)){
                 String endLocation = colomboToBadullaRoutes.getSelectionModel().getSelectedItem();
+                String bookedDate = selectDate.getValue().toString();
                 stage.close();
-                trainNumber.add(0,"1001");
-                trainNumber.add(1,"Colombo");
-                trainNumber.add(2,endLocation);
+                trainNumber.set(0,"1001");
+                trainNumber.set(1,"Colombo");
+                trainNumber.set(2,endLocation);
+                System.out.println(bookedDate);
             }
             else if(badullaStart.selectedProperty().getValue().equals(true)){
                 String endLocation = badullaToColomboRoutes.getSelectionModel().getSelectedItem();
+                String bookedDate = selectDate.getValue().toString();
                 stage.close();
-                trainNumber.add(0,"1002");
-                trainNumber.add(1,"Badulla");
-                trainNumber.add(2,endLocation);
+                trainNumber.set(0,"1002");
+                trainNumber.set(1,"Badulla");
+                trainNumber.set(2,endLocation);
+                System.out.println(bookedDate);
             }
         });
 
         Pane root1 = new Pane();
         root1.setStyle("-fx-background-color: #1b87c2");
         Scene scene1 = new Scene(root1, 820, 500);
-        root1.getChildren().addAll(title, details, colomboStart, badullaStart, colomboToBadullaRoutes, badullaToColomboRoutes, confirmDestination);
+        root1.getChildren().addAll(title, details, colomboStart, badullaStart, colomboToBadullaRoutes, badullaToColomboRoutes, selectDate, confirmDestination);
         stage.setScene(scene1);
         stage.showAndWait();
     }
 
     public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> trainNumber, HashMap<Integer,String> colomboTrain, HashMap<Integer,String> badullaTrain){
         if(trainNumber.get(0).equals("1001")){
+            System.out.println(trainNumber);
             addCustomerToSeat(root, stage, scene, colomboTrain);
             System.out.println(colomboTrain);
         }
         else if(trainNumber.get(0).equals("1002")){
+            System.out.println(trainNumber);
             addCustomerToSeat(root, stage, scene, badullaTrain);
             System.out.println(badullaTrain);
         }
@@ -510,7 +532,7 @@ public class Booking extends Application {
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
         HashMap<Integer, String> colomboTrain = new HashMap<>(seatingCapacity);
         HashMap<Integer, String> badullaTrain = new HashMap<>(seatingCapacity);
-        ArrayList<String> trainNumber = new ArrayList<>();
+        ArrayList<String> trainNumber = new ArrayList<>(Arrays.asList("0", "0", "0"));
         while(true) {
             System.out.println("\n\nWelcome To Fort Railway Station\n" +
                     "Denuwara Menike Intercity Express Train departure from Colombo to Badulla\n"+
