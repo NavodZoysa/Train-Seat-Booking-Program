@@ -60,7 +60,7 @@ public class Booking extends Application {
         return seat;
     }
 
-    public void selectDestination(Stage stage, ArrayList<String> trainNumber) {
+    public void selectDestination(Stage stage, ArrayList<String> trainNumberAndDateSelected, ArrayList<String> colomboDates, ArrayList<String> colomboRoutes, ArrayList<String> badullaDates, ArrayList<String> badullaRoutes) {
         Label title = new Label("Welcome to Sri Lanka Railways Department");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
@@ -136,21 +136,27 @@ public class Booking extends Application {
         confirmDestination.setOnAction(event -> {
             if(colomboStart.selectedProperty().getValue().equals(true)){
                 String endLocation = colomboToBadullaRoutes.getSelectionModel().getSelectedItem();
+                colomboRoutes.add("Colombo to "+endLocation);
                 String bookedDate = selectDate.getValue().toString();
+                if(!colomboDates.contains(bookedDate)) {
+                    colomboDates.add(bookedDate);
+                    System.out.println(colomboDates);
+                }
+                trainNumberAndDateSelected.set(0,"1001");
+                trainNumberAndDateSelected.set(1,bookedDate);
                 stage.close();
-                trainNumber.set(0,"1001");
-                trainNumber.set(1,"Colombo");
-                trainNumber.set(2,endLocation);
-                System.out.println(bookedDate);
             }
             else if(badullaStart.selectedProperty().getValue().equals(true)){
                 String endLocation = badullaToColomboRoutes.getSelectionModel().getSelectedItem();
+                badullaRoutes.add("Badulla to "+endLocation);
                 String bookedDate = selectDate.getValue().toString();
+                if(!badullaDates.contains(bookedDate)) {
+                    badullaDates.add(bookedDate);
+                    System.out.println(badullaDates);
+                }
+                trainNumberAndDateSelected.set(0,"1002");
+                trainNumberAndDateSelected.set(1,bookedDate);
                 stage.close();
-                trainNumber.set(0,"1002");
-                trainNumber.set(1,"Badulla");
-                trainNumber.set(2,endLocation);
-                System.out.println(bookedDate);
             }
         });
 
@@ -162,20 +168,20 @@ public class Booking extends Application {
         stage.showAndWait();
     }
 
-    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> trainNumber, HashMap<Integer,String> colomboTrain, HashMap<Integer,String> badullaTrain){
-        if(trainNumber.get(0).equals("1001")){
-            System.out.println(trainNumber);
-            addCustomerToSeat(root, stage, scene, colomboTrain);
-            System.out.println(colomboTrain);
+    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> trainNumberAndDateSelected, HashMap<Integer,String> colomboCustomerList, HashMap<Integer,String> badullaCustomerList, ArrayList<String> colomboDates, ArrayList<String> colomboRoutes, ArrayList<String> badullaDates, ArrayList<String> badullaRoutes){
+        if(trainNumberAndDateSelected.get(0).equals("1001")){
+            System.out.println(trainNumberAndDateSelected);
+            addCustomerToSeat(root, stage, scene, colomboCustomerList, trainNumberAndDateSelected, colomboDates, colomboRoutes);
+            System.out.println(colomboCustomerList);
         }
-        else if(trainNumber.get(0).equals("1002")){
-            System.out.println(trainNumber);
-            addCustomerToSeat(root, stage, scene, badullaTrain);
-            System.out.println(badullaTrain);
+        else if(trainNumberAndDateSelected.get(0).equals("1002")){
+            System.out.println(trainNumberAndDateSelected);
+            addCustomerToSeat(root, stage, scene, badullaCustomerList, trainNumberAndDateSelected, badullaDates, badullaRoutes);
+            System.out.println(badullaCustomerList);
         }
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, ArrayList<String> trainNumberAndDateSelected, ArrayList<String> dates, ArrayList<String> routes) {
         int seatNumber = 0;
         for(int row = 1; row <=6; row++){
             for(int column = 1; column <=7; column++){
@@ -530,9 +536,25 @@ public class Booking extends Application {
     public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
         Scanner scanner = new Scanner(System.in);
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
-        HashMap<Integer, String> colomboTrain = new HashMap<>(seatingCapacity);
-        HashMap<Integer, String> badullaTrain = new HashMap<>(seatingCapacity);
-        ArrayList<String> trainNumber = new ArrayList<>(Arrays.asList("0", "0", "0"));
+        /*HashMap<Integer,HashMap<Integer,String>> test = new HashMap<>(seatingCapacity);
+        test.put(1,new HashMap<>());
+        HashMap<Integer, String>test1 = new HashMap<>();
+        test.put(1,test1);
+        test1.put(1,"asd");
+        test1 = new HashMap<>();
+        test1.put(1,"123");
+        test.put(2,test1);
+        System.out.println(test);*/
+        List<List<String>> customerNameList = new ArrayList<>();
+        customerNameList.add(new ArrayList<>());
+        System.out.println(customerNameList);
+        HashMap<Integer, String> colomboCustomerList = new HashMap<>(seatingCapacity);
+        ArrayList<String> colomboDates = new ArrayList<>();
+        ArrayList<String> colomboRoutes = new ArrayList<>();
+        HashMap<Integer, String> badullaCustomerList = new HashMap<>(seatingCapacity);
+        ArrayList<String> badullaDates = new ArrayList<>();
+        ArrayList<String> badullaRoutes = new ArrayList<>();
+        ArrayList<String> trainNumberAndDateSelected = new ArrayList<>(Arrays.asList("0","0"));
         while(true) {
             System.out.println("\n\nWelcome To Fort Railway Station\n" +
                     "Denuwara Menike Intercity Express Train departure from Colombo to Badulla\n"+
@@ -549,8 +571,8 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    selectDestination(stage, trainNumber);
-                    trainDestination(root, stage, scene, trainNumber, colomboTrain, badullaTrain);
+                    selectDestination(stage, trainNumberAndDateSelected, colomboDates, colomboRoutes, badullaDates, badullaRoutes);
+                    trainDestination(root, stage, scene, trainNumberAndDateSelected, colomboCustomerList, badullaCustomerList, colomboDates, colomboRoutes, badullaDates, badullaRoutes);
                     break;
                 case "v":
                     viewAllSeats(root, stage, scene, customerList);
