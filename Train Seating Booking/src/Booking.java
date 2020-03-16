@@ -197,6 +197,7 @@ public class Booking extends Application {
     }
 
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList) {
+        customerNames.clear();
         int seatNumber = 0;
         for(int row = 1; row <=6; row++){
             for(int column = 1; column <=7; column++){
@@ -346,6 +347,7 @@ public class Booking extends Application {
     }
 
     public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList) {
+        customerNames.clear();
         int seatNumber = 0;
         for(int row = 1; row <=6; row++) {
             for (int column = 1; column <= 7; column++) {
@@ -397,6 +399,7 @@ public class Booking extends Application {
     }
 
     public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList){
+        customerNames.clear();
         int seatNumber = 0;
         for(int row = 1; row <=6; row++) {
             for (int column = 1; column <= 7; column++) {
@@ -442,38 +445,37 @@ public class Booking extends Application {
         root.getChildren().removeAll(root,emptySeat);
     }
 
-    public void deleteCustomer(Scanner scanner, HashMap<Integer,String> customerNames){
-        for(int item : customerNames.keySet()){
-            if(item%10==0){
-                System.out.println("\n");
-            }
-            System.out.print("S-"+item+" = "+customerNames.get(item)+"|");
-        }
-        System.out.print("\n\nPlease choose whether you want to remove all the seats related to your name or not(y/n) : ");
-        String choice = scanner.next().toLowerCase();
-        if (choice.equals("y")) {
-            System.out.print("Please enter your name to remove all seats booked for you : ");
-            String deleteName = scanner.next();
-            if(customerNames.containsValue(deleteName)) {
-                for (int item : customerNames.keySet()) {
-                    if (customerNames.get(item).equals(deleteName)) {
-                        customerNames.put(item, "nb");
-                    }
+    public void deleteCustomer(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers){
+        String[] choices = new String[3];
+        List<List<String>> deletedRecords = new ArrayList<>();
+        System.out.print("\nPlease enter which train you want to remove the seats from(Colombo to Badulla(1)/Badulla to Colombo(2)) : ");
+        choices[0] = scanner.next();
+        System.out.println("\nPlease enter a valid date you want to remove seats from (YYYY-MM-DD) : ");
+        choices[1] = scanner.next();
+        System.out.println("\nPlease enter the name of the customer you want to remove : ");
+        choices[2] = scanner.next();
+
+        if (choices[0].equals("1")) {
+            System.out.println(colomboCustomers);
+            for(List<String> details : colomboCustomers){
+                if(details.contains(choices[1]) && details.contains(choices[2])){
+                    deletedRecords.add(details);
                 }
-                System.out.println("Successfully deleted all seats booked under your name");
-            } else {
-                System.out.println("Invalid name please try again");
             }
+            colomboCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+            System.out.println(deletedRecords);
+            System.out.println(colomboCustomers);
+            deletedRecords.clear();
         }
-        else if (choice.equals("n")) {
-            System.out.print("Please enter the seat number you want to remove : S-");
-            int deleteSeatNo = scanner.nextInt();
-            if (customerNames.containsKey(deleteSeatNo)) {
-                customerNames.put(deleteSeatNo,"nb");
-                System.out.println("Successfully deleted booked seat");
-            } else{
-                System.out.println("Invalid seat number please try again");
+        else if (choices[0].equals("2")) {
+            System.out.println(badullaCustomers);
+            for(List<String> details : badullaCustomers){
+                if(details.contains(choices[1]) && details.contains(choices[2])){
+                    deletedRecords.add(details);
+                }
             }
+            colomboCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+            deletedRecords.clear();
         }
         else {
             System.out.println("Invalid input please try again");
@@ -633,7 +635,7 @@ public class Booking extends Application {
                     trainDestination(root, stage, scene, tempDateLocationList, tempcustomerList, customerList, colomboCustomers, badullaCustomers, userInput);
                     break;
                 case "d":
-                    deleteCustomer(scanner, customerList);
+                    deleteCustomer(scanner, colomboCustomers, badullaCustomers);
                     break;
                 case "f":
                     findCustomer(scanner, customerList);
