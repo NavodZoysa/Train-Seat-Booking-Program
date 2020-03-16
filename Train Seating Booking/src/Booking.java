@@ -60,7 +60,7 @@ public class Booking extends Application {
         return seat;
     }
 
-    public void selectDestination(Stage stage, ArrayList<String> trainNumberAndDateSelected, ArrayList<String> colomboDates, ArrayList<String> colomboRoutes, ArrayList<String> badullaDates, ArrayList<String> badullaRoutes) {
+    public void selectDestination(Stage stage, ArrayList<String> tempDateLocationList) {
         Label title = new Label("Welcome to Sri Lanka Railways Department");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
@@ -136,26 +136,20 @@ public class Booking extends Application {
         confirmDestination.setOnAction(event -> {
             if(colomboStart.selectedProperty().getValue().equals(true)){
                 String endLocation = colomboToBadullaRoutes.getSelectionModel().getSelectedItem();
-                colomboRoutes.add("Colombo to "+endLocation);
                 String bookedDate = selectDate.getValue().toString();
-                if(!colomboDates.contains(bookedDate)) {
-                    colomboDates.add(bookedDate);
-                    System.out.println(colomboDates);
-                }
-                trainNumberAndDateSelected.set(0,"1001");
-                trainNumberAndDateSelected.set(1,bookedDate);
+                tempDateLocationList.set(0,"1001");
+                tempDateLocationList.set(1,bookedDate);
+                tempDateLocationList.set(2,"Colombo");
+                tempDateLocationList.set(3,endLocation);
                 stage.close();
             }
             else if(badullaStart.selectedProperty().getValue().equals(true)){
                 String endLocation = badullaToColomboRoutes.getSelectionModel().getSelectedItem();
-                badullaRoutes.add("Badulla to "+endLocation);
                 String bookedDate = selectDate.getValue().toString();
-                if(!badullaDates.contains(bookedDate)) {
-                    badullaDates.add(bookedDate);
-                    System.out.println(badullaDates);
-                }
-                trainNumberAndDateSelected.set(0,"1002");
-                trainNumberAndDateSelected.set(1,bookedDate);
+                tempDateLocationList.set(0,"1002");
+                tempDateLocationList.set(1,bookedDate);
+                tempDateLocationList.set(2,"Badulla");
+                tempDateLocationList.set(3,endLocation);
                 stage.close();
             }
         });
@@ -168,26 +162,44 @@ public class Booking extends Application {
         stage.showAndWait();
     }
 
-    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> trainNumberAndDateSelected, HashMap<Integer,String> colomboCustomerList, HashMap<Integer,String> badullaCustomerList, ArrayList<String> colomboDates, ArrayList<String> colomboRoutes, ArrayList<String> badullaDates, ArrayList<String> badullaRoutes){
-        if(trainNumberAndDateSelected.get(0).equals("1001")){
-            System.out.println(trainNumberAndDateSelected);
-            addCustomerToSeat(root, stage, scene, colomboCustomerList, trainNumberAndDateSelected, colomboDates, colomboRoutes);
-            System.out.println(colomboCustomerList);
+    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList, HashMap<Integer,String> customerList, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers){
+        if(tempDateLocationList.get(0).equals("1001")){
+            /*List<String> newRecord = new ArrayList<>();
+            newRecord.add(tempDateLocationList.get(1));
+            newRecord.add(tempDateLocationList.get(2));
+            newRecord.add(tempDateLocationList.get(3));
+            colomboCustomers.add(newRecord);
+            System.out.println(newRecord);
+            System.out.println(colomboCustomers);*/
+            addCustomerToSeat(root, stage, scene, customerList, colomboCustomers,tempDateLocationList, tempcustomerList);
+
         }
-        else if(trainNumberAndDateSelected.get(0).equals("1002")){
-            System.out.println(trainNumberAndDateSelected);
-            addCustomerToSeat(root, stage, scene, badullaCustomerList, trainNumberAndDateSelected, badullaDates, badullaRoutes);
-            System.out.println(badullaCustomerList);
+        else if(tempDateLocationList.get(0).equals("1002")){
+            System.out.println(tempDateLocationList);
+            addCustomerToSeat(root, stage, scene, customerList, badullaCustomers, tempDateLocationList, tempcustomerList);
+            System.out.println(badullaCustomers);
         }
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, ArrayList<String> trainNumberAndDateSelected, ArrayList<String> dates, ArrayList<String> routes) {
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList) {
+        for(int i =0;i<customerDetails.size();i++) {
+            if (customerDetails.get() contains(tempDateLocationList.get(1))){
+                System.out.println("yes main has date");
+            }
+        }
         int seatNumber = 0;
         for(int row = 1; row <=6; row++){
             for(int column = 1; column <=7; column++){
                 Label seat = createSeat(row, column, ++seatNumber);
                 if(customerNames.size()<seatingCapacity) {
                     customerNames.put(seatNumber,"nb");
+                }else if(customerDetails.contains(tempDateLocationList.get(1)) && customerDetails.size()>1) {
+                    System.out.println("yes main has date");
+                    for (int i = 0; i < customerDetails.size(); i++) {
+                        if (customerDetails.get(i).get(3).contains(customerNames.get(seatNumber))) {
+                            customerNames.put(seatNumber, "b");
+                        }
+                    }
                 }
                 root.getChildren().add(seat);
 
@@ -257,8 +269,22 @@ public class Booking extends Application {
                 for(int item : customerNames.keySet()) {
                     if(customerNames.get(item).equals("b")) {
                         customerNames.put(item,name);
+                        tempcustomerList.put(item,name);
                     }
                 }
+                for(int item : tempcustomerList.keySet()){
+                    List<String> newRecord = new ArrayList<>();
+                    newRecord.add(tempDateLocationList.get(1));
+                    newRecord.add(tempDateLocationList.get(2));
+                    newRecord.add(tempDateLocationList.get(3));
+                    newRecord.add(String.valueOf(item));
+                    newRecord.add(name);
+                    customerDetails.add(newRecord);
+                    System.out.println(tempcustomerList);
+                }
+                tempcustomerList.clear();
+                System.out.println(tempcustomerList);
+                System.out.println(customerDetails);
             });
 
             Alert emptyName = new Alert(Alert.AlertType.WARNING);
@@ -536,25 +562,11 @@ public class Booking extends Application {
     public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
         Scanner scanner = new Scanner(System.in);
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
-        /*HashMap<Integer,HashMap<Integer,String>> test = new HashMap<>(seatingCapacity);
-        test.put(1,new HashMap<>());
-        HashMap<Integer, String>test1 = new HashMap<>();
-        test.put(1,test1);
-        test1.put(1,"asd");
-        test1 = new HashMap<>();
-        test1.put(1,"123");
-        test.put(2,test1);
-        System.out.println(test);*/
+        HashMap<Integer,String> tempcustomerList = new HashMap<>(seatingCapacity);
+        List<List<String>> colomboCustomers = new ArrayList<>();
+        List<List<String>> badullaCustomers = new ArrayList<>();
         List<List<String>> customerNameList = new ArrayList<>();
-        customerNameList.add(new ArrayList<>());
-        System.out.println(customerNameList);
-        HashMap<Integer, String> colomboCustomerList = new HashMap<>(seatingCapacity);
-        ArrayList<String> colomboDates = new ArrayList<>();
-        ArrayList<String> colomboRoutes = new ArrayList<>();
-        HashMap<Integer, String> badullaCustomerList = new HashMap<>(seatingCapacity);
-        ArrayList<String> badullaDates = new ArrayList<>();
-        ArrayList<String> badullaRoutes = new ArrayList<>();
-        ArrayList<String> trainNumberAndDateSelected = new ArrayList<>(Arrays.asList("0","0"));
+        ArrayList<String> tempDateLocationList = new ArrayList<>(Arrays.asList("0","0","0","0"));
         while(true) {
             System.out.println("\n\nWelcome To Fort Railway Station\n" +
                     "Denuwara Menike Intercity Express Train departure from Colombo to Badulla\n"+
@@ -571,8 +583,8 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    selectDestination(stage, trainNumberAndDateSelected, colomboDates, colomboRoutes, badullaDates, badullaRoutes);
-                    trainDestination(root, stage, scene, trainNumberAndDateSelected, colomboCustomerList, badullaCustomerList, colomboDates, colomboRoutes, badullaDates, badullaRoutes);
+                    selectDestination(stage, tempDateLocationList);
+                    trainDestination(root, stage, scene, tempDateLocationList, tempcustomerList, customerList, colomboCustomers, badullaCustomers);
                     break;
                 case "v":
                     viewAllSeats(root, stage, scene, customerList);
