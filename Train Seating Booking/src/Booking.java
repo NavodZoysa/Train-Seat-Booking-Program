@@ -162,22 +162,37 @@ public class Booking extends Application {
         stage.showAndWait();
     }
 
-    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList, HashMap<Integer,String> customerList, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers){
-        if(tempDateLocationList.get(0).equals("1001")){
-            /*List<String> newRecord = new ArrayList<>();
-            newRecord.add(tempDateLocationList.get(1));
-            newRecord.add(tempDateLocationList.get(2));
-            newRecord.add(tempDateLocationList.get(3));
-            colomboCustomers.add(newRecord);
-            System.out.println(newRecord);
-            System.out.println(colomboCustomers);*/
-            addCustomerToSeat(root, stage, scene, customerList, colomboCustomers,tempDateLocationList, tempcustomerList);
+    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList, HashMap<Integer,String> customerList, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, String userInput){
+        switch(userInput){
+            case "a":
+                if(tempDateLocationList.get(0).equals("1001")){
+                    addCustomerToSeat(root, stage, scene, customerList, colomboCustomers,tempDateLocationList, tempcustomerList);
 
-        }
-        else if(tempDateLocationList.get(0).equals("1002")){
-            System.out.println(tempDateLocationList);
-            addCustomerToSeat(root, stage, scene, customerList, badullaCustomers, tempDateLocationList, tempcustomerList);
-            System.out.println(badullaCustomers);
+                }
+                else if(tempDateLocationList.get(0).equals("1002")){
+                    addCustomerToSeat(root, stage, scene, customerList, badullaCustomers, tempDateLocationList, tempcustomerList);
+                }
+                break;
+            case "v":
+                System.out.println("v");
+                if(tempDateLocationList.get(0).equals("1001")){
+                    viewAllSeats(root, stage, scene, customerList, colomboCustomers, tempDateLocationList);
+                }
+                else if(tempDateLocationList.get(0).equals("1002")){
+                    viewAllSeats(root, stage, scene, customerList, badullaCustomers, tempDateLocationList);
+                }
+                break;
+            case "e":
+                System.out.println("e");
+                if(tempDateLocationList.get(0).equals("1001")){
+                    displayEmptySeats(root, stage, scene, customerList, colomboCustomers, tempDateLocationList);
+                }
+                else if(tempDateLocationList.get(0).equals("1002")){
+                    displayEmptySeats(root, stage, scene, customerList, badullaCustomers, tempDateLocationList);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -330,13 +345,27 @@ public class Booking extends Application {
         root.getChildren().removeAll(root,emptySeat, bookedSeat, bookButton, clearButton);
     }
 
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames) {
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList) {
         int seatNumber = 0;
         for(int row = 1; row <=6; row++) {
             for (int column = 1; column <= 7; column++) {
                 Label seat = createSeat(row, column, ++seatNumber);
                 if (customerNames.size() < seatingCapacity) {
                     customerNames.put(seatNumber, "nb");
+                }
+                for (List<String> detail : customerDetails) {
+                    for (int item : customerNames.keySet()) {
+                        if (!detail.contains(tempDateLocationList.get(1)) && !detail.contains(String.valueOf(item))) {
+                            customerNames.put(seatNumber, "nb");
+                        }
+                    }
+                }
+                for (List<String> customerDetail : customerDetails) {
+                    for (int item : customerNames.keySet()) {
+                        if (customerDetail.contains(tempDateLocationList.get(1)) && customerDetail.contains(String.valueOf(item))) {
+                            customerNames.put(item, "b");
+                        }
+                    }
                 }
                 root.getChildren().add(seat);
 
@@ -367,13 +396,27 @@ public class Booking extends Application {
         root.getChildren().removeAll(root,emptySeat,bookedSeat);
     }
 
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames){
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList){
         int seatNumber = 0;
         for(int row = 1; row <=6; row++) {
             for (int column = 1; column <= 7; column++) {
                 Label seat = createSeat(row, column, ++seatNumber);
                 if (customerNames.size() < seatingCapacity) {
                     customerNames.put(seatNumber, "nb");
+                }
+                for (List<String> detail : customerDetails) {
+                    for (int item : customerNames.keySet()) {
+                        if (!detail.contains(tempDateLocationList.get(1)) && !detail.contains(String.valueOf(item))) {
+                            customerNames.put(seatNumber, "nb");
+                        }
+                    }
+                }
+                for (List<String> customerDetail : customerDetails) {
+                    for (int item : customerNames.keySet()) {
+                        if (customerDetail.contains(tempDateLocationList.get(1)) && customerDetail.contains(String.valueOf(item))) {
+                            customerNames.put(item, "b");
+                        }
+                    }
                 }
                 root.getChildren().add(seat);
 
@@ -567,7 +610,6 @@ public class Booking extends Application {
         HashMap<Integer,String> tempcustomerList = new HashMap<>(seatingCapacity);
         List<List<String>> colomboCustomers = new ArrayList<>();
         List<List<String>> badullaCustomers = new ArrayList<>();
-        //List<List<String>> customerNameList = new ArrayList<>();
         ArrayList<String> tempDateLocationList = new ArrayList<>(Arrays.asList("0","0","0","0"));
         while(true) {
             System.out.println("\n\nWelcome To Fort Railway Station\n" +
@@ -585,14 +627,10 @@ public class Booking extends Application {
 
             switch (userInput) {
                 case "a":
-                    selectDestination(stage, tempDateLocationList);
-                    trainDestination(root, stage, scene, tempDateLocationList, tempcustomerList, customerList, colomboCustomers, badullaCustomers);
-                    break;
                 case "v":
-                    viewAllSeats(root, stage, scene, customerList);
-                    break;
                 case "e":
-                    displayEmptySeats(root, stage, scene, customerList);
+                    selectDestination(stage,tempDateLocationList);
+                    trainDestination(root, stage, scene, tempDateLocationList, tempcustomerList, customerList, colomboCustomers, badullaCustomers, userInput);
                     break;
                 case "d":
                     deleteCustomer(scanner, customerList);
