@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="">
+    <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="Adding for multiple dates working only for add method so far.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Booking.java" afterDir="false" />
     </list>
     <list id="3a1c9dab-66b7-4788-9167-adfd46704e33" name="local history" comment="" />
@@ -209,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584290517867</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Added main list to store all.">
+      <created>1584366359399</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1584366359399</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -244,7 +250,8 @@
     <MESSAGE value="Added 2 trains colombo to badulla and back." />
     <MESSAGE value="Removed repetition of creating seats." />
     <MESSAGE value="Added datepicker." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added datepicker." />
+    <MESSAGE value="Added main list to store all." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added main list to store all." />
   </component>
   <component name="WindowStateProjectService">
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories" timestamp="1582101440626">
@@ -271,34 +278,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1150" y="467" key="#com.intellij.tools.ToolEditorDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584040720896" />
-    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1584317661238">
+    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1584376413069">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584317661238" />
+    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584376413069" />
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl" timestamp="1584104631823">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1584104631823" />
-    <state width="485" height="376" key="Git.Branch.Popup" timestamp="1584317642436">
+    <state width="491" height="382" key="Git.Branch.Popup" timestamp="1584377204927">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="485" height="376" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584317642436" />
-    <state width="610" height="912" key="GridCell.Tab.0.bottom" timestamp="1584365256141">
+    <state width="491" height="382" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584377204927" />
+    <state width="610" height="912" key="GridCell.Tab.0.bottom" timestamp="1584376665452">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584365256141" />
-    <state width="610" height="912" key="GridCell.Tab.0.center" timestamp="1584365256141">
+    <state width="610" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584376665452" />
+    <state width="610" height="912" key="GridCell.Tab.0.center" timestamp="1584376665452">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584365256141" />
-    <state width="610" height="912" key="GridCell.Tab.0.left" timestamp="1584365256141">
+    <state width="610" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584376665452" />
+    <state width="610" height="912" key="GridCell.Tab.0.left" timestamp="1584376665452">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584365256141" />
-    <state width="610" height="912" key="GridCell.Tab.0.right" timestamp="1584365256141">
+    <state width="610" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584376665452" />
+    <state width="610" height="912" key="GridCell.Tab.0.right" timestamp="1584376665452">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584365256141" />
+    <state width="610" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584376665452" />
     <state width="1877" height="269" key="GridCell.Tab.1.bottom" timestamp="1584202642686">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -335,10 +342,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="674" y="200" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584215876864" />
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1584290529449">
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1584366368896">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1584290529449" />
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1584366368896" />
     <state x="92" y="92" width="1736" height="856" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584317310862">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -363,10 +370,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="342" y="141" width="1157" height="585" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1584039489440" />
-    <state x="624" y="238" key="run.anything.popup" timestamp="1582698352859">
+    <state x="624" y="238" key="run.anything.popup" timestamp="1584368947042">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="624" y="238" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1582698352859" />
+    <state x="624" y="238" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584368947042" />
     <state x="552" y="180" key="scopes" timestamp="1582377140490">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

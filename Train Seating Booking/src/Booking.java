@@ -182,22 +182,24 @@ public class Booking extends Application {
     }
 
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList) {
-        for(int i =0;i<customerDetails.size();i++) {
-            if (customerDetails.get() contains(tempDateLocationList.get(1))){
-                System.out.println("yes main has date");
-            }
-        }
         int seatNumber = 0;
         for(int row = 1; row <=6; row++){
             for(int column = 1; column <=7; column++){
                 Label seat = createSeat(row, column, ++seatNumber);
                 if(customerNames.size()<seatingCapacity) {
                     customerNames.put(seatNumber,"nb");
-                }else if(customerDetails.contains(tempDateLocationList.get(1)) && customerDetails.size()>1) {
-                    System.out.println("yes main has date");
-                    for (int i = 0; i < customerDetails.size(); i++) {
-                        if (customerDetails.get(i).get(3).contains(customerNames.get(seatNumber))) {
-                            customerNames.put(seatNumber, "b");
+                }
+                for (List<String> detail : customerDetails) {
+                    for (int item : customerNames.keySet()) {
+                        if (!detail.contains(tempDateLocationList.get(1)) && !detail.contains(String.valueOf(item))) {
+                            customerNames.put(seatNumber, "nb");
+                        }
+                    }
+                }
+                for (List<String> customerDetail : customerDetails) {
+                    for (int item : customerNames.keySet()) {
+                        if (customerDetail.contains(tempDateLocationList.get(1)) && customerDetail.contains(String.valueOf(item))) {
+                            customerNames.put(item, "b");
                         }
                     }
                 }
@@ -277,7 +279,7 @@ public class Booking extends Application {
                     newRecord.add(tempDateLocationList.get(1));
                     newRecord.add(tempDateLocationList.get(2));
                     newRecord.add(tempDateLocationList.get(3));
-                    newRecord.add(String.valueOf(item));
+                    newRecord.add((String.valueOf(item)));
                     newRecord.add(name);
                     customerDetails.add(newRecord);
                     System.out.println(tempcustomerList);
@@ -565,7 +567,7 @@ public class Booking extends Application {
         HashMap<Integer,String> tempcustomerList = new HashMap<>(seatingCapacity);
         List<List<String>> colomboCustomers = new ArrayList<>();
         List<List<String>> badullaCustomers = new ArrayList<>();
-        List<List<String>> customerNameList = new ArrayList<>();
+        //List<List<String>> customerNameList = new ArrayList<>();
         ArrayList<String> tempDateLocationList = new ArrayList<>(Arrays.asList("0","0","0","0"));
         while(true) {
             System.out.println("\n\nWelcome To Fort Railway Station\n" +
