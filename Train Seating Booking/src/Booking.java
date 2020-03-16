@@ -162,15 +162,15 @@ public class Booking extends Application {
         stage.showAndWait();
     }
 
-    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList, HashMap<Integer,String> customerList, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, String userInput){
+    public void trainDestination(Pane root, Stage stage, Scene scene,ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList, HashMap<Integer,String> customerList, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, String userInput, List<List<String>> colomboAndBadullaDetails){
         switch(userInput){
             case "a":
                 if(tempDateLocationList.get(0).equals("1001")){
-                    addCustomerToSeat(root, stage, scene, customerList, colomboCustomers,tempDateLocationList, tempcustomerList);
+                    addCustomerToSeat(root, stage, scene, customerList, colomboCustomers,tempDateLocationList, tempcustomerList, colomboAndBadullaDetails);
 
                 }
                 else if(tempDateLocationList.get(0).equals("1002")){
-                    addCustomerToSeat(root, stage, scene, customerList, badullaCustomers, tempDateLocationList, tempcustomerList);
+                    addCustomerToSeat(root, stage, scene, customerList, badullaCustomers, tempDateLocationList, tempcustomerList, colomboAndBadullaDetails);
                 }
                 break;
             case "v":
@@ -196,7 +196,7 @@ public class Booking extends Application {
         }
     }
 
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList) {
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, HashMap<Integer,String> customerNames, List<List<String>> customerDetails, ArrayList<String> tempDateLocationList, HashMap<Integer,String> tempcustomerList, List<List<String>> colomboAndBadullaDetails) {
         customerNames.clear();
         int seatNumber = 0;
         for(int row = 1; row <=6; row++){
@@ -298,6 +298,7 @@ public class Booking extends Application {
                     newRecord.add((String.valueOf(item)));
                     newRecord.add(name);
                     customerDetails.add(newRecord);
+                    colomboAndBadullaDetails.add(newRecord);
                     System.out.println(tempcustomerList);
                 }
                 tempcustomerList.clear();
@@ -445,14 +446,14 @@ public class Booking extends Application {
         root.getChildren().removeAll(root,emptySeat);
     }
 
-    public void deleteCustomer(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers){
+    public void deleteCustomer(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, List<List<String>> colomboAndBadullaDetails){
         String[] choices = new String[3];
         List<List<String>> deletedRecords = new ArrayList<>();
         System.out.print("\nPlease enter which train you want to remove the seats from(Colombo to Badulla(1)/Badulla to Colombo(2)) : ");
         choices[0] = scanner.next();
-        System.out.println("\nPlease enter a valid date you want to remove seats from (YYYY-MM-DD) : ");
+        System.out.print("\nPlease enter a valid date you want to remove seats from (YYYY-MM-DD) : ");
         choices[1] = scanner.next();
-        System.out.println("\nPlease enter the name of the customer you want to remove : ");
+        System.out.print("\nPlease enter the name of the customer you want to remove : ");
         choices[2] = scanner.next();
 
         if (choices[0].equals("1")) {
@@ -463,6 +464,7 @@ public class Booking extends Application {
                 }
             }
             colomboCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+            colomboAndBadullaDetails.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
             System.out.println(deletedRecords);
             System.out.println(colomboCustomers);
             deletedRecords.clear();
@@ -475,6 +477,7 @@ public class Booking extends Application {
                 }
             }
             colomboCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+            colomboAndBadullaDetails.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
             deletedRecords.clear();
         }
         else {
@@ -482,26 +485,73 @@ public class Booking extends Application {
         }
     }
 
-    public void findCustomer(Scanner scanner, HashMap<Integer,String> customerNames){
+    public void findCustomer(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers){
+        String[] choices = new String[2];
+        System.out.print("\nPlease enter which train you want to find the customer from ([1] Colombo to Badulla/[2] Badulla to Colombo /[3] Both) : ");
+        choices[0] = scanner.next();
         System.out.print("Please enter the name of the customer to find the related seat booked : ");
-        String findCustomerName = scanner.next();
-        if(customerNames.containsValue(findCustomerName)) {
-            System.out.print("Customer seat with name "+findCustomerName+" includes seat ");
-            for (int item : customerNames.keySet()) {
-                if (findCustomerName.equals(customerNames.getOrDefault(item, findCustomerName))) {
-                    System.out.print("|S-" + (item)+"| ");
+        choices[1] = scanner.next();
+
+        switch (choices[0]) {
+            case "1":
+                for (List<String> details : colomboCustomers) {
+                    if (details.contains(choices[1])) {
+                        System.out.println(
+                                "\nName : " + details.get(4) +
+                                "\nSeat : " + details.get(3) +
+                                "\nDate : " + details.get(0) +
+                                "\nFrom : " + details.get(1) +
+                                "\nTo   : " + details.get(2));
+                    }
                 }
-            }
-        }
-        else{
-            System.out.println("Customer name invalid");
+                break;
+            case "2":
+                for (List<String> details : badullaCustomers) {
+                    if (details.contains(choices[1])) {
+                        System.out.println(
+                                "\nName : " + details.get(4) +
+                                "\nSeat : " + details.get(3) +
+                                "\nDate : " + details.get(0) +
+                                "\nFrom : " + details.get(1) +
+                                "\nTo   : " + details.get(2));
+                    }
+                }
+                break;
+            case "3":
+                for (List<String> details : colomboCustomers) {
+                    if (details.contains(choices[1])) {
+                        System.out.println(
+                                "\nName : " + details.get(4) +
+                                "\nSeat : " + details.get(3) +
+                                "\nDate : " + details.get(0) +
+                                "\nFrom : " + details.get(1) +
+                                "\nTo   : " + details.get(2));
+                    }
+                }
+                for (List<String> details : badullaCustomers) {
+                    if (details.contains(choices[1])) {
+                        System.out.println(
+                                "\nName : " + details.get(4) +
+                                "\nSeat : " + details.get(3) +
+                                "\nDate : " + details.get(0) +
+                                "\nFrom : " + details.get(1) +
+                                "\nTo   : " + details.get(2));
+                    }
+                }
+                break;
+            default:
+                System.out.println("Invalid input please try again");
+                break;
         }
     }
 
-    public void saveToFile(Scanner scanner, HashMap<Integer,String> customerNames) throws IOException {
+    public void saveToFile(Scanner scanner, HashMap<Integer,String> customerNames, List<List<String>> colomboAndBadullaDetails) throws IOException {
+        System.out.println(colomboAndBadullaDetails);
+        System.exit(0);
         System.out.print("Do you want to save the details to a text file(T) or store it in the database(D). Please select(T/D) : ");
         String choice = scanner.next().toLowerCase();
         if(choice.equals("t")) {
+
             FileWriter writer = new FileWriter("src/customerData.txt");
             for (int item : customerNames.keySet()) {
                 writer.write(item + "=" + customerNames.get(item) + "\n");
@@ -577,37 +627,61 @@ public class Booking extends Application {
         }
     }
 
-    public void orderCustomerNames(HashMap<Integer,String> customerNames){
-        HashMap<Integer ,String> orderList = new HashMap<>(seatingCapacity);
-        for(int i=1;i<=customerNames.size();i++){
-            orderList.put(i,customerNames.get(i)+" - "+(i));
-        }
-
-        System.out.println("Customer ordered on first come first served basis\n");
-        for(int item : orderList.keySet()) {
-            if(!orderList.get(item).contains("nb -")) {
-                System.out.println(orderList.get(item));
+    public void orderCustomerNames(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers){
+        List<String> orderedList = new ArrayList<>();
+        System.out.print("\nPlease enter which train you want to sort the seats according to customers from([1] Colombo to Badulla/[2] Badulla to Colombo) : ");
+        String choice = scanner.next();
+        if(choice.equals("1")){
+            for(List<String> details : colomboCustomers){
+                orderedList.add(details.get(4)+" - "+details.get(3));
             }
-        }
-        for(int i=1;i<orderList.size()+1;i++){
-            for(int j=i+1;j<orderList.size()+1;j++){
-                if(orderList.get(i).compareTo(orderList.get(j))>0){
-                    String temp =orderList.get(i);
-                    orderList.put(i,orderList.get(j));
-                    orderList.put(j,temp);
+            System.out.println("\nCustomer names ordered based on first come first served basis\n");
+            for(String item : orderedList) {
+                System.out.println(item);
+            }
+            for(int i=0;i<orderedList.size();i++){
+                for(int j=i+1;j<orderedList.size();j++){
+                    if(orderedList.get(i).compareTo(orderedList.get(j))>0){
+                        String hold = orderedList.get(i);
+                        orderedList.set(i,orderedList.get(j));
+                        orderedList.set(j,hold);
+                    }
                 }
             }
-        }
-        System.out.println("\nCustomer names ordered in the ascending order\n");
-        for(int item : orderList.keySet()){
-            if(!orderList.get(item).contains("nb -")) {
-                System.out.println(orderList.get(item));
+            System.out.println("\nCustomer names ordered in the ascending order\n");
+            for(String item : orderedList) {
+                System.out.println(item);
             }
+            orderedList.clear();
+        }
+        else if(choice.equals("2")){
+            for(List<String> details : badullaCustomers){
+                orderedList.add(details.get(4)+" - "+details.get(3));
+            }
+            System.out.println("\nCustomer names ordered based on first come first served basis\n");
+            for(String item : orderedList) {
+                System.out.println(item);
+            }
+            for(int i=0;i<orderedList.size();i++){
+                for(int j=i+1;j<orderedList.size();j++){
+                    if(orderedList.get(i).compareTo(orderedList.get(j))>0){
+                        String hold = orderedList.get(i);
+                        orderedList.set(i,orderedList.get(j));
+                        orderedList.set(j,hold);
+                    }
+                }
+            }
+            System.out.println("\nCustomer names ordered in the ascending order\n");
+            for(String item : orderedList) {
+                System.out.println(item);
+            }
+            orderedList.clear();
         }
     }
 
     public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException {
         Scanner scanner = new Scanner(System.in);
+        List<List<String>> colomboAndBadullaDetails = new ArrayList<>();
         HashMap<Integer,String> customerList = new HashMap<>(seatingCapacity);
         HashMap<Integer,String> tempcustomerList = new HashMap<>(seatingCapacity);
         List<List<String>> colomboCustomers = new ArrayList<>();
@@ -632,22 +706,22 @@ public class Booking extends Application {
                 case "v":
                 case "e":
                     selectDestination(stage,tempDateLocationList);
-                    trainDestination(root, stage, scene, tempDateLocationList, tempcustomerList, customerList, colomboCustomers, badullaCustomers, userInput);
+                    trainDestination(root, stage, scene, tempDateLocationList, tempcustomerList, customerList, colomboCustomers, badullaCustomers, userInput, colomboAndBadullaDetails);
                     break;
                 case "d":
-                    deleteCustomer(scanner, colomboCustomers, badullaCustomers);
+                    deleteCustomer(scanner, colomboCustomers, badullaCustomers, colomboAndBadullaDetails);
                     break;
                 case "f":
-                    findCustomer(scanner, customerList);
+                    findCustomer(scanner, colomboCustomers, badullaCustomers);
                     break;
                 case "s":
-                    saveToFile(scanner, customerList);
+                    saveToFile(scanner, customerList, colomboAndBadullaDetails);
                     break;
                 case "l":
                     loadFromFile(scanner, customerList);
                     break;
                 case "o":
-                    orderCustomerNames(customerList);
+                    orderCustomerNames(scanner, colomboCustomers, badullaCustomers);
                     break;
                 case "q":
                     System.exit(0);
