@@ -545,16 +545,19 @@ public class Booking extends Application {
         }
     }
 
-    public void saveToFile(Scanner scanner, HashMap<Integer,String> customerNames, List<List<String>> colomboAndBadullaDetails) throws IOException {
-        System.out.println(colomboAndBadullaDetails);
-        System.exit(0);
+    public void saveToFile(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, List<List<String>> colomboAndBadullaDetails) throws IOException {
         System.out.print("Do you want to save the details to a text file(T) or store it in the database(D). Please select(T/D) : ");
         String choice = scanner.next().toLowerCase();
         if(choice.equals("t")) {
-
             FileWriter writer = new FileWriter("src/customerData.txt");
-            for (int item : customerNames.keySet()) {
-                writer.write(item + "=" + customerNames.get(item) + "\n");
+            for(List<String> details : colomboAndBadullaDetails){
+                for(int i =0;i<5;i++) {
+                    if(i==4){
+                        writer.write(details.get(i)+"\n");
+                    }else {
+                        writer.write(details.get(i) + "/");
+                    }
+                }
             }
             writer.close();
             System.out.println("Successfully save to file");
@@ -562,27 +565,56 @@ public class Booking extends Application {
         else if(choice.equals("d")) {
             MongoClient mongoClient = new MongoClient("localhost",27017);
             MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
-            MongoCollection<Document> collection = customerDatabase.getCollection("customerDetails");
+            MongoCollection<Document> colomboCollection = customerDatabase.getCollection("colomboDetails");
+            MongoCollection<Document> badullaCollection = customerDatabase.getCollection("badullaDetails");
             System.out.println("Connected to the Database");
 
-            FindIterable<Document> findDocument = collection.find();
-            if(collection.countDocuments()==0){
-                for(int item: customerNames.keySet()) {
-                    Document customerDocument = new Document();
-                    customerDocument.append("seatNumber",String.valueOf(item));
-                    customerDocument.append("customerName",customerNames.get(item));
-                    collection.insertOne(customerDocument);
+            if(colomboCollection.countDocuments()==0 && badullaCollection.countDocuments()==0){
+                for(List<String> details : colomboCustomers){
+                    Document colomboDocument = new Document();
+                    colomboDocument.append("date",details.get(0));
+                    colomboDocument.append("from",details.get(1));
+                    colomboDocument.append("to",details.get(2));
+                    colomboDocument.append("seat",details.get(3));
+                    colomboDocument.append("name",details.get(4));
+                    colomboCollection.insertOne(colomboDocument);
+                }
+                for(List<String> details : badullaCustomers){
+                    Document badullaDocument = new Document();
+                    badullaDocument.append("date",details.get(0));
+                    badullaDocument.append("from",details.get(1));
+                    badullaDocument.append("to",details.get(2));
+                    badullaDocument.append("seat",details.get(3));
+                    badullaDocument.append("name",details.get(4));
+                    badullaCollection.insertOne(badullaDocument);
                 }
                 System.out.println("Successfully stored 1st time");
-            }else if(collection.countDocuments()>1) {
-                for (Document document : findDocument) {
-                    collection.deleteOne(document);
+            }else if(colomboCollection.countDocuments()>1 && badullaCollection.countDocuments()>1) {
+                FindIterable<Document> findColomboDocument = colomboCollection.find();
+                FindIterable<Document> findBadullaDocument = badullaCollection.find();
+                for (Document document : findColomboDocument) {
+                    colomboCollection.deleteOne(document);
                 }
-                for(int item: customerNames.keySet()) {
-                    Document customerDocument = new Document();
-                    customerDocument.append("seatNumber",String.valueOf(item));
-                    customerDocument.append("customerName",customerNames.get(item));
-                    collection.insertOne(customerDocument);
+                for (Document document : findBadullaDocument) {
+                    badullaCollection.deleteOne(document);
+                }
+                for(List<String> details : colomboCustomers){
+                    Document colomboDocument = new Document();
+                    colomboDocument.append("date",details.get(0));
+                    colomboDocument.append("from",details.get(1));
+                    colomboDocument.append("to",details.get(2));
+                    colomboDocument.append("seat",details.get(3));
+                    colomboDocument.append("name",details.get(4));
+                    colomboCollection.insertOne(colomboDocument);
+                }
+                for(List<String> details : badullaCustomers){
+                    Document badullaDocument = new Document();
+                    badullaDocument.append("date",details.get(0));
+                    badullaDocument.append("from",details.get(1));
+                    badullaDocument.append("to",details.get(2));
+                    badullaDocument.append("seat",details.get(3));
+                    badullaDocument.append("name",details.get(4));
+                    badullaCollection.insertOne(badullaDocument);
                 }
                 System.out.println("Successfully updated 2nd time");
             }
@@ -595,15 +627,27 @@ public class Booking extends Application {
         }
     }
 
-    public void loadFromFile(Scanner scanner, HashMap<Integer,String> customerNames) throws FileNotFoundException {
+    public void loadFromFile(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, List<List<String>> colomboAndBadullaDetails) throws FileNotFoundException {
         System.out.print("Do you want to load the details from the text file(T) or retrieve it from the database(D). Please select(T/D) : ");
         String choice = scanner.next().toLowerCase();
         if(choice.equals("t")) {
+            colomboAndBadullaDetails.clear();
             Scanner read = new Scanner(new File("src/customerData.txt"));
             while (read.hasNextLine()) {
                 String line = read.nextLine();
-                String[] pairs = line.split("=");
-                customerNames.put(Integer.parseInt(pairs[0]), pairs[1]);
+                String[] pairs = line.split("/");
+                List<String> details = new ArrayList<>(Arrays.asList(pairs).subList(0, 5));
+                colomboAndBadullaDetails.add(details);
+            }
+            colomboCustomers.clear();
+            badullaCustomers.clear();
+            for(List<String> details : colomboAndBadullaDetails){
+                if(details.get(1).contains("Colombo")){
+                    colomboCustomers.add(details);
+                }
+                else if(details.get(1).contains("Badulla")){
+                    badullaCustomers.add(details);
+                }
             }
             read.close();
             System.out.println("Successfully loaded from file");
@@ -611,16 +655,34 @@ public class Booking extends Application {
         else if(choice.equals("d")){
             MongoClient mongoClient = new MongoClient("localhost",27017);
             MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
-            MongoCollection<Document> collection = customerDatabase.getCollection("customerDetails");
+            MongoCollection<Document> colomboCollection = customerDatabase.getCollection("colomboDetails");
+            MongoCollection<Document> badullaCollection = customerDatabase.getCollection("badullaDetails");
             System.out.println("Connected to the Database");
 
-            FindIterable<Document> findDocument = collection.find();
-            for (Document document : findDocument) {
-                customerNames.put(Integer.parseInt(document.getString("seatNumber")),document.getString("customerName"));
+            FindIterable<Document> findColomboDocument = colomboCollection.find();
+            FindIterable<Document> findBadullaDocument = badullaCollection.find();
+            for (Document document : findColomboDocument) {
+                List<String> details = new ArrayList<>();
+                details.add(document.getString("date"));
+                details.add(document.getString("from"));
+                details.add(document.getString("to"));
+                details.add(document.getString("seat"));
+                details.add(document.getString("name"));
+                colomboCustomers.add(details);
             }
-            System.out.println(customerNames);
+            for (Document document : findBadullaDocument) {
+                List<String> details = new ArrayList<>();
+                details.add(document.getString("date"));
+                details.add(document.getString("from"));
+                details.add(document.getString("to"));
+                details.add(document.getString("seat"));
+                details.add(document.getString("name"));
+                badullaCustomers.add(details);
+            }
             mongoClient.close();
             System.out.println("Details loaded from the database successfully");
+            System.out.println(colomboCustomers);
+            System.out.println(badullaCustomers);
         }
         else {
             System.out.println("Invalid input. Please try again.");
@@ -715,10 +777,10 @@ public class Booking extends Application {
                     findCustomer(scanner, colomboCustomers, badullaCustomers);
                     break;
                 case "s":
-                    saveToFile(scanner, customerList, colomboAndBadullaDetails);
+                    saveToFile(scanner, colomboCustomers, badullaCustomers, colomboAndBadullaDetails);
                     break;
                 case "l":
-                    loadFromFile(scanner, customerList);
+                    loadFromFile(scanner, colomboCustomers, badullaCustomers, colomboAndBadullaDetails);
                     break;
                 case "o":
                     orderCustomerNames(scanner, colomboCustomers, badullaCustomers);
