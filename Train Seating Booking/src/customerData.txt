@@ -1,7 +1,10 @@
-2020-03-17/Colombo/Thalawakele/1/navod
-2020-03-17/Colombo/Thalawakele/2/navod
-2020-03-17/Colombo/Thalawakele/25/navod
-2020-03-17/Colombo/Thalawakele/35/heshan
-2020-03-17/Colombo/Thalawakele/42/heshan
-2020-03-17/Badulla/Hatton/4/shalitha
-2020-03-17/Badulla/Hatton/5/shalitha
+2020-03-18/Colombo/Hatton/7/navod
+2020-03-18/Colombo/Hatton/14/navod
+2020-03-18/Colombo/Hatton/20/navod
+2020-03-20/Colombo/Nanuoya/5/heshan
+2020-03-20/Colombo/Nanuoya/12/heshan
+2020-03-20/Colombo/Nanuoya/14/heshan
+2020-03-20/Colombo/Nanuoya/20/heshan
+2020-03-20/Colombo/Nanuoya/21/heshan
+2020-03-18/Badulla/Thalawakele/4/joill
+2020-03-18/Badulla/Thalawakele/11/joill
