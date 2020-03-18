@@ -5,7 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/customerData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/customerData.txt" afterDir="false" />
     </list>
     <list id="3a1c9dab-66b7-4788-9167-adfd46704e33" name="local history" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +51,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
   </component>
   <component name="RunManager">
     <configuration name="Booking" type="Application" factoryName="Application" nameIsGenerated="true">
@@ -312,26 +311,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1584104631823" />
-    <state width="545" height="436" key="Git.Branch.Popup" timestamp="1584529058960">
+    <state width="551" height="442" key="Git.Branch.Popup" timestamp="1584539763963">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="545" height="436" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584529058960" />
-    <state width="610" height="912" key="GridCell.Tab.0.bottom" timestamp="1584538901640">
+    <state width="551" height="442" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584539763963" />
+    <state width="610" height="912" key="GridCell.Tab.0.bottom" timestamp="1584551498635">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584538901640" />
-    <state width="610" height="912" key="GridCell.Tab.0.center" timestamp="1584538901640">
+    <state width="610" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584551498635" />
+    <state width="610" height="912" key="GridCell.Tab.0.center" timestamp="1584551498635">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584538901640" />
-    <state width="610" height="912" key="GridCell.Tab.0.left" timestamp="1584538901640">
+    <state width="610" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584551498635" />
+    <state width="610" height="912" key="GridCell.Tab.0.left" timestamp="1584551498635">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584538901640" />
-    <state width="610" height="912" key="GridCell.Tab.0.right" timestamp="1584538901640">
+    <state width="610" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584551498635" />
+    <state width="610" height="912" key="GridCell.Tab.0.right" timestamp="1584551498635">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584538901640" />
+    <state width="610" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584551498635" />
     <state width="610" height="912" key="GridCell.Tab.1.bottom" timestamp="1584457376460">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -364,14 +363,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="269" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584202645469" />
-    <state x="435" y="200" width="1024" height="840" key="SettingsEditor" timestamp="1584537745304">
+    <state x="435" y="200" width="1024" height="840" key="SettingsEditor" timestamp="1584546582578">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="435" y="200" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584537745304" />
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1584529060782">
+    <state x="435" y="200" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584546582578" />
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1584539689720">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1584529060782" />
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1584539689720" />
     <state x="92" y="92" width="1736" height="856" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584317310862">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

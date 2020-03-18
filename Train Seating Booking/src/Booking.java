@@ -640,63 +640,89 @@ public class Booking extends Application{
                                List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
         String[] choices = new String[3]; // String array created to store 3 inputs from user
         List<List<String>> deletedRecords = new ArrayList<>(); // List to store deleted records
-        System.out.print("\nPlease enter which train you want to remove the seats from(Colombo to Badulla(1)/Badulla to Colombo(2)) : ");
+        System.out.print("\nPlease enter which train you want to remove the seats from([1] Colombo to Badulla/[2] Badulla to Colombo/[3] Both) : ");
         choices[0] = scanner.next();
         System.out.print("\nPlease enter a valid date you want to remove seats from (YYYY-MM-DD) : ");
         choices[1] = scanner.next();
         System.out.print("\nPlease enter the name of the customer you want to remove : ");
         choices[2] = scanner.next();
 
-        if (choices[0].equals("1")) {
-            // If train route is Colombo to Badulla execute this block of code
-            for(List<String> details : colomboCustomers){
-                // Checks if the date and name is in colomboCustomers List if it is then add that record to
-                // deletedRecords List
-                if(details.contains(choices[1]) && details.contains(choices[2])){
-                    deletedRecords.add(details);
+        switch (choices[0]) {
+            case "1":
+                // If train route is Colombo to Badulla execute this block of code
+                for (List<String> details : colomboCustomers) {
+                    // Checks if the date and name is in colomboCustomers List if it is then add that record to
+                    // deletedRecords List
+                    if (details.contains(choices[1]) && details.contains(choices[2])) {
+                        deletedRecords.add(details);
+                    }
                 }
-            }
-            // Removes the records that has the date and name match user input from colomboCustomers List and main list
-            colomboCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
-            colomboBadullaDetails.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
-            System.out.println("\nDetails of deleted customers ");
-            // Loop to display the deletedRecords in a formatted manner
-            for(List<String> details : deletedRecords) {
-                System.out.println(
-                        "\nName : " + details.get(4) +
-                        "\nSeat : " + details.get(3) +
-                        "\nDate : " + details.get(0) +
-                        "\nFrom : " + details.get(1) +
-                        "\nTo   : " + details.get(2));
-            }
-            deletedRecords.clear(); // Removes data stored in deleteRecords
-        }
-        else if (choices[0].equals("2")) {
-            // If train route is Badulla to Colombo execute this block of code
-            for(List<String> details : badullaCustomers){
-                // Checks if the date and name is in badullaCustomers List if it is then add that record to
-                // deletedRecords List
-                if(details.contains(choices[1]) && details.contains(choices[2])){
-                    deletedRecords.add(details);
+                // Removes the records that has the date and name match user input from colomboCustomers List and main list
+                colomboCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+                colomboBadullaDetails.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+                System.out.println("\nDetails of deleted customers ");
+                // Loop to display the deletedRecords in a formatted manner
+                for (List<String> details : deletedRecords) {
+                    System.out.println(
+                            "\nName : " + details.get(4) +
+                                    "\nSeat : " + details.get(3) +
+                                    "\nDate : " + details.get(0) +
+                                    "\nFrom : " + details.get(1) +
+                                    "\nTo   : " + details.get(2));
                 }
-            }
-            // Removes the records that has the date and name match user input from badullaCustomers List and main list
-            badullaCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
-            colomboBadullaDetails.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
-            System.out.println("\nDetails of deleted customers ");
-            // Loop to display the deletedRecords in a formatted manner
-            for(List<String> details : deletedRecords) {
-                System.out.println(
-                        "\nName : " + details.get(4) +
-                                "\nSeat : " + details.get(3) +
-                                "\nDate : " + details.get(0) +
-                                "\nFrom : " + details.get(1) +
-                                "\nTo   : " + details.get(2));
-            }
-            deletedRecords.clear(); // Removes data stored in deleteRecords
-        }
-        else {
-            System.out.println("Invalid input please try again");
+                deletedRecords.clear(); // Removes data stored in deleteRecords
+                break;
+            case "2":
+                // If train route is Badulla to Colombo execute this block of code
+                for (List<String> details : badullaCustomers) {
+                    // Checks if the date and name is in badullaCustomers List if it is then add that record to
+                    // deletedRecords List
+                    if (details.contains(choices[1]) && details.contains(choices[2])) {
+                        deletedRecords.add(details);
+                    }
+                }
+                // Removes the records that has the date and name match user input from badullaCustomers List and main list
+                badullaCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+                colomboBadullaDetails.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+                System.out.println("\nDetails of deleted customers ");
+                // Loop to display the deletedRecords in a formatted manner
+                for (List<String> details : deletedRecords) {
+                    System.out.println(
+                            "\nName : " + details.get(4) +
+                                    "\nSeat : " + details.get(3) +
+                                    "\nDate : " + details.get(0) +
+                                    "\nFrom : " + details.get(1) +
+                                    "\nTo   : " + details.get(2));
+                }
+                deletedRecords.clear(); // Removes data stored in deleteRecords
+                break;
+            case "3":
+                // If train route is Colombo to Badulla and Badulla to Colombo execute this block of code
+                for (List<String> details : colomboBadullaDetails) {
+                    // Checks if the date and name is in colomboBadullaDetails List if it is then add that record to
+                    // deletedRecords List
+                    if (details.contains(choices[1]) && details.contains(choices[2])) {
+                        deletedRecords.add(details);
+                    }
+                }
+                // Removes the records that has the date and name match user input from all Lists
+                colomboCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+                badullaCustomers.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+                colomboBadullaDetails.removeIf(details -> details.contains(choices[1]) && details.contains(choices[2]));
+                // Loop to display the deletedRecords in a formatted manner
+                for (List<String> details : deletedRecords) {
+                    System.out.println(
+                            "\nName : " + details.get(4) +
+                                    "\nSeat : " + details.get(3) +
+                                    "\nDate : " + details.get(0) +
+                                    "\nFrom : " + details.get(1) +
+                                    "\nTo   : " + details.get(2));
+                }
+                deletedRecords.clear(); // Removes data stored in deleteRecords
+                break;
+            default:
+                System.out.println("Invalid input please try again");
+                break;
         }
     }
 
@@ -708,7 +734,7 @@ public class Booking extends Application{
      * @param badullaCustomers  a List with all the details of customers(Date, Start location, Destination, Seat number and Name) using badulla to colombo train route
      */
     public void findCustomer(Scanner scanner, List<List<String>> colomboCustomers,
-                             List<List<String>> badullaCustomers){
+                             List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
         String[] choices = new String[2]; // String array created to store 2 inputs from user
         System.out.print("\nPlease enter which train you want to find the customer from ([1] Colombo to Badulla/[2] Badulla to Colombo /[3] Both) : ");
         choices[0] = scanner.next();
@@ -754,8 +780,8 @@ public class Booking extends Application{
                 break;
             case "3":
                 // If colombo to badulla and badulla to colombo is entered execute this block of code
-                for(List<String> details : colomboCustomers){
-                    // If the name is in the colomboCustomers List print them in a formatted manner
+                for(List<String> details : colomboBadullaDetails){
+                    // If the name is in the colomboBadullaDetails List print them in a formatted manner
                     if(details.contains(choices[1])){
                         System.out.println(
                                 "\nName : " + details.get(4) +
@@ -769,22 +795,6 @@ public class Booking extends Application{
                         break;
                     }
                 }
-                for(List<String> details : badullaCustomers){
-                    // If the name is in the badullaCustomers List print them in a formatted manner
-                    if(details.contains(choices[1])){
-                        System.out.println(
-                                "\nName : " + details.get(4) +
-                                "\nSeat : " + details.get(3) +
-                                "\nDate : " + details.get(0) +
-                                "\nFrom : " + details.get(1) +
-                                "\nTo   : " + details.get(2));
-                    }
-                    else{
-                        System.out.println("Invalid customer name or customer not in booked details");
-                        break;
-                    }
-                }
-                break;
             default:
                 System.out.println("Invalid input please try again");
                 break;
@@ -1022,73 +1032,106 @@ public class Booking extends Application{
      * @param badullaCustomers  a List with all the details of customers(Date, Start location, Destination, Seat number and Name) using badulla to colombo train route
      */
     public void orderCustomerNames(Scanner scanner, List<List<String>> colomboCustomers,
-                                   List<List<String>> badullaCustomers){
+                                   List<List<String>> badullaCustomers, List<List<String>> colomboBadullaCustomers){
         List<String> orderedList = new ArrayList<>(); // Create new List to store name and seat from the main list
-        System.out.print("\nPlease enter which train you want to sort the seats according to customers from([1] Colombo to Badulla/[2] Badulla to Colombo) : ");
+        System.out.print("\nPlease enter which train you want to sort the seats according to customers from([1] Colombo to Badulla/[2] Badulla to Colombo/[3] Both) : ");
         String choice = scanner.next();
         //If Colombo to Badulla is selected go into the if condition
-        if(choice.equals("1")){
-            //Loops through colomboCustomers and gets the name and seat then adds to orderedList
-            for(List<String> details : colomboCustomers){
-                orderedList.add(details.get(4)+" - "+details.get(3));
-            }
-            System.out.println("\nCustomer names ordered based on first come first served basis\n");
-            // Loops through each item in the orderedList to show the order which was added
-            for(String item : orderedList){
-                System.out.println(item);
-            }
-            // Bubble sort algorithm used to sort each item in orderedList in the ascending order
-            for(int i = 0; i < orderedList.size(); i++){
-                for(int j = i + 1; j < orderedList.size(); j++){
-                    // Checks if the value of index i is less than the value of index j if it is smaller then it
-                    // goes inside the loop
-                    if(orderedList.get(i).compareTo(orderedList.get(j))>0){
-                        // Stores the value of index i in hold which is less than j
-                        String hold = orderedList.get(i);
-                        // Sets the value of index j into the index of i
-                        orderedList.set(i, orderedList.get(j));
-                        // Sets the value of hold into the index of j
-                        orderedList.set(j, hold);
+        switch (choice) {
+            case "1":
+                //Loops through colomboCustomers and gets the name and seat then adds to orderedList
+                for (List<String> details : colomboCustomers) {
+                    orderedList.add(details.get(4) + " - " + details.get(3));
+                }
+                System.out.println("\nCustomer names ordered based on first come first served basis\n");
+                // Loops through each item in the orderedList to show the order which was added
+                for (String item : orderedList) {
+                    System.out.println(item);
+                }
+                // Bubble sort algorithm used to sort each item in orderedList in the ascending order
+                for (int i = 0; i < orderedList.size(); i++) {
+                    for (int j = i + 1; j < orderedList.size(); j++) {
+                        // Checks if the value of index i is less than the value of index j if it is smaller then it
+                        // goes inside the loop
+                        if (orderedList.get(i).compareTo(orderedList.get(j)) > 0) {
+                            // Stores the value of index i in hold which is less than j
+                            String hold = orderedList.get(i);
+                            // Sets the value of index j into the index of i
+                            orderedList.set(i, orderedList.get(j));
+                            // Sets the value of hold into the index of j
+                            orderedList.set(j, hold);
+                        }
                     }
                 }
-            }
-            System.out.println("\nCustomer names ordered in the ascending order\n");
-            for(String item : orderedList){
-                System.out.println(item);
-            }
-            orderedList.clear(); // Removes the data stored so it doesn't conflict with the other train route
-        }
-        //If Badulla to Colombo is selected go into the else if condition
-        else if(choice.equals("2")){
-            //Loops through badullaCustomers and gets the name and seat then adds to orderedList
-            for(List<String> details : badullaCustomers){
-                orderedList.add(details.get(4)+" - "+details.get(3));
-            }
-            System.out.println("\nCustomer names ordered based on first come first served basis\n");
-            // Loops through each item in the orderedList to show the order which was added
-            for(String item : orderedList){
-                System.out.println(item);
-            }
-            // Bubble sort algorithm used to sort each item in orderedList in the ascending order
-            for(int i = 0; i < orderedList.size(); i++){
-                for(int j = i + 1; j < orderedList.size(); j++){
-                    // Checks if the value of index i is less than the value of index j if it is smaller then it
-                    // goes inside the loop
-                    if(orderedList.get(i).compareTo(orderedList.get(j))>0){
-                        // Stores the value of index i in hold which is less than j
-                        String hold = orderedList.get(i);
-                        // Sets the value of index j into the index of i
-                        orderedList.set(i, orderedList.get(j));
-                        // Sets the value of hold into the index of j
-                        orderedList.set(j, hold);
+                System.out.println("\nCustomer names ordered in the ascending order\n");
+                for (String item : orderedList) {
+                    System.out.println(item);
+                }
+                orderedList.clear(); // Removes the data stored so it doesn't conflict with the other train route
+                break;
+            //If Badulla to Colombo is selected go into the else if condition
+            case "2":
+                //Loops through badullaCustomers and gets the name and seat then adds to orderedList
+                for (List<String> details : badullaCustomers) {
+                    orderedList.add(details.get(4) + " - " + details.get(3));
+                }
+                System.out.println("\nCustomer names ordered based on first come first served basis\n");
+                // Loops through each item in the orderedList to show the order which was added
+                for (String item : orderedList) {
+                    System.out.println(item);
+                }
+                // Bubble sort algorithm used to sort each item in orderedList in the ascending order
+                for (int i = 0; i < orderedList.size(); i++) {
+                    for (int j = i + 1; j < orderedList.size(); j++) {
+                        // Checks if the value of index i is less than the value of index j if it is smaller then it
+                        // goes inside the loop
+                        if (orderedList.get(i).compareTo(orderedList.get(j)) > 0) {
+                            // Stores the value of index i in hold which is less than j
+                            String hold = orderedList.get(i);
+                            // Sets the value of index j into the index of i
+                            orderedList.set(i, orderedList.get(j));
+                            // Sets the value of hold into the index of j
+                            orderedList.set(j, hold);
+                        }
                     }
                 }
-            }
-            System.out.println("\nCustomer names ordered in the ascending order\n");
-            for(String item : orderedList){
-                System.out.println(item);
-            }
-            orderedList.clear(); // Removes the data stored so it doesn't conflict with the other train route
+                System.out.println("\nCustomer names ordered in the ascending order\n");
+                for (String item : orderedList) {
+                    System.out.println(item);
+                }
+                orderedList.clear(); // Removes the data stored so it doesn't conflict with the other train route
+                break;
+            case "3":
+                //Loops through badullaCustomers and gets the name and seat then adds to orderedList
+                for (List<String> details : colomboBadullaCustomers) {
+                    orderedList.add(details.get(4) + " - " + details.get(3));
+                }
+                System.out.println("\nCustomer names ordered based on first come first served basis\n");
+                // Loops through each item in the orderedList to show the order which was added
+                for (String item : orderedList) {
+                    System.out.println(item);
+                }
+                // Bubble sort algorithm used to sort each item in orderedList in the ascending order
+                for (int i = 0; i < orderedList.size(); i++) {
+                    for (int j = i + 1; j < orderedList.size(); j++) {
+                        // Checks if the value of index i is less than the value of index j if it is smaller then it
+                        // goes inside the loop
+                        if (orderedList.get(i).compareTo(orderedList.get(j)) > 0) {
+                            // Stores the value of index i in hold which is less than j
+                            String hold = orderedList.get(i);
+                            // Sets the value of index j into the index of i
+                            orderedList.set(i, orderedList.get(j));
+                            // Sets the value of hold into the index of j
+                            orderedList.set(j, hold);
+                        }
+                    }
+                }
+                System.out.println("\nCustomer names ordered in the ascending order\n");
+                for (String item : orderedList) {
+                    System.out.println(item);
+                }
+                orderedList.clear(); // Removes the data stored so it doesn't conflict with the other train route
+                break;
         }
     }
 
@@ -1157,7 +1200,7 @@ public class Booking extends Application{
                     deleteCustomer(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "f":
-                    findCustomer(scanner, colomboCustomers, badullaCustomers);
+                    findCustomer(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "s":
                     saveToFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
@@ -1166,7 +1209,7 @@ public class Booking extends Application{
                     loadFromFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "o":
-                    orderCustomerNames(scanner, colomboCustomers, badullaCustomers);
+                    orderCustomerNames(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "q":
                     System.exit(0);
