@@ -94,43 +94,39 @@ public class Booking extends Application{
         details.setLayoutX(250);
         details.setLayoutY(100);
 
-        // Dropdown list of stops from colombo to badulla
-        ComboBox<String> colomboBadullaRoute = new ComboBox<>();
-        colomboBadullaRoute.setPromptText("Colombo to Badulla");
-        colomboBadullaRoute.setPrefSize(150, 40);
-        colomboBadullaRoute.setLayoutX(220);
-        colomboBadullaRoute.setLayoutY(250);
+        // Dropdown list of stops from the starting location
+        ComboBox<String> startStation = new ComboBox<>();
+        startStation.setPromptText("From");
+        startStation.setPrefSize(150, 40);
+        startStation.setLayoutX(220);
+        startStation.setLayoutY(250);
 
-        /*  A string array created to store each stop in the badulla to colombo train route then looped through a
-            for loop to be added to the ComboBox created above */
-        String[] colomboBadullaArray = new String[]{"Polgahawela","Peradeniya Junction", "Gampola", "Nawalapitiya",
-                "Hatton", "Thalawakele", "Nanuoya", "Haputale", "Diyatalawa", "Bandarawela", "Ella", "Badulla"};
-        for(String item : colomboBadullaArray){
-            colomboBadullaRoute.getItems().add(item);
-        }
+        /*  A string array created to store each stop in the colonbo to badulla train and a List created to add each
+            station to it */
+        String[] stations = new String[]{"Colombo Fort" , "Polgahawela", "Peradeniya Junction", "Gampola", "Nawalapitiya",
+                "Hatton", "Talawakelle", "Nanu Oya", "Haputale", "Diyatalawa", "Bandarawela", "Ella", "Badulla"};
+        List<String > stationStops = new ArrayList<>();
 
-        // Dropdown list of stops from badulla to colombo
-        ComboBox<String> badullaColomboRoute = new ComboBox<>();
-        badullaColomboRoute.setPromptText("Badulla to Colombo");
-        badullaColomboRoute.setPrefSize(150, 40);
-        badullaColomboRoute.setLayoutX(420);
-        badullaColomboRoute.setLayoutY(250);
+        // Dropdown list of stops from the destination
+        ComboBox<String> endStation = new ComboBox<>();
+        endStation.setPromptText("To");
+        endStation.setPrefSize(150, 40);
+        endStation.setLayoutX(420);
+        endStation.setLayoutY(250);
 
-        /*  A string array created to store each stop in the badulla to colombo train route then looped through a
-            for loop to be added to the ComboBox created above  */
-        String[] badullaColomboArray = new String[]{"Ella", "Bandarawela", "Diyatalawa", "Haputale", "Nanuoya",
-                "Thalawakele", "Hatton", "Nawalapitiya", "Gampola", "Peradeniya Junction", "Polgahawela", "Maradana",
-                "Colombo Fort"};
-        for(String item : badullaColomboArray){
-            badullaColomboRoute.getItems().add(item);
+        // For loop to add the stations to each ComboBox and the List
+        for(String item : stations){
+            stationStops.add(item);
+            startStation.getItems().add(item);
+            endStation.getItems().add(item);
         }
 
         // Default value set to the systems local date
         DatePicker selectDate = new DatePicker(LocalDate.now());
-        // Making the manual entry of dates unavailable which helps validation
-        selectDate.setEditable(false);
         selectDate.setLayoutX(310);
         selectDate.setLayoutY(320);
+        // Making the manual entry of dates unavailable which helps validation
+        selectDate.setEditable(false);
 
         /*  Restricting past dates that can be selected from the DatePicker UI element compared to the local date of
             the system  */
@@ -148,20 +144,10 @@ public class Booking extends Application{
             }
         });
 
-        // Colombo to badulla route select
-        RadioButton colomboStart = new RadioButton("Colombo to Badulla");
-        colomboStart.setLayoutX(230);
-        colomboStart.setLayoutY(200);
-
-        // Badulla to colombo route select
-        RadioButton badullaStart = new RadioButton("Badulla to Colombo");
-        badullaStart.setLayoutX(430);
-        badullaStart.setLayoutY(200);
-
-        //  By adding the two radio buttons to a ToggleGroup you can later validate if one route is selected
-        ToggleGroup destinationStart = new ToggleGroup();
-        colomboStart.setToggleGroup(destinationStart);
-        badullaStart.setToggleGroup(destinationStart);
+        Label information = new Label("Please select the boarding station and destination below.");
+        information.setStyle("-fx-font: 16 arial; -fx-text-fill: black;");
+        information.setLayoutX(200);
+        information.setLayoutY(200);
 
         // Confirm selected date,route and destination
         Button confirmDestination = new Button("Confirm Destination");
@@ -169,49 +155,43 @@ public class Booking extends Application{
         confirmDestination.setLayoutX(310);
         confirmDestination.setLayoutY(400);
 
-        // If colombo to badulla route is selected it disables being able to select badulla to colombo
-        colomboStart.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            badullaColomboRoute.setDisable(true);
-            colomboBadullaRoute.setDisable(false);
-        });
-
-        // If badulla to colombo route is selected it disables being able to select colombo to badulla
-        badullaStart.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            badullaColomboRoute.setDisable(false);
-            colomboBadullaRoute.setDisable(true);
-        });
-
         /*  When confirm destination button is clicked it checks which route was selected using radio buttons and
             executes the colombo route path or badulla route path, then the selected destination is stored in
             endLocation and selected date from DatePicker to bookedDate. Train number, bookedDate, start location
             and endLocation is then added to the tempDateLocation.  */
         confirmDestination.setOnAction(event -> {
-            if(colomboStart.selectedProperty().getValue().equals(true)){
-                String endLocation = colomboBadullaRoute.getSelectionModel().getSelectedItem();
-                String bookedDate = selectDate.getValue().toString();
+            String startLocation = startStation.getSelectionModel().getSelectedItem();
+            String endLocation = endStation.getSelectionModel().getSelectedItem();
+            String bookedDate = selectDate.getValue().toString();
+
+            if(stationStops.indexOf(startLocation)<(stationStops.indexOf(endLocation))) {
                 // 1001 train number = Colombo to Badulla
-                tempDateLocation.set(0,"1001");
-                tempDateLocation.set(1,bookedDate);
-                tempDateLocation.set(2,"Colombo");
-                tempDateLocation.set(3,endLocation);
-                stage.close();
+                tempDateLocation.set(0, "1001");
+                tempDateLocation.set(1, bookedDate);
+                tempDateLocation.set(2, startLocation);
+                tempDateLocation.set(3, endLocation);
             }
-            else if(badullaStart.selectedProperty().getValue().equals(true)){
-                String endLocation = badullaColomboRoute.getSelectionModel().getSelectedItem();
-                String bookedDate = selectDate.getValue().toString();
+            else if(stationStops.indexOf(startLocation)>(stationStops.indexOf(endLocation))) {
                 // 1002 train number = Badulla to Colombo
-                tempDateLocation.set(0,"1002");
-                tempDateLocation.set(1,bookedDate);
-                tempDateLocation.set(2,"Badulla");
-                tempDateLocation.set(3,endLocation);
-                stage.close();
+                tempDateLocation.set(0, "1002");
+                tempDateLocation.set(1, bookedDate);
+                tempDateLocation.set(2, startLocation);
+                tempDateLocation.set(3, endLocation);
             }
+            else{
+                Alert invalidStop = new Alert(Alert.AlertType.WARNING);
+                invalidStop.setTitle("Invalid Station Stop");
+                invalidStop.setHeaderText("Warning! Invalid Station Stop!");
+                invalidStop.setContentText("Please select a valid station that is on the Colombo To Badulla route! Try again.");
+                invalidStop.showAndWait();
+            }
+            stage.close();
         });
 
         Pane root1 = new Pane();
         root1.setStyle("-fx-background-color: #1b87c2");
         Scene scene1 = new Scene(root1, 820, 500);
-        root1.getChildren().addAll(title, details, colomboStart, badullaStart, colomboBadullaRoute, badullaColomboRoute, selectDate, confirmDestination);
+        root1.getChildren().addAll(title, details, information, startStation, endStation, selectDate, confirmDestination);
         stage.setScene(scene1);
         stage.showAndWait();
     }
@@ -236,7 +216,7 @@ public class Booking extends Application{
      * @param colomboBadullaDetails a List with both details of customers from colombo to badulla and back stored
      */
     public void trainDestination(Pane root, Stage stage, Scene scene, String userInput, ArrayList<String> tempDateLocation,
-                             HashMap<Integer,String> seatList, HashMap<Integer,String> tempSeatList, List<List<String>> colomboCustomers,
+                             HashMap<Integer,String> seatList, List<List<String>> tempSeatList, List<List<String>> colomboCustomers,
                              List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
 
         /*  Switch case checks for user input taken from console then calls to add, view or empty methods based on selected route */
@@ -295,7 +275,7 @@ public class Booking extends Application{
      *                              back stored
      */
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation,
-                              HashMap<Integer,String> seatList, HashMap<Integer,String> tempSeatList,
+                              HashMap<Integer,String> seatList, List<List<String>> tempSeatList,
                               List<List<String>> customerDetails, List<List<String>> colomboBadullaDetails){
         // If you add seats and then load a previous save this makes sure it does not conflict with previous data
         seatList.clear();
@@ -330,7 +310,7 @@ public class Booking extends Application{
                 for(List<String> customerDetail : customerDetails){
                     for(int item : seatList.keySet()){
                         if(customerDetail.contains(tempDateLocation.get(1)) && customerDetail.contains(String.valueOf(item))){
-                            seatList.put(item, "b"); // b = Booked
+                            seatList.put(item, customerDetail.get(2)+" - " + customerDetail.get(3) + " " + customerDetail.get(4)); // b = Booked
                         }
                     }
                 }
@@ -363,6 +343,33 @@ public class Booking extends Application{
                 }
             }
         }
+        Label firstNameLabel = new Label("First Name : ");
+        TextField firstNameText = new TextField();
+        firstNameLabel.setLayoutX(500);
+        firstNameLabel.setLayoutY(265);
+        firstNameLabel.setStyle("-fx-font: 16 arial; -fx-text-fill: black; -fx-font-weight: bold");
+        firstNameText.setLayoutX(610);
+        firstNameText.setLayoutY(260);
+        firstNameText.setPrefSize(200,35);
+
+        Label surNameLabel = new Label("Surname    : ");
+        TextField surNameText = new TextField();
+        surNameLabel.setLayoutX(500);
+        surNameLabel.setLayoutY(305);
+        surNameLabel.setStyle("-fx-font: 16 arial; -fx-text-fill: black; -fx-font-weight: bold");
+        surNameText.setLayoutX(610);
+        surNameText.setLayoutY(300);
+        surNameText.setPrefSize(200,35);
+
+        Label nicLabel = new Label("NIC             : ");
+        TextField nicText = new TextField();
+        nicLabel.setLayoutX(500);
+        nicLabel.setLayoutY(345);
+        nicLabel.setStyle("-fx-font: 16 arial; -fx-text-fill: black; -fx-font-weight: bold");
+        nicText.setLayoutX(610);
+        nicText.setLayoutY(340);
+        nicText.setPrefSize(200,35);
+
         // Shows what an available seat looks like as a map legend
         Label emptySeat = new Label("Available");
         emptySeat.setPrefSize(80, 50);
@@ -385,8 +392,8 @@ public class Booking extends Application{
         bookButton.setStyle("-fx-background-color: #2144cf; -fx-border-width: 1.5; -fx-border-radius: 3;" +
                 "-fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold;" +
                 "-fx-text-fill: black; -fx-background-insets: 0");
-        bookButton.setLayoutX(500);
-        bookButton.setLayoutY(310);
+        bookButton.setLayoutX(560);
+        bookButton.setLayoutY(410);
 
         // Creates clear button
         Button clearButton = new Button("Clear Seats");
@@ -394,85 +401,140 @@ public class Booking extends Application{
         clearButton.setStyle("-fx-background-color: #bd1520; -fx-border-width: 1.5; -fx-border-radius: 3;" +
                 "-fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold;" +
                 "-fx-text-fill: black; -fx-background-insets: 0");
-        clearButton.setLayoutX(650);
-        clearButton.setLayoutY(310);
-        root.getChildren().addAll(emptySeat, bookedSeat, bookButton, clearButton);
+        clearButton.setLayoutX(710);
+        clearButton.setLayoutY(410);
+        root.getChildren().addAll(firstNameLabel, firstNameText, surNameLabel, surNameText, nicLabel, nicText, emptySeat, bookedSeat, bookButton, clearButton);
 
-        /* When confirm booking button is selected it shows an alert for the user to enter their name and gets all the
-           selected seats added to the tempSeatList which is then added to the colomboCustomers or badullaCustomers */
         bookButton.setOnAction(event -> {
-            // A TextInputDialog is used to get the name from the user as an alert
-            TextInputDialog customerNameBox = new TextInputDialog();
-            customerNameBox.setTitle("Customer name");
-            customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
-            customerNameBox.setContentText("Please enter your name (Numbers,'b' and 'nb' not allowed): ");
-            Optional<String> customerNameField = customerNameBox.showAndWait();
-            // If any text is entered into the TextInputDialog then it goes inside this block of code
-            customerNameField.ifPresent(name -> {
-                // This if validates if the user entered a letter with/without a single space. "b" and "nb" is not
-                // allowed because its used as a placeholder value in seatList and only spaces entered is not allowed
-                if(name.toLowerCase().equals("b") || name.toLowerCase().equals("nb") || !name.matches("[.a-zA-Z\\s]+") || name.trim().isEmpty()){
-                    // If name is "b", "nb", letters, special characters or just spaces then remove all the selected seats from the seatList to not booked
-                    for(int item : seatList.keySet()){
-                        if(seatList.get(item).equals("b")){
-                            seatList.put(item, "nb");
-                        }
-                    }
-                    // Throws a warning alert if "b", "nb", letters, special characters or just spaces are entered and closes the window
-                    Alert invalidName = new Alert(Alert.AlertType.WARNING);
-                    invalidName.setTitle("Invalid Name");
-                    invalidName.setHeaderText("Warning! Invalid Name Input!");
-                    invalidName.setContentText(name+" is not valid! Please enter a valid name when booking a seat (Only letters with or without spaces " +
-                            "allowed. Numbers,special characters,'b' and 'nb' is not allowed)! Try again.");
-                    invalidName.showAndWait();
-                    stage.close();
-                }
-                // If a valid name is entered then add the name to the value of each selected seat in the seatList and add it to the tempSeatList
+            String nic = nicText.getText();
+            String firstName = firstNameText.getText();
+            String surName = surNameText.getText();
+            if((!nic.trim().isEmpty() && !firstName.trim().isEmpty() && !surName.trim().isEmpty()) &&
+                    (nic.length()>=9 && nic.length()<=12) && (nic.matches("[0-9]+")) &&
+                    (firstName.matches("[a-zA-Z\\s]+")) && (surName.matches("[a-zA-Z\\s]+"))){
                 for(int item : seatList.keySet()){
-                    if(seatList.get(item).equals("b")){
-                        seatList.put(item, name);
-                        tempSeatList.put(item, name);
+                    if(seatList.get(item).equals("b")) {
+                        seatList.put(item, nic + " - " + firstName + " " + surName);
+                        List<String> tempInnerSeatList = new ArrayList<>();
+                        tempInnerSeatList.add(String.valueOf(item));
+                        tempInnerSeatList.add(nic);
+                        tempInnerSeatList.add(firstName);
+                        tempInnerSeatList.add(surName);
+                        tempSeatList.add(tempInnerSeatList);
                     }
                 }
-                // After name is added to each selected seat then loop through the tempSeatList and add the details
-                // stored in tempDateLocation which is date, start location, destination and each seat number and name
-                // stored in the tempSeatList to either colomboCustomers or badullaCustomers List, also add it to the
-                // colomboBadullaDetails which contains both colombo and badulla customer details
-                for(int item : tempSeatList.keySet()){
+                System.out.println(seatList);
+                System.out.println(tempSeatList);
+                for(List<String> tempInnerSeatList : tempSeatList){
                     List<String> newRecord = new ArrayList<>();
+                    // Train route
+                    newRecord.add(tempDateLocation.get(0));
+                    // Seat number
+                    newRecord.add(tempInnerSeatList.get(0));
+                    // NIC
+                    newRecord.add(tempInnerSeatList.get(1));
+                    // FirstName
+                    newRecord.add(tempInnerSeatList.get(2));
+                    // SurName
+                    newRecord.add(tempInnerSeatList.get(3));
                     // Date
                     newRecord.add(tempDateLocation.get(1));
                     // Start Location
                     newRecord.add(tempDateLocation.get(2));
                     // Destination
                     newRecord.add(tempDateLocation.get(3));
-                    // Seat number
-                    newRecord.add((String.valueOf(item)));
-                    // Name
-                    newRecord.add(name);
                     // Colombo or badulla customer list
                     customerDetails.add(newRecord);
                     // Main list with all customer details
                     colomboBadullaDetails.add(newRecord);
                 }
-                // Remove all the data stored in tempSeatList
                 tempSeatList.clear();
-            });
-            // If no text was entered in the TextInputDialog then it executes the code block below
-            Alert emptyName = new Alert(Alert.AlertType.WARNING);
-            emptyName.setTitle("No name entered");
-            emptyName.setHeaderText("Warning! No name entered or Invalid input!");
-            emptyName.setContentText("Please enter a valid name when booking a seat('b' and 'nb' is not allowed)! Try again.");
-            // Remove each selected seat from seatList as booked to not booked
-            for(int item : seatList.keySet()) {
-                if(seatList.get(item).equals("b") || seatList.get(item).isEmpty()){
-                    seatList.put(item, "nb");
-                    emptyName.showAndWait();
-                    stage.close();
-                    break;
-                }
+                System.out.println(customerDetails);
+                System.out.println(colomboBadullaDetails);
             }
+            else{
+                System.out.println("empty");
+            }
+            //stage.close();
         });
+
+//        /* When confirm booking button is selected it shows an alert for the user to enter their name and gets all the
+//           selected seats added to the tempSeatList which is then added to the colomboCustomers or badullaCustomers */
+//        bookButton.setOnAction(event -> {
+//            // A TextInputDialog is used to get the name from the user as an alert
+//            TextInputDialog customerNameBox = new TextInputDialog();
+//            customerNameBox.setTitle("Customer name");
+//            customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
+//            customerNameBox.setContentText("Please enter your name (Numbers,'b' and 'nb' not allowed): ");
+//            Optional<String> customerNameField = customerNameBox.showAndWait();
+//            // If any text is entered into the TextInputDialog then it goes inside this block of code
+//            customerNameField.ifPresent(name -> {
+//                // This if validates if the user entered a letter with/without a single space. "b" and "nb" is not
+//                // allowed because its used as a placeholder value in seatList and only spaces entered is not allowed
+//                if(name.toLowerCase().equals("b") || name.toLowerCase().equals("nb") || !name.matches("[.a-zA-Z\\s]+") || name.trim().isEmpty()){
+//                    // If name is "b", "nb", letters, special characters or just spaces then remove all the selected seats from the seatList to not booked
+//                    for(int item : seatList.keySet()){
+//                        if(seatList.get(item).equals("b")){
+//                            seatList.put(item, "nb");
+//                        }
+//                    }
+//                    // Throws a warning alert if "b", "nb", letters, special characters or just spaces are entered and closes the window
+//                    Alert invalidName = new Alert(Alert.AlertType.WARNING);
+//                    invalidName.setTitle("Invalid Name");
+//                    invalidName.setHeaderText("Warning! Invalid Name Input!");
+//                    invalidName.setContentText(name+" is not valid! Please enter a valid name when booking a seat (Only letters with or without spaces " +
+//                            "allowed. Numbers,special characters,'b' and 'nb' is not allowed)! Try again.");
+//                    invalidName.showAndWait();
+//                    stage.close();
+//                }
+//                // If a valid name is entered then add the name to the value of each selected seat in the seatList and add it to the tempSeatList
+//                for(int item : seatList.keySet()){
+//                    if(seatList.get(item).equals("b")){
+//                        seatList.put(item, name);
+//                        tempSeatList.put(item, name);
+//                    }
+//                }
+//                // After name is added to each selected seat then loop through the tempSeatList and add the details
+//                // stored in tempDateLocation which is date, start location, destination and each seat number and name
+//                // stored in the tempSeatList to either colomboCustomers or badullaCustomers List, also add it to the
+//                // colomboBadullaDetails which contains both colombo and badulla customer details
+//                for(int item : tempSeatList.keySet()){
+//                    List<String> newRecord = new ArrayList<>();
+//                    // Train route
+//                    newRecord.add(tempDateLocation.get(0));
+//                    // Seat number
+//                    newRecord.add((String.valueOf(item)));
+//                    // Name
+//                    newRecord.add(name);
+//                    // Date
+//                    newRecord.add(tempDateLocation.get(1));
+//                    // Start Location
+//                    newRecord.add(tempDateLocation.get(2));
+//                    // Destination
+//                    newRecord.add(tempDateLocation.get(3));
+//                    // Colombo or badulla customer list
+//                    customerDetails.add(newRecord);
+//                    // Main list with all customer details
+//                    colomboBadullaDetails.add(newRecord);
+//                }
+//                // Remove all the data stored in tempSeatList
+//                tempSeatList.clear();
+//            });
+//            // If no text was entered in the TextInputDialog then it executes the code block below
+//            Alert emptyName = new Alert(Alert.AlertType.WARNING);
+//            emptyName.setTitle("No name entered");
+//            emptyName.setHeaderText("Warning! No name entered or Invalid input!");
+//            emptyName.setContentText("Please enter a valid name when booking a seat('b' and 'nb' is not allowed)! Try again.");
+//            // Remove each selected seat from seatList as booked to not booked
+//            for(int item : seatList.keySet()) {
+//                if(seatList.get(item).equals("b") || seatList.get(item).isEmpty()){
+//                    seatList.put(item, "nb");
+//                    emptyName.showAndWait();
+//                    stage.close();
+//                    break;
+//                }
+//            }
+//        });
         // If clear seats button is clicked it removes all the selected seats and sets them to not booked and closes the window
         clearButton.setOnAction(event -> {
             Alert clearSeats = new Alert(Alert.AlertType.INFORMATION);
@@ -500,7 +562,7 @@ public class Booking extends Application{
             }
         }
         // Removes the buttons and Available seat legend so that if the user clicks on view or empty after this it doesn't overlap with other UI elements
-        root.getChildren().removeAll(root, emptySeat, bookedSeat, bookButton, clearButton);
+        root.getChildren().removeAll(root, emptySeat, bookedSeat, firstNameLabel, firstNameText, surNameLabel, surNameText, nicLabel, nicText, bookButton, clearButton);
     }
 
     /**
@@ -1217,8 +1279,10 @@ public class Booking extends Application{
         // Hashmap to store seat and name of customers with a starting capacity of 42 elements
         HashMap<Integer,String> seatList = new HashMap<>(seatingCapacity);
 
-        // Temporary hashmap to store seat and name of customers with a starting capacity of 42 elements
-        HashMap<Integer,String> tempSeatList = new HashMap<>(seatingCapacity);
+//        // Temporary hashmap to store seat and name of customers with a starting capacity of 42 elements
+//        HashMap<Integer,String> tempSeatList = new HashMap<>(seatingCapacity);
+
+        List<List<String>> tempSeatList = new ArrayList<>();
 
         // List created to store colombo customer details
         List<List<String>> colomboCustomers = new ArrayList<>();
@@ -1254,7 +1318,7 @@ public class Booking extends Application{
                 case "v":
                 case "e":
                     welcomeScreen(stage, tempDateLocation);
-                    trainDestination(root, stage, scene, userInput, tempDateLocation, seatList, tempSeatList, colomboCustomers, badullaCustomers,colomboBadullaDetails);
+                    trainDestination(root, stage, scene, userInput, tempDateLocation, seatList, tempSeatList, colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "d":
                     deleteCustomer(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);

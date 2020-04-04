@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="">
+    <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="Adjusted margin for submission.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/customerData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/customerData.txt" afterDir="false" />
     </list>
     <list id="3a1c9dab-66b7-4788-9167-adfd46704e33" name="local history" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,11 +47,11 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/libs/mongodb-driver-3.6.3.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunManager">
     <configuration name="Booking" type="Application" factoryName="Application" nameIsGenerated="true">
@@ -300,6 +299,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories/0.0.1920.1040@0.0.1920.1040" timestamp="1582101440626" />
+    <state x="552" y="178" key="#Notifications" timestamp="1585330386131">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="178" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1585330386131" />
     <state x="552" y="178" key="#Project_Structure" timestamp="1582991916050">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -324,30 +327,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584568008142" />
-    <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl" timestamp="1584104631823">
+    <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl" timestamp="1585145147541">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1584104631823" />
-    <state width="563" height="454" key="Git.Branch.Popup" timestamp="1584598460100">
+    <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1585145147541" />
+    <state width="340" height="256" key="Git.Branch.Popup" timestamp="1586011063696">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="563" height="454" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1584598460100" />
-    <state width="610" height="912" key="GridCell.Tab.0.bottom" timestamp="1584585986810">
+    <state width="340" height="256" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586011063696" />
+    <state width="646" height="912" key="GridCell.Tab.0.bottom" timestamp="1586010732758">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1584585986810" />
-    <state width="610" height="912" key="GridCell.Tab.0.center" timestamp="1584585986810">
+    <state width="646" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586010732758" />
+    <state width="646" height="912" key="GridCell.Tab.0.center" timestamp="1586010732758">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1584585986810" />
-    <state width="610" height="912" key="GridCell.Tab.0.left" timestamp="1584585986810">
+    <state width="646" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586010732758" />
+    <state width="646" height="912" key="GridCell.Tab.0.left" timestamp="1586010732758">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1584585986810" />
-    <state width="610" height="912" key="GridCell.Tab.0.right" timestamp="1584585986810">
+    <state width="646" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586010732758" />
+    <state width="646" height="912" key="GridCell.Tab.0.right" timestamp="1586010732758">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="610" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584585986810" />
+    <state width="646" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586010732758" />
     <state width="610" height="912" key="GridCell.Tab.1.bottom" timestamp="1584457376460">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -380,14 +383,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="269" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584202645469" />
-    <state x="444" y="109" width="1024" height="840" key="SettingsEditor" timestamp="1584593543571">
+    <state x="582" y="38" width="1024" height="840" key="SettingsEditor" timestamp="1585929589204">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="444" y="109" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1584593543571" />
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1584568028805">
+    <state x="582" y="38" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1585929589204" />
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1584655060712">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1584568028805" />
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1584655060712" />
     <state x="92" y="92" width="1736" height="856" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584317310862">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -408,10 +411,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="565" y="311" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582992167751" />
-    <state x="342" y="141" width="1157" height="585" key="new project wizard" timestamp="1584039489440">
+    <state x="342" y="141" width="1157" height="585" key="new project wizard" timestamp="1585736940161">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="342" y="141" width="1157" height="585" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1584039489440" />
+    <state x="342" y="141" width="1157" height="585" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1585736940161" />
     <state x="666" y="139" key="refactoring.ChangeSignatureDialog" timestamp="1584394171714">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
