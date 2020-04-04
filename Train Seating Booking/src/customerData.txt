@@ -1,9 +1,13 @@
-2020-04-19/Colombo/Hatton/3/Navod
-2020-04-19/Badulla/Ella/3/John
-2020-03-29/Colombo/Peradeniya Junction/24/Jill
-2020-03-30/Colombo/Peradeniya Junction/24/Navod
-2020-05-10/Colombo/Badulla/2/E.N.D Zoysa
-2020-05-10/Colombo/Badulla/10/E.N.D Zoysa
-2020-05-10/Colombo/Badulla/19/E.N.D Zoysa
-2020-05-10/Colombo/Badulla/33/E.N.D Zoysa
-2020-05-10/Colombo/Badulla/34/E.N.D Zoysa
+1001,3,123456789,john,holmes,2020-04-05,Polgahawela,Nawalapitiya
+1001,10,123456789,john,holmes,2020-04-05,Polgahawela,Nawalapitiya
+1001,14,456123789,bobo,johns,2020-04-05,Polgahawela,Nawalapitiya
+1001,20,456123789,bobo,johns,2020-04-05,Polgahawela,Nawalapitiya
+1001,3,789456123,hikz,iku,2020-04-06,Colombo Fort,Haputale
+1001,10,789456123,hikz,iku,2020-04-06,Colombo Fort,Haputale
+1001,14,789456123,hikz,iku,2020-04-06,Colombo Fort,Haputale
+1001,21,789456123,hikz,iku,2020-04-06,Colombo Fort,Haputale
+1001,27,789456123,hikz,iku,2020-04-06,Colombo Fort,Haputale
+1002,3,123456789,navod,zoysa,2020-04-05,Ella,Polgahawela
+1002,11,123456789,navod,zoysa,2020-04-05,Ella,Polgahawela
+1002,5,7894561311,jill,kill,2020-04-06,Badulla,Polgahawela
+1002,19,7894561311,jill,kill,2020-04-06,Badulla,Polgahawela
