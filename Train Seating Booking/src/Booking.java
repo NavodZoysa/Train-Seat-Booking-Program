@@ -83,7 +83,7 @@ public class Booking extends Application{
      * @param stage passed from start method
      * @param tempDateLocation  a temporary ArrayList used to store train number, booked date, starting location and finally destination
      */
-    public void welcomeScreen(Stage stage, ArrayList<String> tempDateLocation){
+    public void welcomeScreen(Stage stage, ArrayList<String> tempDateLocation, String userInput){
         Label title = new Label("Welcome to Sri Lanka Railways Department");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
@@ -137,7 +137,7 @@ public class Booking extends Application{
                 LocalDate presentDay = LocalDate.now();
 
                 // If the date in DatePicker is older than current local date disable that particular date
-                if(item.compareTo(presentDay)<0) {
+                if(item.compareTo(presentDay)<0 && userInput.equals("a")) {
                     setDisable(true);
                     setStyle("-fx-background-color: red");
                 }
@@ -310,7 +310,7 @@ public class Booking extends Application{
                 for(List<String> customerDetail : customerDetails){
                     for(int item : seatList.keySet()){
                         if(customerDetail.contains(tempDateLocation.get(1)) && customerDetail.contains(String.valueOf(item))){
-                            seatList.put(item, customerDetail.get(2)+" - " + customerDetail.get(3) + " " + customerDetail.get(4)); // b = Booked
+                            seatList.put(item, customerDetail.get(2)+" - " + customerDetail.get(3) + " " + customerDetail.get(4));
                         }
                     }
                 }
@@ -448,93 +448,30 @@ public class Booking extends Application{
                     // Main list with all customer details
                     colomboBadullaDetails.add(newRecord);
                 }
-                tempSeatList.clear();
                 System.out.println(customerDetails);
                 System.out.println(colomboBadullaDetails);
+
+                tempSeatList.clear();
+                // Throws a confirmation alert for successfully booking seats
+                Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
+                confirmation.setTitle("Successful Booking");
+                confirmation.setHeaderText(null);
+                confirmation.setContentText("Successful Booking!");
+                confirmation.showAndWait();
             }
             else{
-                System.out.println("empty");
+                // Throws a warning alert for entering invalid details
+                Alert warning = new Alert(Alert.AlertType.WARNING);
+                warning.setTitle("Invalid Details");
+                warning.setHeaderText("Invalid Details Entered!");
+                warning.setContentText("Please enter only letters for First Name and Surname! And only numbers for NIC with upto 9-12 characters!");
+                warning.showAndWait();
             }
-            //stage.close();
+            nicText.clear();
+            firstNameText.clear();
+            surNameText.clear();
         });
 
-//        /* When confirm booking button is selected it shows an alert for the user to enter their name and gets all the
-//           selected seats added to the tempSeatList which is then added to the colomboCustomers or badullaCustomers */
-//        bookButton.setOnAction(event -> {
-//            // A TextInputDialog is used to get the name from the user as an alert
-//            TextInputDialog customerNameBox = new TextInputDialog();
-//            customerNameBox.setTitle("Customer name");
-//            customerNameBox.setHeaderText("Enter the name of the person the seat is booked to");
-//            customerNameBox.setContentText("Please enter your name (Numbers,'b' and 'nb' not allowed): ");
-//            Optional<String> customerNameField = customerNameBox.showAndWait();
-//            // If any text is entered into the TextInputDialog then it goes inside this block of code
-//            customerNameField.ifPresent(name -> {
-//                // This if validates if the user entered a letter with/without a single space. "b" and "nb" is not
-//                // allowed because its used as a placeholder value in seatList and only spaces entered is not allowed
-//                if(name.toLowerCase().equals("b") || name.toLowerCase().equals("nb") || !name.matches("[.a-zA-Z\\s]+") || name.trim().isEmpty()){
-//                    // If name is "b", "nb", letters, special characters or just spaces then remove all the selected seats from the seatList to not booked
-//                    for(int item : seatList.keySet()){
-//                        if(seatList.get(item).equals("b")){
-//                            seatList.put(item, "nb");
-//                        }
-//                    }
-//                    // Throws a warning alert if "b", "nb", letters, special characters or just spaces are entered and closes the window
-//                    Alert invalidName = new Alert(Alert.AlertType.WARNING);
-//                    invalidName.setTitle("Invalid Name");
-//                    invalidName.setHeaderText("Warning! Invalid Name Input!");
-//                    invalidName.setContentText(name+" is not valid! Please enter a valid name when booking a seat (Only letters with or without spaces " +
-//                            "allowed. Numbers,special characters,'b' and 'nb' is not allowed)! Try again.");
-//                    invalidName.showAndWait();
-//                    stage.close();
-//                }
-//                // If a valid name is entered then add the name to the value of each selected seat in the seatList and add it to the tempSeatList
-//                for(int item : seatList.keySet()){
-//                    if(seatList.get(item).equals("b")){
-//                        seatList.put(item, name);
-//                        tempSeatList.put(item, name);
-//                    }
-//                }
-//                // After name is added to each selected seat then loop through the tempSeatList and add the details
-//                // stored in tempDateLocation which is date, start location, destination and each seat number and name
-//                // stored in the tempSeatList to either colomboCustomers or badullaCustomers List, also add it to the
-//                // colomboBadullaDetails which contains both colombo and badulla customer details
-//                for(int item : tempSeatList.keySet()){
-//                    List<String> newRecord = new ArrayList<>();
-//                    // Train route
-//                    newRecord.add(tempDateLocation.get(0));
-//                    // Seat number
-//                    newRecord.add((String.valueOf(item)));
-//                    // Name
-//                    newRecord.add(name);
-//                    // Date
-//                    newRecord.add(tempDateLocation.get(1));
-//                    // Start Location
-//                    newRecord.add(tempDateLocation.get(2));
-//                    // Destination
-//                    newRecord.add(tempDateLocation.get(3));
-//                    // Colombo or badulla customer list
-//                    customerDetails.add(newRecord);
-//                    // Main list with all customer details
-//                    colomboBadullaDetails.add(newRecord);
-//                }
-//                // Remove all the data stored in tempSeatList
-//                tempSeatList.clear();
-//            });
-//            // If no text was entered in the TextInputDialog then it executes the code block below
-//            Alert emptyName = new Alert(Alert.AlertType.WARNING);
-//            emptyName.setTitle("No name entered");
-//            emptyName.setHeaderText("Warning! No name entered or Invalid input!");
-//            emptyName.setContentText("Please enter a valid name when booking a seat('b' and 'nb' is not allowed)! Try again.");
-//            // Remove each selected seat from seatList as booked to not booked
-//            for(int item : seatList.keySet()) {
-//                if(seatList.get(item).equals("b") || seatList.get(item).isEmpty()){
-//                    seatList.put(item, "nb");
-//                    emptyName.showAndWait();
-//                    stage.close();
-//                    break;
-//                }
-//            }
-//        });
         // If clear seats button is clicked it removes all the selected seats and sets them to not booked and closes the window
         clearButton.setOnAction(event -> {
             Alert clearSeats = new Alert(Alert.AlertType.INFORMATION);
@@ -608,7 +545,7 @@ public class Booking extends Application{
                 for(List<String> customerDetail : customerDetails){
                     for(int item : seatList.keySet()){
                         if(customerDetail.contains(tempDateLocation.get(1)) &&customerDetail.contains(String.valueOf(item))){
-                            seatList.put(item, "b"); // b = Booked
+                            seatList.put(item, customerDetail.get(2)+" - " + customerDetail.get(3) + " " + customerDetail.get(4));
                         }
                     }
                 }
@@ -691,7 +628,7 @@ public class Booking extends Application{
                 for (List<String> customerDetail : customerDetails){
                     for (int item : seatList.keySet()){
                         if (customerDetail.contains(tempDateLocation.get(1)) &&customerDetail.contains(String.valueOf(item))){
-                            seatList.put(item, "b"); // b = Booked
+                            seatList.put(item, customerDetail.get(2)+" - " + customerDetail.get(3) + " " + customerDetail.get(4));
                         }
                     }
                 }
@@ -734,164 +671,64 @@ public class Booking extends Application{
      * @param colomboBadullaDetails a List with both details of customers from colombo to badulla and back stored
      */
     public void deleteCustomer(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
-        // String array created to store 3 inputs from user
-        String[] choices = new String[3];
         // List to store deleted records
         List<List<String>> deletedRecords = new ArrayList<>();
-        System.out.print("\nPlease enter which train you want to remove the seats from([1] Colombo to Badulla/[2] Badulla to Colombo/[3] Both) : ");
-        choices[0] = scanner.next();
-        System.out.print("\nPlease enter a valid date you want to remove seats from (YYYY-MM-DD) : ");
-        choices[1] = scanner.next();
-        // Used to go to the next line without an error
         scanner.nextLine();
-        System.out.print("\nPlease enter the name of the customer you want to remove : ");
-        choices[2] = scanner.nextLine();
+        System.out.print("\nPlease enter a valid date you want to remove seats from (YYYY-MM-DD) : ");
+        String date = scanner.nextLine();
+        System.out.print("\nPlease enter the NIC of the customer you want to remove : ");
+        String nic = scanner.nextLine();
 
-        switch (choices[0]) {
-            case "1":
-                // If train route is Colombo to Badulla execute this block of code
-                for (List<String> details : colomboCustomers) {
-                    // Checks if the date and name is in colomboCustomers List if it is then add that record to deletedRecords List
-                    if (details.contains(choices[1]) &&details.contains(choices[2])) {
-                        deletedRecords.add(details);
-                    }
-                }
-                // Removes the records that has the date and name match user input from colomboCustomers List and main list
-                colomboCustomers.removeIf(details ->details.contains(choices[1]) &&details.contains(choices[2]));
-                colomboBadullaDetails.removeIf(details ->details.contains(choices[1]) &&details.contains(choices[2]));
-                System.out.println("\nDetails of deleted customers ");
-                // Loop to display the deletedRecords in a formatted manner
-                for (List<String> details : deletedRecords) {
-                    System.out.println(
-                            "\nName : " + details.get(4) +
-                            "\nSeat : " + details.get(3) +
-                            "\nDate : " + details.get(0) +
-                            "\nFrom : " + details.get(1) +
-                            "\nTo   : " + details.get(2));
-                }
-                // Removes data stored in deleteRecords
-                deletedRecords.clear();
-                break;
-            case "2":
-                // If train route is Badulla to Colombo execute this block of code
-                for (List<String> details : badullaCustomers) {
-                    // Checks if the date and name is in badullaCustomers List if it is then add that record to
-                    // deletedRecords List
-                    if (details.contains(choices[1]) &&details.contains(choices[2])) {
-                        deletedRecords.add(details);
-                    }
-                }
-                // Removes the records that has the date and name match user input from badullaCustomers List
-                // and main list
-                badullaCustomers.removeIf(details ->details.contains(choices[1]) &&details.contains(choices[2]));
-                colomboBadullaDetails.removeIf(details ->details.contains(choices[1]) &&details.contains(choices[2]));
-                System.out.println("\nDetails of deleted customers ");
-                // Loop to display the deletedRecords in a formatted manner
-                for (List<String> details : deletedRecords) {
-                    System.out.println(
-                            "\nName : " + details.get(4) +
-                            "\nSeat : " + details.get(3) +
-                            "\nDate : " + details.get(0) +
-                            "\nFrom : " + details.get(1) +
-                            "\nTo   : " + details.get(2));
-                }
-                // Removes data stored in deleteRecords
-                deletedRecords.clear();
-                break;
-            case "3":
-                // If train route is Colombo to Badulla and Badulla to Colombo execute this block of code
-                for (List<String> details : colomboBadullaDetails) {
-                    // Checks if the date and name is in colomboBadullaDetails List if it is then add that record to deletedRecords List
-                    if (details.contains(choices[1]) &&details.contains(choices[2])) {
-                        deletedRecords.add(details);
-                    }
-                }
-                // Removes the records that has the date and name match user input from all Lists
-                colomboCustomers.removeIf(details ->details.contains(choices[1]) &&details.contains(choices[2]));
-                badullaCustomers.removeIf(details ->details.contains(choices[1]) &&details.contains(choices[2]));
-                colomboBadullaDetails.removeIf(details ->details.contains(choices[1]) && details.contains(choices[2]));
-                // Loop to display the deletedRecords in a formatted manner
-                for (List<String> details : deletedRecords) {
-                    System.out.println(
-                            "\nName : " + details.get(4) +
-                            "\nSeat : " + details.get(3) +
-                            "\nDate : " + details.get(0) +
-                            "\nFrom : " + details.get(1) +
-                            "\nTo   : " + details.get(2));
-                }
-                // Removes data stored in deleteRecords
-                deletedRecords.clear();
-                break;
-            default:
-                System.out.println("Invalid input please try again");
-                break;
+        for (List<String> details : colomboBadullaDetails) {
+            // Checks if the date and name is in colomboBadullaDetails List if it is then add that record to deletedRecords List
+            if (details.contains(date) && details.contains(nic)) {
+                deletedRecords.add(details);
+            }
         }
+        // Removes the records that has the date and name match user input from all Lists
+        colomboCustomers.removeIf(details ->details.contains(date) && details.contains(nic));
+        badullaCustomers.removeIf(details ->details.contains(date) && details.contains(nic));
+        colomboBadullaDetails.removeIf(details ->details.contains(date) && details.contains(nic));
+        // Loop to display the deletedRecords in a formatted manner
+        for (List<String> details : deletedRecords) {
+            System.out.println(
+                    "\nTrain      : " + details.get(0) +
+                    "\nSeat       : " + details.get(1) +
+                    "\nNIC        : " + details.get(2) +
+                    "\nFirst Name : " + details.get(3) +
+                    "\nSurname    : " + details.get(4) +
+                    "\nDate       : " + details.get(5) +
+                    "\nFrom       : " + details.get(6) +
+                    "\nTo         : " + details.get(7));
+        }
+        // Removes data stored in deleteRecords
+        deletedRecords.clear();
     }
 
     /**
      * This method asks for which train route and name of the customer then finds it in the colomboCustomers or
      * badullaCustomers List or both
      * @param scanner   passed from consoleMenu to take console input
-     * @param colomboCustomers  a List with all the details of customers (Date, Start location, Destination, Seat
-     *                          number and Name) using colombo to badulla train route
-     * @param badullaCustomers  a List with all the details of customers (Date, Start location, Destination,
-     *                          Seat number and Name) using badulla to colombo train route
      */
-    public void findCustomer(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
-        // String array created to store 2 inputs from user
-        String[] choices = new String[2];
-        System.out.print("\nPlease enter which train you want to find the customer from ([1] Colombo to Badulla/[2] Badulla to Colombo /[3] Both) : ");
-        choices[0] = scanner.next();
+    public void findCustomer(Scanner scanner, List<List<String>> colomboBadullaDetails){
         // Used to go to the next line without an error
         scanner.nextLine();
-        System.out.print("Please enter the name of the customer to find the related seat booked : ");
-        choices[1] = scanner.nextLine();
-        switch(choices[0]){
-            case "1":
-                // If colombo to badulla is entered execute this block of code
-                for (List<String> details : colomboCustomers) {
-                    // If the name is in the colomboCustomers List print them in a formatted manner
-                    if (details.contains(choices[1])) {
-                        System.out.println(
-                                "\nName : " + details.get(4) +
-                                "\nSeat : " + details.get(3) +
-                                "\nDate : " + details.get(0) +
-                                "\nFrom : " + details.get(1) +
-                                "\nTo   : " + details.get(2));
-                    }
-                }
-                break;
-            case "2":
-                // If badulla to colombo is entered executethis block of code
-                for(List<String> details : badullaCustomers){
-                    // If the name is in the badullaCustomers List print them in a formatted manner
-                    if(details.contains(choices[1])){
-                        System.out.println(
-                                "\nName : " + details.get(4) +
-                                "\nSeat : " + details.get(3) +
-                                "\nDate : " + details.get(0) +
-                                "\nFrom : " + details.get(1) +
-                                "\nTo   : " + details.get(2));
-                    }
-                }
-                break;
-            case "3":
-                // If colombo to badulla and badulla to colombo is entered execute this block of code
-                for(List<String> details : colomboBadullaDetails){
-                    // If the name is in the colomboBadullaDetails List print them in a formatted manner
-                    if(details.contains(choices[1])){
-                        System.out.println(
-                                "\nName : " + details.get(4) +
-                                "\nSeat : " + details.get(3) +
-                                "\nDate : " + details.get(0) +
-                                "\nFrom : " + details.get(1) +
-                                "\nTo   : " + details.get(2));
-                    }
-                }
-                break;
-            default:
-                System.out.println("Invalid input please try again");
-                break;
+        System.out.print("Please enter the NIC of the customer to find the related seat booked : ");
+        String nic = scanner.nextLine();
+
+        for(List<String> details : colomboBadullaDetails){
+            // If the name is in the colomboBadullaDetails List print them in a formatted manner
+            if(details.contains(nic)){
+                System.out.println(
+                        "\nTrain      : " + details.get(0) +
+                        "\nSeat       : " + details.get(1) +
+                        "\nNIC        : " + details.get(2) +
+                        "\nFirst Name : " + details.get(3) +
+                        "\nSurname    : " + details.get(4) +
+                        "\nDate       : " + details.get(5) +
+                        "\nFrom       : " + details.get(6) +
+                        "\nTo         : " + details.get(7));
+            }
         }
     }
 
@@ -1317,14 +1154,14 @@ public class Booking extends Application{
                 case "a":
                 case "v":
                 case "e":
-                    welcomeScreen(stage, tempDateLocation);
+                    welcomeScreen(stage, tempDateLocation, userInput);
                     trainDestination(root, stage, scene, userInput, tempDateLocation, seatList, tempSeatList, colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "d":
                     deleteCustomer(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "f":
-                    findCustomer(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
+                    findCustomer(scanner, colomboBadullaDetails);
                     break;
                 case "s":
                     saveToFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
