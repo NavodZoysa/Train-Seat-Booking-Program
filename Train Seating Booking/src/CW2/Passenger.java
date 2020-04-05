@@ -1,12 +1,12 @@
 package CW2;
 
 public class Passenger {
-    String firstName;
-    String surname;
-    int secondsInQueue;
+    private String firstName;
+    private String surname;
+    private int secondsInQueue;
 
     public String getName(){
-        return "empty";
+        return firstName+surname;
     }
 
     public void setName(String firstName, String surname){
@@ -15,7 +15,7 @@ public class Passenger {
     }
 
     public int getSeconds(){
-        return 1;
+        return secondsInQueue;
     }
 
     public void setSecondsInQueue(int sec){

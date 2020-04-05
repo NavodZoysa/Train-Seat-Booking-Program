@@ -2,10 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Passenger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PassengerQueue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TrainStation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Train Seating Booking/Booking.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CW1/customerData.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/CW1/customerData.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CW2/Passenger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CW2/Passenger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CW2/PassengerQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CW2/PassengerQueue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CW2/TrainStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CW2/TrainStation.java" afterDir="false" />
     </list>
     <list id="3a1c9dab-66b7-4788-9167-adfd46704e33" name="local history" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,6 +57,11 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Google Drive\IIT\Year 1\Modules\Programming Principles 2 4COSC010C\Assignments\Summative\CW1\Test\Train Seating Booking\src\CW1" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Booking" type="Application" factoryName="Application" nameIsGenerated="true">
@@ -259,7 +268,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586017378142</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Changed folder structure to separate cw1 and cw2.">
+      <created>1586097636930</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1586097636930</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -276,7 +292,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="view working" />
     <MESSAGE value="add view empty working perfectly." />
     <MESSAGE value="Entering customer names implemented." />
     <MESSAGE value="Deleting customer seats implemented." />
@@ -301,7 +316,8 @@
     <MESSAGE value="Added some final adjustments." />
     <MESSAGE value="Adjusted margin for submission." />
     <MESSAGE value="Find and delete reduced repeated code." />
-    <option name="LAST_COMMIT_MESSAGE" value="Find and delete reduced repeated code." />
+    <MESSAGE value="Changed folder structure to separate cw1 and cw2." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed folder structure to separate cw1 and cw2." />
   </component>
   <component name="WindowStateProjectService">
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories" timestamp="1582101440626">
@@ -332,34 +348,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1150" y="467" key="#com.intellij.tools.ToolEditorDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584040720896" />
-    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1586029844276">
+    <state x="358" y="114" key="CommitChangelistDialog2" timestamp="1586097635798">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586029844276" />
+    <state x="358" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586097635798" />
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl" timestamp="1585145147541">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1585145147541" />
-    <state width="348" height="264" key="Git.Branch.Popup" timestamp="1586031303417">
+    <state width="350" height="266" key="Git.Branch.Popup" timestamp="1586097660631">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="348" height="264" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586031303417" />
-    <state width="646" height="912" key="GridCell.Tab.0.bottom" timestamp="1586028414596">
+    <state width="350" height="266" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586097660631" />
+    <state width="646" height="912" key="GridCell.Tab.0.bottom" timestamp="1586097653442">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="646" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586028414596" />
-    <state width="646" height="912" key="GridCell.Tab.0.center" timestamp="1586028414596">
+    <state width="646" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586097653442" />
+    <state width="646" height="912" key="GridCell.Tab.0.center" timestamp="1586097653442">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="646" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586028414596" />
-    <state width="646" height="912" key="GridCell.Tab.0.left" timestamp="1586028414596">
+    <state width="646" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586097653442" />
+    <state width="646" height="912" key="GridCell.Tab.0.left" timestamp="1586097653442">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="646" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586028414596" />
-    <state width="646" height="912" key="GridCell.Tab.0.right" timestamp="1586028414596">
+    <state width="646" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586097653442" />
+    <state width="646" height="912" key="GridCell.Tab.0.right" timestamp="1586097653442">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="646" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586028414596" />
+    <state width="646" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586097653442" />
     <state width="610" height="912" key="GridCell.Tab.1.bottom" timestamp="1584457376460">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -396,10 +412,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="582" y="38" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586024229928" />
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1586031272176">
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1586097663028">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586031272176" />
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586097663028" />
     <state x="92" y="92" width="1736" height="856" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584317310862">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
