@@ -1,3 +1,5 @@
+package CW1;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -30,7 +32,7 @@ public class Booking extends Application{
         Pane root = new Pane();
         root.setStyle("-fx-background-color: #1b87c2");
         Scene scene = new Scene(root, 1000, 500);    // Size of the window
-        stage.setTitle("Train Seat Booking Application");
+        stage.setTitle("Train Seat CW1.Booking Application");
 
         // Title and details that display on each screen (add, view and empty) except welcome screen
         Label title = new Label("Welcome to Sri Lanka Railways Department");
@@ -380,7 +382,7 @@ public class Booking extends Application{
         bookedSeat.setLayoutY(440);
 
         // Creates confirm button
-        Button bookButton = new Button("Confirm Booking");
+        Button bookButton = new Button("Confirm CW1.Booking");
         bookButton.setPrefSize(120,40);
         bookButton.setStyle("-fx-background-color: #2144cf; -fx-border-width: 1.5; -fx-border-radius: 3;" +
                 "-fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold;" +
@@ -447,9 +449,9 @@ public class Booking extends Application{
                 tempSeatList.clear();
                 // Throws a confirmation alert for successfully booking seats
                 Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-                confirmation.setTitle("Successful Booking");
+                confirmation.setTitle("Successful CW1.Booking");
                 confirmation.setHeaderText(null);
-                confirmation.setContentText("Successful Booking!");
+                confirmation.setContentText("Successful CW1.Booking!");
                 confirmation.showAndWait();
             }
             else{
