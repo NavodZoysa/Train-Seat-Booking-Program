@@ -63,17 +63,17 @@ public class Booking extends Application{
         while(true){
             System.out.println(
                     "\nWelcome To Sri Lanka Railways Department\n" +
-                            "Denuwara Menike Intercity Express Train departure from Colombo to Badulla / Badulla to Colombo\n"+
-                            "\nPlease enter 'A' to add a customer to a seat\n" +
-                            "Please enter 'V' to view all seats\n" +
-                            "Please enter 'E' to display empty seats\n" +
-                            "Please enter 'D' to delete customer from seat\n" +
-                            "Please enter 'F' to find the seat for a given customer name\n" +
-                            "Please enter 'S' to store the booking details to a file or database\n" +
-                            "Please enter 'L' to load the booking details from a file or database\n" +
-                            "Please enter 'O' to view seats ordered " +
-                            "alphabetically by customer name\n" +
-                            "Please enter 'Q' to quit the program");
+                    "Denuwara Menike Intercity Express Train departure from Colombo to Badulla / Badulla to Colombo\n"+
+                    "\nPlease enter 'A' to add a customer to a seat\n" +
+                    "Please enter 'V' to view all seats\n" +
+                    "Please enter 'E' to display empty seats\n" +
+                    "Please enter 'D' to delete customer from seat\n" +
+                    "Please enter 'F' to find the seat for a given customer name\n" +
+                    "Please enter 'S' to store the booking details to a file or database\n" +
+                    "Please enter 'L' to load the booking details from a file or database\n" +
+                    "Please enter 'O' to view seats ordered " +
+                    "alphabetically by customer name\n" +
+                    "Please enter 'Q' to quit the program");
 
             String userInput = scanner.next().toUpperCase();
             // Switch case used to check which inputs were taken
@@ -121,7 +121,7 @@ public class Booking extends Application{
         Pane root = new Pane();
         root.setStyle("-fx-background-color: #1b87c2");
         Scene scene = new Scene(root, 1000, 500);    // Size of the window
-        stage.setTitle("Train Seat CW1.Booking Application");
+        stage.setTitle("Train Seat Booking Application");
 
         // Title and details that display on each screen (add, view and empty) except welcome screen
         Label title = new Label("Welcome to Sri Lanka Railways Department");
@@ -180,9 +180,12 @@ public class Booking extends Application{
         title.setLayoutX(95);
         title.setLayoutY(5);
 
-        Label details = new Label("Train name - Denuwara Menike\n Class - 1st Class A/C Compartment\n");
+        Label details = new Label("Train name - Denuwara Menike\n" +
+                "Class - 1st Class A/C Compartment\n" +
+                "Train number - Colombo to Badulla (1001)\n" +
+                "Train number - Badulla to Colombo (1002)\n");
         details.setStyle("-fx-font: 18 arial; -fx-text-fill: black; -fx-font-weight: bold");
-        details.setLayoutX(250);
+        details.setLayoutX(220);
         details.setLayoutY(100);
 
         // Dropdown list of stops from the starting location
@@ -471,7 +474,7 @@ public class Booking extends Application{
         bookedSeat.setLayoutY(440);
 
         // Creates confirm button
-        Button bookButton = new Button("Confirm CW1.Booking");
+        Button bookButton = new Button("Confirm Booking");
         bookButton.setPrefSize(120,40);
         bookButton.setStyle("-fx-background-color: #2144cf; -fx-border-width: 1.5; -fx-border-radius: 3;" +
                 "-fx-border-style: solid; -fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold;" +
@@ -538,9 +541,9 @@ public class Booking extends Application{
                 tempSeatList.clear();
                 // Throws a confirmation alert for successfully booking seats
                 Alert confirmation = new Alert(Alert.AlertType.INFORMATION);
-                confirmation.setTitle("Successful CW1.Booking");
+                confirmation.setTitle("Successful Booking");
                 confirmation.setHeaderText(null);
-                confirmation.setContentText("Successful CW1.Booking!");
+                confirmation.setContentText("Successful Booking!");
                 confirmation.showAndWait();
             }
             else{
