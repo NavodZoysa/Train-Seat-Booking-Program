@@ -23,6 +23,95 @@ public class Booking extends Application{
     }
 
     /**
+     * The other main method that is needed to run the whole program where the stage, scene and pane are passed from the start method. Six
+     * data structures are created which are been used throughout the whole program. Relevant methods are called for each option except for add,
+     * view and empty where it goes to the welcomeScreen method first where a window is opened to select the train route, destination and
+     * date, which then goes to trainDestination method where the relevant method (add, view and empty) based on user input is called.
+     * @param root  Pane passed from start
+     * @param stage passed from start
+     * @param scene passed from start
+     * @throws IOException  Exception for file handling
+     */
+    public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException{
+
+        Scanner scanner = new Scanner(System.in);
+
+        // List created to store both train details
+        List<List<String>> colomboBadullaDetails = new ArrayList<>();
+
+        // Hashmap to store seat and name of customers with a starting capacity of 42 elements
+        HashMap<Integer,String> seatList = new HashMap<>(seatingCapacity);
+
+        // Temporary List to store seat and name of customers
+        List<List<String>> tempSeatList = new ArrayList<>();
+
+        // List created to store colombo customer details
+        List<List<String>> colomboCustomers = new ArrayList<>();
+
+        // List created to store badulla customer details
+        List<List<String>> badullaCustomers = new ArrayList<>();
+
+        // Temporary ArrayList to store train number, date booked, start location and destination
+        ArrayList<String> tempDateLocation = new ArrayList<>(Arrays.asList("0","0","0","0"));
+
+        // A List created to store each stop in the colonbo to badulla train
+        List<String > stationStops = Arrays.asList("Colombo Fort" , "Polgahawela", "Peradeniya Junction", "Gampola",
+                "Nawalapitiya", "Hatton", "Talawakelle", "Nanu Oya", "Haputale", "Diyatalawa", "Bandarawela",
+                "Ella", "Badulla");
+
+        // Main loop the program runs on
+        while(true){
+            System.out.println(
+                    "\nWelcome To Sri Lanka Railways Department\n" +
+                            "Denuwara Menike Intercity Express Train departure from Colombo to Badulla / Badulla to Colombo\n"+
+                            "\nPlease enter 'A' to add a customer to a seat\n" +
+                            "Please enter 'V' to view all seats\n" +
+                            "Please enter 'E' to display empty seats\n" +
+                            "Please enter 'D' to delete customer from seat\n" +
+                            "Please enter 'F' to find the seat for a given customer name\n" +
+                            "Please enter 'S' to store the booking details to a file or database\n" +
+                            "Please enter 'L' to load the booking details from a file or database\n" +
+                            "Please enter 'O' to view seats ordered " +
+                            "alphabetically by customer name\n" +
+                            "Please enter 'Q' to quit the program");
+
+            String userInput = scanner.next().toUpperCase();
+            // Switch case used to check which inputs were taken
+            switch(userInput){
+                /* For add, view and empty welcomeScreen is used to select route, destination and date. Then inside
+                   trainDestination the relevant methods for adding, viewing and viewing only empty seats are called. */
+                case "A":
+                case "V":
+                case "E":
+                    welcomeScreen(stage, userInput, tempDateLocation, stationStops);
+                    trainDestination(root, stage, scene, userInput, tempDateLocation, seatList, tempSeatList,
+                            colomboCustomers, badullaCustomers, colomboBadullaDetails);
+                    break;
+                case "D":
+                    deleteCustomer(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
+                    break;
+                case "F":
+                    findCustomer(scanner, colomboBadullaDetails);
+                    break;
+                case "S":
+                    saveToFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
+                    break;
+                case "L":
+                    loadFromFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
+                    break;
+                case "O":
+                    orderCustomerNames(colomboBadullaDetails);
+                    break;
+                case "Q":
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid input! Please enter a valid input");
+                    break;
+            }
+        }
+    }
+
+    /**
      * Creating stage, scene and pane which is passed to the consoleMenu method.
      * Labels used to give a title and some additional info about train details.
      */
@@ -132,7 +221,7 @@ public class Booking extends Application{
                 LocalDate presentDay = LocalDate.now();
 
                 // If the date in DatePicker is older than current local date disable that particular date
-                if(item.compareTo(presentDay)<0 && userInput.equals("a")) {
+                if(item.compareTo(presentDay)<0 && userInput.equals("A")) {
                     setDisable(true);
                     setStyle("-fx-background-color: red");
                 }
@@ -216,7 +305,7 @@ public class Booking extends Application{
 
         /*  Switch case checks for user input taken from console then calls to add, view or empty methods based on selected route */
         switch(userInput){
-            case "a":
+            case "A":
                 // If add seats method is called execute this block of code
                 // 1001 train number = Colombo to Badulla
                 // If colombo to badulla route is selected then colomboCustomers list is passed
@@ -229,7 +318,7 @@ public class Booking extends Application{
                     addCustomerToSeat(root, stage, scene, tempDateLocation, seatList, tempSeatList, badullaCustomers, colomboBadullaDetails);
                 }
                 break;
-            case "v":
+            case "V":
                 // If view seats method is called execute this block of code
                 if(tempDateLocation.get(0).equals("1001")){
                     viewAllSeats(root, stage, scene, tempDateLocation, seatList, colomboCustomers);
@@ -238,7 +327,7 @@ public class Booking extends Application{
                     viewAllSeats(root, stage, scene, tempDateLocation, seatList, badullaCustomers);
                 }
                 break;
-            case "e":
+            case "E":
                 // If view empty seats method is called execute this block of code
                 if(tempDateLocation.get(0).equals("1001")){
                     displayEmptySeats(root, stage, scene, tempDateLocation, seatList, colomboCustomers);
@@ -405,7 +494,7 @@ public class Booking extends Application{
             String firstName = firstNameText.getText();
             String surName = surNameText.getText();
             if((!nic.trim().isEmpty() && !firstName.trim().isEmpty() && !surName.trim().isEmpty()) &&
-                    (nic.length()>=9 && nic.length()<=12) && (nic.matches("[0-9]+")) &&
+                    (nic.length()==9 || nic.length()==12) && (nic.matches("[0-9]+")) &&
                     (firstName.matches("[a-zA-Z\\s]+")) && (surName.matches("[a-zA-Z\\s]+"))){
                 for(int item : seatList.keySet()){
                     if(seatList.get(item).equals("b")) {
@@ -742,9 +831,9 @@ public class Booking extends Application{
      */
     public void saveToFile(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails)throws IOException{
         System.out.print("Do you want to save the details to a text file(T) or store it in the database(D). Please select(T/D) : ");
-        String choice = scanner.next().toLowerCase();
+        String choice = scanner.next().toUpperCase();
         // If text file is chosen execute the code block below
-        if(choice.equals("t")){
+        if(choice.equals("T")){
             // Loads the file to writer variable
             FileWriter writer = new FileWriter("src/customerData.txt");
             // Loops through all the records of colomboBadullaDetails
@@ -764,7 +853,7 @@ public class Booking extends Application{
             writer.close(); // Close the file
             System.out.println("Successfully saved to file");
         }
-        else if(choice.equals("d")){
+        else if(choice.equals("D")){
             //Connecting to MongoDB then creating a database and then two collections for each train route
             MongoClient mongoClient = new MongoClient("localhost",27017);
             MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
@@ -922,9 +1011,9 @@ public class Booking extends Application{
      */
     public void loadFromFile(Scanner scanner, List<List<String>> colomboCustomers,List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails)throws FileNotFoundException{
         System.out.print("Do you want to load the details from the text file(T) or retrieve it from the database(D). Please select(T/D) : ");
-        String choice = scanner.next().toLowerCase();
+        String choice = scanner.next().toUpperCase();
         // If text file is selected execute the code inside if condition
-        if(choice.equals("t")){
+        if(choice.equals("T")){
             // Removes the data stored in the below list if the user loads right after saving
             colomboBadullaDetails.clear();
             // Using scanner to read the file
@@ -964,7 +1053,7 @@ public class Booking extends Application{
             }
             read.close(); // Close the file
         }
-        else if(choice.equals("d")){
+        else if(choice.equals("D")){
             //Connecting to MongoDB then creating a database and then two collections for each train route
             MongoClient mongoClient = new MongoClient("localhost",27017);
             MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
@@ -1052,94 +1141,5 @@ public class Booking extends Application{
             System.out.println(item);
         }
         orderedList.clear(); // Removes the data stored so it doesn't conflict with the other train route
-    }
-
-    /**
-     * The other main method that is needed to run the whole program where the stage, scene and pane are passed from the start method. Six
-     * data structures are created which are been used throughout the whole program. Relevant methods are called for each option except for add,
-     * view and empty where it goes to the welcomeScreen method first where a window is opened to select the train route, destination and
-     * date, which then goes to trainDestination method where the relevant method (add, view and empty) based on user input is called.
-     * @param root  Pane passed from start
-     * @param stage passed from start
-     * @param scene passed from start
-     * @throws IOException  Exception for file handling
-     */
-    public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException{
-
-        Scanner scanner = new Scanner(System.in);
-
-        // List created to store both train details
-        List<List<String>> colomboBadullaDetails = new ArrayList<>();
-
-        // Hashmap to store seat and name of customers with a starting capacity of 42 elements
-        HashMap<Integer,String> seatList = new HashMap<>(seatingCapacity);
-
-        // Temporary List to store seat and name of customers
-        List<List<String>> tempSeatList = new ArrayList<>();
-
-        // List created to store colombo customer details
-        List<List<String>> colomboCustomers = new ArrayList<>();
-
-        // List created to store badulla customer details
-        List<List<String>> badullaCustomers = new ArrayList<>();
-
-        // Temporary ArrayList to store train number, date booked, start location and destination
-        ArrayList<String> tempDateLocation = new ArrayList<>(Arrays.asList("0","0","0","0"));
-
-        // A List created to store each stop in the colonbo to badulla train
-        List<String > stationStops = Arrays.asList("Colombo Fort" , "Polgahawela", "Peradeniya Junction", "Gampola",
-                "Nawalapitiya", "Hatton", "Talawakelle", "Nanu Oya", "Haputale", "Diyatalawa", "Bandarawela",
-                "Ella", "Badulla");
-
-        // Main loop the program runs on
-        while(true){
-            System.out.println(
-                    "\nWelcome To Sri Lanka Railways Department\n" +
-                    "Denuwara Menike Intercity Express Train departure from Colombo to Badulla / Badulla to Colombo\n"+
-                    "\nPlease enter 'A' to add a customer to a seat\n" +
-                    "Please enter 'V' to view all seats\n" +
-                    "Please enter 'E' to display empty seats\n" +
-                    "Please enter 'D' to delete customer from seat\n" +
-                    "Please enter 'F' to find the seat for a given customer name\n" +
-                    "Please enter 'S' to store the booking details to a file or database\n" +
-                    "Please enter 'L' to load the booking details from a file or database\n" +
-                    "Please enter 'O' to view seats ordered " +
-                    "alphabetically by customer name\n" +
-                    "Please enter 'Q' to quit the program");
-
-            String userInput = scanner.next().toLowerCase();
-            // Switch case used to check which inputs were taken
-            switch(userInput){
-                /* For add, view and empty welcomeScreen is used to select route, destination and date. Then inside
-                   trainDestination the relevant methods for adding, viewing and viewing only empty seats are called. */
-                case "a":
-                case "v":
-                case "e":
-                    welcomeScreen(stage, userInput, tempDateLocation, stationStops);
-                    trainDestination(root, stage, scene, userInput, tempDateLocation, seatList, tempSeatList,
-                            colomboCustomers, badullaCustomers, colomboBadullaDetails);
-                    break;
-                case "d":
-                    deleteCustomer(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
-                    break;
-                case "f":
-                    findCustomer(scanner, colomboBadullaDetails);
-                    break;
-                case "s":
-                    saveToFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
-                    break;
-                case "l":
-                    loadFromFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
-                    break;
-                case "o":
-                    orderCustomerNames(colomboBadullaDetails);
-                    break;
-                case "q":
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid input! Please enter a valid input");
-                    break;
-            }
-        }
     }
 }
