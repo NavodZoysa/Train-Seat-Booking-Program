@@ -6,7 +6,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 import com.mongodb.MongoClient;
@@ -30,9 +29,8 @@ public class Booking extends Application{
      * @param root  Pane passed from start
      * @param stage passed from start
      * @param scene passed from start
-     * @throws IOException  Exception for file handling
      */
-    public void consoleMenu(Pane root, Stage stage, Scene scene) throws IOException{
+    public void consoleMenu(Pane root, Stage stage, Scene scene){
 
         Scanner scanner = new Scanner(System.in);
 
@@ -85,7 +83,7 @@ public class Booking extends Application{
                 case "E":
                     welcomeScreen(stage, userInput, tempDateLocation, stationStops);
                     trainDestination(root, stage, scene, userInput, tempDateLocation, seatList, tempSeatList,
-                            colomboCustomers, badullaCustomers, colomboBadullaDetails);
+                            stationStops, colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "D":
                     deleteCustomer(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
@@ -94,10 +92,10 @@ public class Booking extends Application{
                     findCustomer(scanner, colomboBadullaDetails);
                     break;
                 case "S":
-                    saveToFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
+                    saveToDatabase(colomboBadullaDetails);
                     break;
                 case "L":
-                    loadFromFile(scanner, colomboCustomers, badullaCustomers, colomboBadullaDetails);
+                    loadFromDatabase(colomboCustomers, badullaCustomers, colomboBadullaDetails);
                     break;
                 case "O":
                     orderCustomerNames(colomboBadullaDetails);
@@ -116,7 +114,7 @@ public class Booking extends Application{
      * Labels used to give a title and some additional info about train details.
      */
     @Override
-    public void start(Stage primaryStage) throws IOException{
+    public void start(Stage primaryStage){
         Stage stage = new Stage();
         Pane root = new Pane();
         root.setStyle("-fx-background-color: #1b87c2");
@@ -303,7 +301,7 @@ public class Booking extends Application{
      * @param colomboBadullaDetails a List with both details of customers from colombo to badulla and back stored
      */
     public void trainDestination(Pane root, Stage stage, Scene scene, String userInput, ArrayList<String> tempDateLocation,
-                             HashMap<Integer,String> seatList, List<List<String>> tempSeatList, List<List<String>> colomboCustomers,
+                             HashMap<Integer,String> seatList, List<List<String>> tempSeatList, List<String> stationStops, List<List<String>> colomboCustomers,
                              List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
 
         /*  Switch case checks for user input taken from console then calls to add, view or empty methods based on selected route */
@@ -313,12 +311,12 @@ public class Booking extends Application{
                 // 1001 train number = Colombo to Badulla
                 // If colombo to badulla route is selected then colomboCustomers list is passed
                 if(tempDateLocation.get(0).equals("1001")){
-                    addCustomerToSeat(root, stage, scene, tempDateLocation, seatList, tempSeatList, colomboCustomers, colomboBadullaDetails);
+                    addCustomerToSeat(root, stage, scene, tempDateLocation, seatList, tempSeatList, stationStops, colomboCustomers, colomboBadullaDetails);
                 }
                 // 1002 train number = Badulla to Colombo
                 // If badulla to colombo route is selected then badullaoCustomers list is passed
                 else if(tempDateLocation.get(0).equals("1002")){
-                    addCustomerToSeat(root, stage, scene, tempDateLocation, seatList, tempSeatList, badullaCustomers, colomboBadullaDetails);
+                    addCustomerToSeat(root, stage, scene, tempDateLocation, seatList, tempSeatList, stationStops, badullaCustomers, colomboBadullaDetails);
                 }
                 break;
             case "V":
@@ -362,7 +360,7 @@ public class Booking extends Application{
      *                              back stored
      */
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation,
-                              HashMap<Integer,String> seatList, List<List<String>> tempSeatList,
+                              HashMap<Integer,String> seatList, List<List<String>> tempSeatList, List<String> stationStops,
                               List<List<String>> customerDetails, List<List<String>> colomboBadullaDetails){
         // If you add seats and then load a previous save this makes sure it does not conflict with previous data
         seatList.clear();
@@ -388,19 +386,43 @@ public class Booking extends Application{
                         // If date and seat number doesn't exist in colomboCustomers or badullaCustomers list then
                         // add "nb" to seatList
                         if(!detail.contains(tempDateLocation.get(1)) && !detail.contains(String.valueOf(item))){
-                                seatList.put(seatNumber, "nb");
+                                seatList.put(item, "nb");
                         }
                     }
                 }
                 // This loop checks if the record is there in colomboCustomers or badullaCustomers list if there is
                 // adds a placeholder value "b" to seatList
-                for(List<String> customerDetail : customerDetails){
+                for(List<String> detail : customerDetails){
                     for(int item : seatList.keySet()){
-                        if(customerDetail.contains(tempDateLocation.get(1)) && customerDetail.contains(String.valueOf(item))){
-                            seatList.put(item, customerDetail.get(2)+" - " + customerDetail.get(3) + " " + customerDetail.get(4));
+                        if(detail.contains(tempDateLocation.get(1)) && detail.contains(String.valueOf(item))){
+                            seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
                         }
                     }
                 }
+
+                for(List<String> detail : customerDetails){
+                    for(int item : seatList.keySet()){
+                        if(detail.get(0).equals("1001") && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item)) &&
+                                stationStops.indexOf(detail.get(7))<stationStops.indexOf(tempDateLocation.get(3)) &&
+                                stationStops.indexOf(detail.get(7))<stationStops.indexOf(tempDateLocation.get(2)) ||
+                                stationStops.indexOf(detail.get(6))>stationStops.indexOf(tempDateLocation.get(3)) &&
+                                stationStops.indexOf(detail.get(6))>stationStops.indexOf(tempDateLocation.get(2))) {
+                            seatList.put(item, "nb");
+                        }
+                    }
+                }
+
+//                for(List<String> detail : customerDetails){
+//                    for(int item : seatList.keySet()){
+//                        if(detail.get(0).equals("1002") && detail.contains(tempDateLocation.get(1)) &&
+//                                detail.contains(String.valueOf(item)) &&
+//                                stationStops.indexOf(detail.get(6))<=stationStops.indexOf(tempDateLocation.get(3)) ||
+//                                stationStops.indexOf(detail.get(7))>=stationStops.indexOf(tempDateLocation.get(2))) {
+//                            seatList.put(item, "nb");
+//                        }
+//                    }
+//                }
                 root.getChildren().add(seat);
 
                 int selectedSeat = seatNumber;
@@ -629,10 +651,10 @@ public class Booking extends Application{
                 }
                 // This loop checks if the record is there in colomboCustomers or badullaCustomers list if there is
                 // adds a placeholder value "b" to seatList
-                for(List<String> customerDetail : customerDetails){
+                for(List<String> detail : customerDetails){
                     for(int item : seatList.keySet()){
-                        if(customerDetail.contains(tempDateLocation.get(1)) &&customerDetail.contains(String.valueOf(item))){
-                            seatList.put(item, customerDetail.get(2)+" - " + customerDetail.get(3) + " " + customerDetail.get(4));
+                        if(detail.contains(tempDateLocation.get(1)) && detail.contains(String.valueOf(item))){
+                            seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
                         }
                     }
                 }
@@ -824,290 +846,125 @@ public class Booking extends Application{
      * routes into a text file or store it in a database,
      * MongoDB is used to store the details to the database and a txt
      * file is used to store into a file.
-     * @param scanner   passed from consoleMenu to take console input
-     * @param colomboCustomers  a List with all the details of customers (Date, Start location, Destination, Seat number and Name)
-     *                          using colombo to badulla train route
-     * @param badullaCustomers  a List with all the details of customers (Date, Start location, Destination,
-     *                          Seat number and Name) using badulla to colombo train route
      * @param colomboBadullaDetails a List with both details of customers from colombo to badulla and back stored
-     * @throws IOException Exception for file handling
      */
-    public void saveToFile(Scanner scanner, List<List<String>> colomboCustomers, List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails)throws IOException{
-        System.out.print("Do you want to save the details to a text file(T) or store it in the database(D). Please select(T/D) : ");
-        String choice = scanner.next().toUpperCase();
-        // If text file is chosen execute the code block below
-        if(choice.equals("T")){
-            // Loads the file to writer variable
-            FileWriter writer = new FileWriter("src/CW1/customerData.txt");
-            // Loops through all the records of colomboBadullaDetails
+    public void saveToDatabase(List<List<String>> colomboBadullaDetails){
+        //Connecting to MongoDB then creating a database and then two collections for each train route
+        MongoClient mongoClient = new MongoClient("localhost",27017);
+        MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
+        MongoCollection<Document> customerCollection = customerDatabase.getCollection("customerDetails");
+        System.out.println("Connected to the Database");
+
+        // Checks if the documents for each route stored in two separate collections has any document
+        if(customerCollection.countDocuments() == 0){
+            // Loops through each inner list in olomboCustomers to get [Date, Start location, Destination, Seat number, Name]
+            for (List<String> details : colomboBadullaDetails) {
+                // Creates a new document
+                Document customerDocument = new Document();
+                // Gets the train number
+                customerDocument.append("train", details.get(0));
+                // Gets the seat number
+                customerDocument.append("seat", details.get(1));
+                // Gets the NIC
+                customerDocument.append("NIC", details.get(2));
+                // Gets the first name
+                customerDocument.append("firstname", details.get(3));
+                // Gets the surname
+                customerDocument.append("surname", details.get(4));
+                // Gets the date
+                customerDocument.append("date", details.get(5));
+                // Gets the boarding station
+                customerDocument.append("from", details.get(6));
+                // Gets the destination
+                customerDocument.append("to", details.get(7));
+                // Add the document to the collection
+                customerCollection.insertOne(customerDocument);
+            }
+        }
+        // Checks if the documents for each route stored in two separate collections has 1 or more documents
+        else if(customerCollection.countDocuments() > 0){
+            // Gets all the documents in colomboCollection train route into findColomboDocument
+            FindIterable<Document> findCustomerDocument = customerCollection.find();
+
+            // Loops through each document in colomboCollection and deletes them
+            for(Document document : findCustomerDocument){
+                customerCollection.deleteOne(document);
+            }
+            // Loops through each inner list in colomboCustomers to get [Date, Start location, Destination,
+            // Seat number, Name]
             for(List<String> details : colomboBadullaDetails){
-                // Takes 5 elements for each outer loop from colomboBadullaDetails which is [Train, Seat number, NIC, First Name, Surname, Date, Start Location, Destination]
-                for(int i = 0; i < 8; i++){
-                    if(i == 7){
-                        // If its the 7th element then write it to file then go to next line
-                        writer.write(details.get(i)+"\n");
-                    }
-                    else{
-                        // Write to file using "/" as the file separator
-                        writer.write(details.get(i) + ",");
-                    }
-                }
+                // Creates a new document
+                Document customerDocument = new Document();
+                // Gets the train number
+                customerDocument.append("train", details.get(0));
+                // Gets the seat number
+                customerDocument.append("seat", details.get(1));
+                // Gets the NIC
+                customerDocument.append("NIC", details.get(2));
+                // Gets the first name
+                customerDocument.append("firstname", details.get(3));
+                // Gets the surname
+                customerDocument.append("surname", details.get(4));
+                // Gets the date
+                customerDocument.append("date", details.get(5));
+                // Gets the boarding station
+                customerDocument.append("from", details.get(6));
+                // Gets the destination
+                customerDocument.append("to", details.get(7));
+                // Add the document to the collection
+                customerCollection.insertOne(customerDocument);
             }
-            writer.close(); // Close the file
-            System.out.println("Successfully saved to file");
         }
-        else if(choice.equals("D")){
-            //Connecting to MongoDB then creating a database and then two collections for each train route
-            MongoClient mongoClient = new MongoClient("localhost",27017);
-            MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
-            MongoCollection<Document> colomboCollection = customerDatabase.getCollection("colomboDetails");
-            MongoCollection<Document> badullaCollection =customerDatabase.getCollection("badullaDetails");
-            System.out.println("Connected to the Database");
-
-            // Checks if the documents for each route stored in two separate collections has any document
-            if(colomboCollection.countDocuments() == 0 || badullaCollection.countDocuments() == 0){
-                // Checks if colomboCollection has no documents
-                if(colomboCollection.countDocuments() == 0) {
-                    // Loops through each inner list in olomboCustomers to get [Date, Start location, Destination, Seat number, Name]
-                    for (List<String> details : colomboCustomers) {
-                        // Creates a new document
-                        Document colomboDocument = new Document();
-                        // Gets the train number
-                        colomboDocument.append("train", details.get(0));
-                        // Gets the seat number
-                        colomboDocument.append("seat", details.get(1));
-                        // Gets the NIC
-                        colomboDocument.append("NIC", details.get(2));
-                        // Gets the first name
-                        colomboDocument.append("firstname", details.get(3));
-                        // Gets the surname
-                        colomboDocument.append("surname", details.get(4));
-                        // Gets the date
-                        colomboDocument.append("date", details.get(5));
-                        // Gets the boarding station
-                        colomboDocument.append("from", details.get(6));
-                        // Gets the destination
-                        colomboDocument.append("to", details.get(7));
-                        // Add the document to the collection
-                        colomboCollection.insertOne(colomboDocument);
-                    }
-                }
-                // Checks if badullaCollection has no documents
-                if(badullaCollection.countDocuments() == 0) {
-                    // Loops through each inner list in badullaCustomers to get [Date, Start location, Destination,
-                    // Seat number, Name]
-                    for (List<String> details : badullaCustomers) {
-                        // Creates a new document
-                        Document badullaDocument = new Document();
-                        // Gets the train number
-                        badullaDocument.append("train", details.get(0));
-                        // Gets the seat number
-                        badullaDocument.append("seat", details.get(1));
-                        // Gets the NIC
-                        badullaDocument.append("NIC", details.get(2));
-                        // Gets the first name
-                        badullaDocument.append("firstname", details.get(3));
-                        // Gets the surname
-                        badullaDocument.append("surname", details.get(4));
-                        // Gets the date
-                        badullaDocument.append("date", details.get(5));
-                        // Gets the boarding station
-                        badullaDocument.append("from", details.get(6));
-                        // Gets the destination
-                        badullaDocument.append("to", details.get(7));
-                        // Add the document to the collection
-                        badullaCollection.insertOne(badullaDocument);
-                    }
-                }
-            }
-            // Checks if the documents for each route stored in two separate collections has 1 or more documents
-            else if(colomboCollection.countDocuments() > 0 || badullaCollection.countDocuments() > 0){
-                // Gets all the documents in colomboCollection train route into findColomboDocument
-                FindIterable<Document> findColomboDocument = colomboCollection.find();
-                // Gets all the documents in badullaCollection train route into findBadullaDocument
-                FindIterable<Document> findBadullaDocument = badullaCollection.find();
-
-                // Checks if colomboCollection has 1 or more documents
-                if(colomboCollection.countDocuments() > 0){
-                    // Loops through each document in colomboCollection and deletes them
-                    for(Document document : findColomboDocument){
-                        colomboCollection.deleteOne(document);
-                    }
-                    // Loops through each inner list in colomboCustomers to get [Date, Start location, Destination,
-                    // Seat number, Name]
-                    for(List<String> details : colomboCustomers){
-                        // Creates a new document
-                        Document colomboDocument = new Document();
-                        // Gets the train number
-                        colomboDocument.append("train", details.get(0));
-                        // Gets the seat number
-                        colomboDocument.append("seat", details.get(1));
-                        // Gets the NIC
-                        colomboDocument.append("NIC", details.get(2));
-                        // Gets the first name
-                        colomboDocument.append("firstname", details.get(3));
-                        // Gets the surname
-                        colomboDocument.append("surname", details.get(4));
-                        // Gets the date
-                        colomboDocument.append("date", details.get(5));
-                        // Gets the boarding station
-                        colomboDocument.append("from", details.get(6));
-                        // Gets the destination
-                        colomboDocument.append("to", details.get(7));
-                        // Add the document to the collection
-                        colomboCollection.insertOne(colomboDocument);
-                    }
-                }
-                // Checks if badullaCollection has 1 or more documents
-                if(badullaCollection.countDocuments() > 0){
-                    // Loops through each document in badullaCollection
-                    // and deletes them
-                    for(Document document : findBadullaDocument){
-                        badullaCollection.deleteOne(document);
-                    }
-                    // Loops through each inner list in badullaCustomers
-                    // to get [Date, Start location, Destination,
-                    // Seat number, Name]
-                    for(List<String> details : badullaCustomers){
-                        // Creates a new document
-                        Document badullaDocument = new Document();
-                        // Gets the train number
-                        badullaDocument.append("train", details.get(0));
-                        // Gets the seat number
-                        badullaDocument.append("seat", details.get(1));
-                        // Gets the NIC
-                        badullaDocument.append("NIC", details.get(2));
-                        // Gets the first name
-                        badullaDocument.append("firstname", details.get(3));
-                        // Gets the surname
-                        badullaDocument.append("surname", details.get(4));
-                        // Gets the date
-                        badullaDocument.append("date", details.get(5));
-                        // Gets the boarding station
-                        badullaDocument.append("from", details.get(6));
-                        // Gets the destination
-                        badullaDocument.append("to", details.get(7));
-                        // Add the document to the collection
-                        badullaCollection.insertOne(badullaDocument);
-                    }
-                }
-            }
-            mongoClient.close(); // Closes the database connection
-            System.out.println("Saved the details to the database successfully");
-        }
-        else{
-            System.out.println("Invalid input. Please try again.");
-        }
+        mongoClient.close(); // Closes the database connection
+        System.out.println("Saved the details to the database successfully");
     }
 
     /**
      * This method is used to retrieve the customer details of both train routes from a text file or from the database,
      * colomboCustomers, badullaCustomers and colomboBadullaDetails get the data added to them from a txt file or from
      * MongoDB.
-     * @param scanner   passed from consoleMenu to take console input
      * @param colomboCustomers  a List with all the details of customers (Date, Start location, Destination,
      *                          Seat number and Name) using colombo to badulla train route
      * @param badullaCustomers  a List with all the details of customers (Date, Start location, Destination,
      *                          Seat number and Name) using badulla to colombo train route
      * @param colomboBadullaDetails a List with both details of customers from colombo to badulla and back stored
-     * @throws FileNotFoundException Exception when the specified file is not found
      */
-    public void loadFromFile(Scanner scanner, List<List<String>> colomboCustomers,List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails)throws FileNotFoundException{
-        System.out.print("Do you want to load the details from the text file(T) or retrieve it from the database(D). Please select(T/D) : ");
-        String choice = scanner.next().toUpperCase();
-        // If text file is selected execute the code inside if condition
-        if(choice.equals("T")){
-            // Removes the data stored in the below list if the user loads right after saving
-            colomboBadullaDetails.clear();
-            // Using scanner to read the file
-            Scanner read = new Scanner(new File("src/CW1/customerData.txt"));
-            if(!read.hasNextLine()){
-                // If the file is empty gives an error
-                System.out.println("Error file is empty! Please save data before loading");
-            }
-            else{
-                // If the file already has data execute the code block below
-                while (read.hasNextLine()) { // Checks if each line has data Add each line to the variable line
-                    String line = read.nextLine();
-                    // Uses a string array to get each set of characters separated by "/" and the output looks like[Date, Start location,
-                    // Destination, Seat number, Name]
-                    String[] holdDetails = line.split(",");
-                    // Creates a new List called details and adds each element from holdDetails up to 7 elements each time
-                    List<String> details = new ArrayList<>(Arrays.asList(holdDetails).subList(0, 8));
-                    // Add each details List to colomboBadullaDetails List
-                    colomboBadullaDetails.add(details);
-                }
-                // Remove existing data in the arrays if the user loads right after saving
-                colomboCustomers.clear();
-                badullaCustomers.clear();
-                // Loops through the colomboBadullaDetails and adds each inner list to colomboCustomers or badullaCustomers based on the starting location
-                for (List<String> details : colomboBadullaDetails) {
-                    if (details.get(0).equals("1001")) {
-                        colomboCustomers.add(details);
-                    }
-                    else if (details.get(0).equals("1002")) {
-                        badullaCustomers.add(details);
-                    }
-                }
-                System.out.println("Successfully loaded from file");
-                System.out.println(colomboCustomers);
-                System.out.println(badullaCustomers);
-                System.out.println(colomboBadullaDetails);
-            }
-            read.close(); // Close the file
-        }
-        else if(choice.equals("D")){
-            //Connecting to MongoDB then creating a database and then two collections for each train route
-            MongoClient mongoClient = new MongoClient("localhost",27017);
-            MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
-            MongoCollection<Document> colomboCollection = customerDatabase.getCollection("colomboDetails");
-            MongoCollection<Document> badullaCollection = customerDatabase.getCollection("badullaDetails");
-            System.out.println("Connected to the Database");
+    public void loadFromDatabase(List<List<String>> colomboCustomers,List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
+        //Connecting to MongoDB then creating a database and then two collections for each train route
+        MongoClient mongoClient = new MongoClient("localhost",27017);
+        MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
+        MongoCollection<Document> customerCollection = customerDatabase.getCollection("customerDetails");
+        System.out.println("Connected to the Database");
 
-            // Gets all the documents in colomboCollection train route into findColomboDocument
-            FindIterable<Document> findColomboDocument = colomboCollection.find();
-            // Gets all the documents in badullaCollection train route into findBadullaDocument
-            FindIterable<Document> findBadullaDocument = badullaCollection.find();
+        // Gets all the documents in colomboCollection train route into findColomboDocument
+        FindIterable<Document> findCustomerDocument = customerCollection.find();
 
-            // Loops through each document in colomboColletion and adds each value from the keys to colomboCustomers
-            // and colomboBadullaDetails List
-            for(Document document : findColomboDocument){
-                List<String> details = new ArrayList<>();
-                details.add(document.getString("train"));
-                details.add(document.getString("seat"));
-                details.add(document.getString("NIC"));
-                details.add(document.getString("firstname"));
-                details.add(document.getString("surname"));
-                details.add(document.getString("date"));
-                details.add(document.getString("from"));
-                details.add(document.getString("to"));
+        // Loops through each document in colomboColletion and adds each value from the keys to colomboCustomers
+        // and colomboBadullaDetails List
+        for(Document document : findCustomerDocument){
+            List<String> details = new ArrayList<>();
+            details.add(document.getString("train"));
+            details.add(document.getString("seat"));
+            details.add(document.getString("NIC"));
+            details.add(document.getString("firstname"));
+            details.add(document.getString("surname"));
+            details.add(document.getString("date"));
+            details.add(document.getString("from"));
+            details.add(document.getString("to"));
+
+            if(document.getString("train").equals("1001")) {
                 colomboCustomers.add(details);
-                colomboBadullaDetails.add(details);
             }
-            // Loops through each document in badullaColletion and adds each value from the keys to badullaCustomers
-            // and colomboBadullaDetails List
-            for(Document document : findBadullaDocument){
-                List<String> details = new ArrayList<>();
-                details.add(document.getString("train"));
-                details.add(document.getString("seat"));
-                details.add(document.getString("NIC"));
-                details.add(document.getString("firstname"));
-                details.add(document.getString("surname"));
-                details.add(document.getString("date"));
-                details.add(document.getString("from"));
-                details.add(document.getString("to"));
+            else if(document.getString("train").equals("1002")){
                 badullaCustomers.add(details);
-                colomboBadullaDetails.add(details);
             }
-            mongoClient.close(); // Closes the database connection
-            System.out.println("Details loaded from the database successfully");
-            System.out.println(colomboCustomers);
-            System.out.println(badullaCustomers);
-            System.out.println(colomboBadullaDetails);
+            colomboBadullaDetails.add(details);
         }
-        else{
-            System.out.println("Invalid input. Please try again.");
-        }
+        mongoClient.close(); // Closes the database connection
+        System.out.println("Details loaded from the database successfully");
+        System.out.println(colomboCustomers);
+        System.out.println(badullaCustomers);
+        System.out.println(colomboBadullaDetails);
     }
 
     /**
