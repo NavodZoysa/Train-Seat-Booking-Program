@@ -1,10 +1,16 @@
 package CW2;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.bson.Document;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -24,11 +30,13 @@ public class TrainStation extends Application {
     public void consoleMenu(Stage stage, Pane root, Scene scene) throws FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
 
+        // List created to store both train details
+        List<List<String>> customerDetails = new ArrayList<>();
+
         // A List created to store each stop in the colonbo to badulla train
         List<String> stationStops = Arrays.asList("Colombo Fort" , "Polgahawela", "Peradeniya Junction", "Gampola",
                 "Nawalapitiya", "Hatton", "Talawakelle", "Nanu Oya", "Haputale", "Diyatalawa", "Bandarawela",
                 "Ella", "Badulla");
-
 
         ArrayList<String> stationDetails = new ArrayList<>(Arrays.asList("0","0","0"));
 
@@ -50,8 +58,16 @@ public class TrainStation extends Application {
                 /* For add, view and empty welcomeScreen is used to select route, destination and date. Then inside
                    trainDestination the relevant methods for adding, viewing and viewing only empty seats are called. */
                 case "A":
-                    selectStation(stage, userInput, stationStops, stationDetails);
-                    loadCustomersFromBooking(scanner);
+                    int roomPassengers = 42;
+                    for(Object item : waitingRoom){
+                        if(item==null){
+                            roomPassengers --;
+                        }
+                    }
+                    if(roomPassengers==0) {
+                        selectStation(stage, userInput, stationStops, stationDetails);
+                        loadCustomersFromBooking(scanner, stationDetails, customerDetails);
+                    }
                     addPassenger();
                     break;
                 case "V":
@@ -155,7 +171,7 @@ public class TrainStation extends Application {
 
         Button confirmStation = new Button("Confirm");
         confirmStation.setPrefSize(150, 40);
-        confirmStation.setLayoutX(330);
+        confirmStation.setLayoutX(320);
         confirmStation.setLayoutY(350);
 
         confirmStation.setOnAction(event -> {
@@ -175,6 +191,7 @@ public class TrainStation extends Application {
                 noSelection.setContentText("Please select a date, train and a station! Try again.");
                 noSelection.showAndWait();
             }
+            stage.close();
         });
 
         Pane root1 = new Pane();
@@ -185,13 +202,14 @@ public class TrainStation extends Application {
         stage.showAndWait();
     }
 
-    public void loadCustomersFromBooking(Scanner scanner) throws FileNotFoundException {
-        if(waitingRoom.length==0) {
+    public void loadCustomersFromBooking(Scanner scanner, ArrayList<String> stationDetails, List<List<String>> customerDetails) throws FileNotFoundException {
+        if(!stationDetails.contains("0")) {
             while (true) {
+                scanner.nextLine();
                 System.out.println("Please select from where you would like to load the customer details. Text file(T)/ Database(D) : ");
                 String choice = scanner.nextLine().toUpperCase();
                 if (choice.equals("T")) {
-                    Scanner read = new Scanner(new File("src/customerData.txt"));
+                    Scanner read = new Scanner(new File("src/CW1/customerData.txt"));
                     if (!read.hasNextLine()) {
                         // If the file is empty gives an error
                         System.out.println("Error file is empty! Please save booking data to file before loading");
@@ -203,22 +221,96 @@ public class TrainStation extends Application {
                             // Destination, Seat number, Name]
                             String[] holdDetails = line.split(",");
                             // Creates a new List called details and adds each element from holdDetails up to 7 elements each time
-                            //List<String> details = new ArrayList<>(Arrays.asList(holdDetails).subList(0, 8));
-                            // Add each details List to colomboBadullaDetails List
-                            //colomboBadullaDetails.add(details);
+                            List<String> details = new ArrayList<>(Arrays.asList(holdDetails).subList(0, 8));
+                            if (details.get(5).equals(stationDetails.get(0)) && details.get(0).equals(stationDetails.get(1)) &&
+                                    details.get(6).equals(stationDetails.get(2))) {
+                                // Add each details List to customerDetails List
+                                customerDetails.add(details);
+                            }
                         }
                     }
+                    System.out.println(customerDetails);
+                    read.close();
                     break;
                 } else if (choice.equals("D")) {
+                    //Connecting to MongoDB then creating a database and then two collections for each train route
+                    MongoClient mongoClient = new MongoClient("localhost", 27017);
+                    MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
+                    MongoCollection<Document> colomboCollection = customerDatabase.getCollection("colomboDetails");
+                    MongoCollection<Document> badullaCollection = customerDatabase.getCollection("badullaDetails");
+                    System.out.println("Connected to the Database");
+
+                    // Gets all the documents in colomboCollection train route into findColomboDocument
+                    FindIterable<Document> findColomboDocument = colomboCollection.find();
+                    // Gets all the documents in badullaCollection train route into findBadullaDocument
+                    FindIterable<Document> findBadullaDocument = badullaCollection.find();
+
+                    // Loops through each document in colomboColletion and adds each value from the keys to colomboCustomers
+                    // and colomboBadullaDetails List
+                    for (Document document : findColomboDocument) {
+                        List<String> details = new ArrayList<>();
+                        details.add(document.getString("train"));
+                        details.add(document.getString("seat"));
+                        details.add(document.getString("NIC"));
+                        details.add(document.getString("firstname"));
+                        details.add(document.getString("surname"));
+                        details.add(document.getString("date"));
+                        details.add(document.getString("from"));
+                        details.add(document.getString("to"));
+                        if (details.get(5).equals(stationDetails.get(0)) && details.get(0).equals(stationDetails.get(1)) &&
+                                details.get(6).equals(stationDetails.get(2))) {
+                            // Add each details List to customerDetails List
+                            customerDetails.add(details);
+                        }
+                    }
+                    // Loops through each document in badullaColletion and adds each value from the keys to badullaCustomers
+                    // and colomboBadullaDetails List
+                    for (Document document : findBadullaDocument) {
+                        List<String> details = new ArrayList<>();
+                        details.add(document.getString("train"));
+                        details.add(document.getString("seat"));
+                        details.add(document.getString("NIC"));
+                        details.add(document.getString("firstname"));
+                        details.add(document.getString("surname"));
+                        details.add(document.getString("date"));
+                        details.add(document.getString("from"));
+                        details.add(document.getString("to"));
+                        if (details.get(5).equals(stationDetails.get(0)) && details.get(0).equals(stationDetails.get(1)) &&
+                                details.get(6).equals(stationDetails.get(2))) {
+                            // Add each details List to customerDetails List
+                            customerDetails.add(details);
+                        }
+                    }
+                    mongoClient.close(); // Closes the database connection
+                    System.out.println("Details loaded from the database successfully");
+                    System.out.println(customerDetails);
                     break;
                 } else {
                     System.out.println("Please enter a valid input and try again. Text file(T)/ Database(D).");
                 }
             }
+            addPassengerToWaitingRoom(customerDetails);
         }
     }
 
-    public void addPassenger(){}
+    public void addPassengerToWaitingRoom(List<List<String>> customerDetails){
+        for(List<String> customer : customerDetails){
+            Passenger passenger = new Passenger();
+            passenger.setName(customer.get(3), customer.get(4));
+            passenger.setOtherDetails(customer.get(0), customer.get(1), customer.get(2), customer.get(5), customer.get(6), customer.get(7));
+            waitingRoom[customerDetails.indexOf(customer)] = passenger;
+        }
+    }
+
+    public void addPassenger(){
+        Stage stage = new Stage();
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #1b87c2");
+        Scene scene = new Scene(root, 1200, 800);    // Size of the window
+        stage.setTitle("Train Station Queue Application");
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
 
     public void viewPassenger(){}
 

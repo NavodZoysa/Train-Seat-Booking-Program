@@ -10,14 +10,12 @@ public class Passenger {
     private String date;
     private String from;
     private String to;
-    private String[] otherDetails = new String[6];
-
-    public Passenger(){
-        super();
-    }
+    private String[] otherDetails = new String[7];
+    private static int ticketNo;
+    private String ticketId;
 
     public String getName(){
-        return firstName+surname;
+        return firstName+" "+surname;
     }
 
     public void setName(String firstName, String surname){
@@ -28,10 +26,11 @@ public class Passenger {
     public String[] getOtherDetails(){
         otherDetails[0] = train;
         otherDetails[1] = seatNumber;
-        otherDetails[2] = nic;
-        otherDetails[3] = date;
-        otherDetails[4] = from;
-        otherDetails[5] = to;
+        otherDetails[2] = ticketId;
+        otherDetails[3] = nic;
+        otherDetails[4] = date;
+        otherDetails[5] = from;
+        otherDetails[6] = to;
         return otherDetails;
     }
 
@@ -42,6 +41,8 @@ public class Passenger {
         this.date = date;
         this.from = from;
         this.to = to;
+        ticketNo++;
+        this.ticketId = "#DM"+ticketNo;
     }
 
     public int getSeconds(){

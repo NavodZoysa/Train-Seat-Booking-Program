@@ -838,7 +838,7 @@ public class Booking extends Application{
         // If text file is chosen execute the code block below
         if(choice.equals("T")){
             // Loads the file to writer variable
-            FileWriter writer = new FileWriter("src/customerData.txt");
+            FileWriter writer = new FileWriter("src/CW1/customerData.txt");
             // Loops through all the records of colomboBadullaDetails
             for(List<String> details : colomboBadullaDetails){
                 // Takes 5 elements for each outer loop from colomboBadullaDetails which is [Train, Seat number, NIC, First Name, Surname, Date, Start Location, Destination]
@@ -1020,7 +1020,7 @@ public class Booking extends Application{
             // Removes the data stored in the below list if the user loads right after saving
             colomboBadullaDetails.clear();
             // Using scanner to read the file
-            Scanner read = new Scanner(new File("src/customerData.txt"));
+            Scanner read = new Scanner(new File("src/CW1/customerData.txt"));
             if(!read.hasNextLine()){
                 // If the file is empty gives an error
                 System.out.println("Error file is empty! Please save data before loading");

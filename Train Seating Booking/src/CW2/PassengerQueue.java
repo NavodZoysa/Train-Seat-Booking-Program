@@ -7,10 +7,6 @@ public class PassengerQueue {
     private int maxStayInQueue;
     private int maxLength;
 
-    public PassengerQueue(){
-        super();
-    }
-
     private void add(Passenger next){}
 
     private void remove(){}
