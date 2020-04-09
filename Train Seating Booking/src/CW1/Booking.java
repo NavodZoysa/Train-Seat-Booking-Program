@@ -263,7 +263,7 @@ public class Booking extends Application{
                 tempDateLocation.set(2, startLocation);
                 tempDateLocation.set(3, endLocation);
             }
-            else{
+            else if(tempDateLocation.contains(null) || tempDateLocation.get(2).equals(tempDateLocation.get(3))){
                 Alert invalidStop = new Alert(Alert.AlertType.WARNING);
                 invalidStop.setTitle("Invalid Station Stop");
                 invalidStop.setHeaderText("Warning! Invalid Station Stop!");
@@ -310,31 +310,31 @@ public class Booking extends Application{
                 // If add seats method is called execute this block of code
                 // 1001 train number = Colombo to Badulla
                 // If colombo to badulla route is selected then colomboCustomers list is passed
-                if(tempDateLocation.get(0).equals("1001")){
+                if(tempDateLocation.get(0).equals("1001") && !tempDateLocation.get(2).equals(tempDateLocation.get(3)) && !tempDateLocation.contains(null)){
                     addCustomerToSeat(root, stage, scene, tempDateLocation, seatList, tempSeatList, stationStops, colomboCustomers, colomboBadullaDetails);
                 }
                 // 1002 train number = Badulla to Colombo
                 // If badulla to colombo route is selected then badullaoCustomers list is passed
-                else if(tempDateLocation.get(0).equals("1002")){
+                else if(tempDateLocation.get(0).equals("1002") && !tempDateLocation.get(2).equals(tempDateLocation.get(3)) && !tempDateLocation.contains(null)){
                     addCustomerToSeat(root, stage, scene, tempDateLocation, seatList, tempSeatList, stationStops, badullaCustomers, colomboBadullaDetails);
                 }
                 break;
             case "V":
                 // If view seats method is called execute this block of code
-                if(tempDateLocation.get(0).equals("1001")){
-                    viewAllSeats(root, stage, scene, tempDateLocation, seatList, colomboCustomers);
+                if(tempDateLocation.get(0).equals("1001") && !tempDateLocation.get(2).equals(tempDateLocation.get(3)) && !tempDateLocation.contains(null)){
+                    viewAllSeats(root, stage, scene, tempDateLocation, stationStops, seatList, colomboCustomers);
                 }
-                else if(tempDateLocation.get(0).equals("1002")){
-                    viewAllSeats(root, stage, scene, tempDateLocation, seatList, badullaCustomers);
+                else if(tempDateLocation.get(0).equals("1002") && !tempDateLocation.get(2).equals(tempDateLocation.get(3)) && !tempDateLocation.contains(null)){
+                    viewAllSeats(root, stage, scene, tempDateLocation, stationStops, seatList, badullaCustomers);
                 }
                 break;
             case "E":
                 // If view empty seats method is called execute this block of code
-                if(tempDateLocation.get(0).equals("1001")){
-                    displayEmptySeats(root, stage, scene, tempDateLocation, seatList, colomboCustomers);
+                if(tempDateLocation.get(0).equals("1001") && !tempDateLocation.get(2).equals(tempDateLocation.get(3)) && !tempDateLocation.contains(null)){
+                    displayEmptySeats(root, stage, scene, tempDateLocation, stationStops, seatList, colomboCustomers);
                 }
-                else if(tempDateLocation.get(0).equals("1002")){
-                    displayEmptySeats(root, stage, scene, tempDateLocation, seatList, badullaCustomers);
+                else if(tempDateLocation.get(0).equals("1002") && !tempDateLocation.get(2).equals(tempDateLocation.get(3)) && !tempDateLocation.contains(null)){
+                    displayEmptySeats(root, stage, scene, tempDateLocation, stationStops, seatList, badullaCustomers);
                 }
                 break;
             default:
@@ -394,7 +394,8 @@ public class Booking extends Application{
                 // adds a placeholder value "b" to seatList
                 for(List<String> detail : customerDetails){
                     for(int item : seatList.keySet()){
-                        if(detail.contains(tempDateLocation.get(1)) && detail.contains(String.valueOf(item))){
+                        if(detail.contains(tempDateLocation.get(0)) && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item))){
                             seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
                         }
                     }
@@ -404,25 +405,27 @@ public class Booking extends Application{
                     for(int item : seatList.keySet()){
                         if(detail.get(0).equals("1001") && detail.contains(tempDateLocation.get(1)) &&
                                 detail.contains(String.valueOf(item)) &&
-                                stationStops.indexOf(detail.get(7))<stationStops.indexOf(tempDateLocation.get(3)) &&
-                                stationStops.indexOf(detail.get(7))<stationStops.indexOf(tempDateLocation.get(2)) ||
-                                stationStops.indexOf(detail.get(6))>stationStops.indexOf(tempDateLocation.get(3)) &&
-                                stationStops.indexOf(detail.get(6))>stationStops.indexOf(tempDateLocation.get(2))) {
+                                stationStops.indexOf(tempDateLocation.get(2)) >= stationStops.indexOf(detail.get(7)) &&
+                                stationStops.indexOf(tempDateLocation.get(3)) > stationStops.indexOf(detail.get(7)) ||
+                                stationStops.indexOf(tempDateLocation.get(2)) < stationStops.indexOf(detail.get(6)) &&
+                                stationStops.indexOf(tempDateLocation.get(3)) <= stationStops.indexOf(detail.get(6))) {
                             seatList.put(item, "nb");
                         }
                     }
                 }
 
-//                for(List<String> detail : customerDetails){
-//                    for(int item : seatList.keySet()){
-//                        if(detail.get(0).equals("1002") && detail.contains(tempDateLocation.get(1)) &&
-//                                detail.contains(String.valueOf(item)) &&
-//                                stationStops.indexOf(detail.get(6))<=stationStops.indexOf(tempDateLocation.get(3)) ||
-//                                stationStops.indexOf(detail.get(7))>=stationStops.indexOf(tempDateLocation.get(2))) {
-//                            seatList.put(item, "nb");
-//                        }
-//                    }
-//                }
+                for(List<String> detail : customerDetails){
+                    for(int item : seatList.keySet()){
+                        if(detail.get(0).equals("1002") && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item)) &&
+                                stationStops.indexOf(tempDateLocation.get(2)) <= stationStops.indexOf(detail.get(7)) &&
+                                stationStops.indexOf(tempDateLocation.get(3)) < stationStops.indexOf(detail.get(7)) ||
+                                stationStops.indexOf(tempDateLocation.get(2)) > stationStops.indexOf(detail.get(6)) &&
+                                stationStops.indexOf(tempDateLocation.get(3)) >= stationStops.indexOf(detail.get(6))) {
+                            seatList.put(item, "nb");
+                        }
+                    }
+                }
                 root.getChildren().add(seat);
 
                 int selectedSeat = seatNumber;
@@ -532,8 +535,6 @@ public class Booking extends Application{
                         tempSeatList.add(tempInnerSeatList);
                     }
                 }
-                System.out.println(seatList);
-                System.out.println(tempSeatList);
                 for(List<String> tempInnerSeatList : tempSeatList){
                     List<String> newRecord = new ArrayList<>();
                     // Train route
@@ -622,7 +623,7 @@ public class Booking extends Application{
      *                  placeholder values whether its booked or not
      * @param customerDetails   this List can be either colomboCustomer or badullaCustomers List based on the route selected
      */
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation, HashMap<Integer,String> seatList, List<List<String>> customerDetails){
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation, List<String> stationStops, HashMap<Integer,String> seatList, List<List<String>> customerDetails){
         // If you add seats and then load a previous save this makes sure it does not conflict with previous data
         seatList.clear();
         // Starts at 0 goes upto inside the loop 42
@@ -653,8 +654,35 @@ public class Booking extends Application{
                 // adds a placeholder value "b" to seatList
                 for(List<String> detail : customerDetails){
                     for(int item : seatList.keySet()){
-                        if(detail.contains(tempDateLocation.get(1)) && detail.contains(String.valueOf(item))){
+                        if(detail.contains(tempDateLocation.get(0)) && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item))){
                             seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                        }
+                    }
+                }
+
+                for(List<String> detail : customerDetails){
+                    for(int item : seatList.keySet()){
+                        if(detail.get(0).equals("1001") && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item)) &&
+                                stationStops.indexOf(tempDateLocation.get(2)) >= stationStops.indexOf(detail.get(7)) &&
+                                stationStops.indexOf(tempDateLocation.get(3)) > stationStops.indexOf(detail.get(7)) ||
+                                stationStops.indexOf(tempDateLocation.get(2)) < stationStops.indexOf(detail.get(6)) &&
+                                        stationStops.indexOf(tempDateLocation.get(3)) <= stationStops.indexOf(detail.get(6))) {
+                            seatList.put(item, "nb");
+                        }
+                    }
+                }
+
+                for(List<String> detail : customerDetails){
+                    for(int item : seatList.keySet()){
+                        if(detail.get(0).equals("1002") && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item)) &&
+                                stationStops.indexOf(tempDateLocation.get(2)) <= stationStops.indexOf(detail.get(7)) &&
+                                stationStops.indexOf(tempDateLocation.get(3)) < stationStops.indexOf(detail.get(7)) ||
+                                stationStops.indexOf(tempDateLocation.get(2)) > stationStops.indexOf(detail.get(6)) &&
+                                        stationStops.indexOf(tempDateLocation.get(3)) >= stationStops.indexOf(detail.get(6))) {
+                            seatList.put(item, "nb");
                         }
                     }
                 }
@@ -706,7 +734,7 @@ public class Booking extends Application{
      * @param customerDetails   this List can be either colomboCustomer or badullaCustomers List based on
      *                          the route selected
      */
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation,
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation, List<String> stationStops,
                                   HashMap<Integer,String> seatList, List<List<String>> customerDetails){
 
         // If you add seats and then load a previous save this makes sure it does not conflict with previous data
@@ -734,10 +762,37 @@ public class Booking extends Application{
                     }
                 }
                 // This loop checks if the record is there in colomboCustomers or badullaCustomers list if there is adds a placeholder value "b" to seatList
-                for (List<String> customerDetail : customerDetails){
-                    for (int item : seatList.keySet()){
-                        if (customerDetail.contains(tempDateLocation.get(1)) &&customerDetail.contains(String.valueOf(item))){
-                            seatList.put(item, customerDetail.get(2)+" - " + customerDetail.get(3) + " " + customerDetail.get(4));
+                for(List<String> detail : customerDetails){
+                    for(int item : seatList.keySet()){
+                        if(detail.contains(tempDateLocation.get(0)) && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item))){
+                            seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                        }
+                    }
+                }
+
+                for(List<String> detail : customerDetails){
+                    for(int item : seatList.keySet()){
+                        if(detail.get(0).equals("1001") && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item)) &&
+                                stationStops.indexOf(tempDateLocation.get(2)) >= stationStops.indexOf(detail.get(7)) &&
+                                stationStops.indexOf(tempDateLocation.get(3)) > stationStops.indexOf(detail.get(7)) ||
+                                stationStops.indexOf(tempDateLocation.get(2)) < stationStops.indexOf(detail.get(6)) &&
+                                        stationStops.indexOf(tempDateLocation.get(3)) <= stationStops.indexOf(detail.get(6))) {
+                            seatList.put(item, "nb");
+                        }
+                    }
+                }
+
+                for(List<String> detail : customerDetails){
+                    for(int item : seatList.keySet()){
+                        if(detail.get(0).equals("1002") && detail.contains(tempDateLocation.get(1)) &&
+                                detail.contains(String.valueOf(item)) &&
+                                stationStops.indexOf(tempDateLocation.get(2)) <= stationStops.indexOf(detail.get(7)) &&
+                                stationStops.indexOf(tempDateLocation.get(3)) < stationStops.indexOf(detail.get(7)) ||
+                                stationStops.indexOf(tempDateLocation.get(2)) > stationStops.indexOf(detail.get(6)) &&
+                                        stationStops.indexOf(tempDateLocation.get(3)) >= stationStops.indexOf(detail.get(6))) {
+                            seatList.put(item, "nb");
                         }
                     }
                 }
