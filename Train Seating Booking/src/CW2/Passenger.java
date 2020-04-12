@@ -3,6 +3,7 @@ package CW2;
 public class Passenger {
     private String firstName;
     private String surname;
+    private String name;
     private int secondsInQueue;
     private String train;
     private String seatNumber;
@@ -10,12 +11,10 @@ public class Passenger {
     private String date;
     private String from;
     private String to;
-    private String[] otherDetails = new String[7];
-    private static int ticketNo;
     private String ticketId;
 
     public String getName(){
-        return firstName+" "+surname;
+        return name = firstName+" "+surname;
     }
 
     public void setName(String firstName, String surname){
@@ -23,29 +22,79 @@ public class Passenger {
         this.surname = surname;
     }
 
-    public String[] getOtherDetails(){
-        otherDetails[0] = train;
-        otherDetails[1] = seatNumber;
-        otherDetails[2] = ticketId;
-        otherDetails[3] = nic;
-        otherDetails[4] = date;
-        otherDetails[5] = from;
-        otherDetails[6] = to;
-        return otherDetails;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setOtherDetails(String train, String seatNumber, String nic, String date, String from, String to){
-        this.train = train;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getSeatNumber(){
+        return seatNumber;
+    }
+
+    public void setSeatNumber(String seatNumber){
         this.seatNumber = seatNumber;
-        this.nic = nic;
-        this.date = date;
-        this.from = from;
-        this.to = to;
-        ticketNo++;
-        this.ticketId = "#DM"+ticketNo;
     }
 
-    public int getSeconds(){
+    public String getTicketId(){
+        return ticketId;
+    }
+
+    public void setTicketId(String ticketId){
+        this.ticketId = ticketId;
+    }
+
+    public String getTrain() {
+        return train;
+    }
+
+    public void setTrain(String train) {
+        this.train = train;
+    }
+
+    public String getNic() {
+        return nic;
+    }
+
+    public void setNic(String nic) {
+        this.nic = nic;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
+
+    public int getSecondsInQueue(){
         return secondsInQueue;
     }
 

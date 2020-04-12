@@ -1,22 +1,32 @@
 package CW2;
 
+import java.util.Arrays;
+
 public class PassengerQueue {
-    private Passenger[] queueArray = new Passenger[6];
+    private Passenger[] queueArray = new Passenger[42];
     private int first;
     private int last;
     private int maxStayInQueue;
     private int maxLength;
 
-    private void add(Passenger next){}
+    public Passenger[] getQueueArray(){
+        return queueArray;
+    }
 
-    private void remove(){}
+    public void add(Passenger next){
+        queueArray[last] = next;
+        last++;
+        maxLength++;
+    }
+
+    public void remove(){}
 
     public boolean isEmpty(){
-        return true;
+        return first == last;
     }
 
     public boolean isFull(){
-        return false;
+        return last==maxLength-1;
     }
 
     public void display(){}

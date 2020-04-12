@@ -15,7 +15,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.FindIterable;
 
 public class Booking extends Application{
-    static final int seatingCapacity = 42;
+    static final int SEATING_CAPACITY = 42;
 
     public static void main(String[] args){
         launch(args);
@@ -30,7 +30,7 @@ public class Booking extends Application{
      * @param stage passed from start
      * @param scene passed from start
      */
-    public void consoleMenu(Pane root, Stage stage, Scene scene){
+    public void consoleMenu(Pane root, Stage stage, Scene scene) {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -38,7 +38,7 @@ public class Booking extends Application{
         List<List<String>> colomboBadullaDetails = new ArrayList<>();
 
         // Hashmap to store seat and name of customers with a starting capacity of 42 elements
-        HashMap<Integer,String> seatList = new HashMap<>(seatingCapacity);
+        HashMap<Integer,String> seatList = new HashMap<>(SEATING_CAPACITY);
 
         // Temporary List to store seat and name of customers
         List<List<String>> tempSeatList = new ArrayList<>();
@@ -50,7 +50,7 @@ public class Booking extends Application{
         List<List<String>> badullaCustomers = new ArrayList<>();
 
         // Temporary ArrayList to store train number, date booked, start location and destination
-        ArrayList<String> tempDateLocation = new ArrayList<>(Arrays.asList("0","0","0","0"));
+        List<String> tempDateLocation = new ArrayList<>(Arrays.asList("0","0","0","0"));
 
         // A List created to store each stop in the colonbo to badulla train
         List<String > stationStops = Arrays.asList("Colombo Fort" , "Polgahawela", "Peradeniya Junction", "Gampola",
@@ -150,16 +150,16 @@ public class Booking extends Application{
      * @return  a label is returned so that the label can be used outside of this method
      */
     public Label createSeat(int row, int column, int seatNumber){
-        int XCord = 60;
-        int YCord = 60;
+        int xCord = 60;
+        int yCord = 60;
         Label seat = new Label("S-"+(seatNumber));
         seat.setPrefSize(50, 50);
 
         // Passed column number is multiplied with XCord to create seats on the x-axis
-        seat.setLayoutX(column * XCord);
+        seat.setLayoutX(column * xCord);
 
         // Passed row number is multiplied with YCord to create seats on the y-axis
-        seat.setLayoutY(row * YCord);
+        seat.setLayoutY(row * yCord);
         seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; " +
                 "-fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
         return seat;
@@ -172,7 +172,7 @@ public class Booking extends Application{
      * @param stage passed from start method
      * @param tempDateLocation  a temporary ArrayList used to store train number, booked date, starting location and finally destination
      */
-    public void welcomeScreen(Stage stage, String userInput, ArrayList<String> tempDateLocation, List<String> stationStops){
+    public void welcomeScreen(Stage stage, String userInput, List<String> tempDateLocation, List<String> stationStops){
         Label title = new Label("Welcome to Sri Lanka Railways Department");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
@@ -300,7 +300,7 @@ public class Booking extends Application{
      *                          Seat number and Name) using badulla to colombo train route
      * @param colomboBadullaDetails a List with both details of customers from colombo to badulla and back stored
      */
-    public void trainDestination(Pane root, Stage stage, Scene scene, String userInput, ArrayList<String> tempDateLocation,
+    public void trainDestination(Pane root, Stage stage, Scene scene, String userInput, List<String> tempDateLocation,
                              HashMap<Integer,String> seatList, List<List<String>> tempSeatList, List<String> stationStops, List<List<String>> colomboCustomers,
                              List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
 
@@ -342,6 +342,12 @@ public class Booking extends Application{
         }
     }
 
+    public String generateTicketNo() {
+        Random random = new Random();
+        int range = random.nextInt(1000)+1000;
+        return "DM"+range;
+    }
+
     /**
      *  This method takes createSeat method to create 42 seats on the GUI and adds customer details (Date, Start location,
      *  Destination, Seat number and Name) to either colomboCustomers and badullaCustomers based on the train route selected.
@@ -359,7 +365,7 @@ public class Booking extends Application{
      * @param colomboBadullaDetails a List with both details of customers from colombo to badulla and
      *                              back stored
      */
-    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation,
+    public void addCustomerToSeat(Pane root, Stage stage, Scene scene, List<String> tempDateLocation,
                               HashMap<Integer,String> seatList, List<List<String>> tempSeatList, List<String> stationStops,
                               List<List<String>> customerDetails, List<List<String>> colomboBadullaDetails){
         // If you add seats and then load a previous save this makes sure it does not conflict with previous data
@@ -375,7 +381,7 @@ public class Booking extends Application{
                 Label seat = createSeat(row, column, ++seatNumber);
 
                 // Creates 42 placeholder seats with "nb" as value when the program starts the first time
-                if(seatList.size() < seatingCapacity){
+                if(seatList.size() < SEATING_CAPACITY){
                     seatList.put(seatNumber, "nb"); // nb = Not Booked
                 }
 
@@ -532,9 +538,11 @@ public class Booking extends Application{
                         tempInnerSeatList.add(nic);
                         tempInnerSeatList.add(firstName);
                         tempInnerSeatList.add(surName);
+                        tempInnerSeatList.add(generateTicketNo());
                         tempSeatList.add(tempInnerSeatList);
                     }
                 }
+                System.out.println(tempSeatList);
                 for(List<String> tempInnerSeatList : tempSeatList){
                     List<String> newRecord = new ArrayList<>();
                     // Train route
@@ -553,6 +561,8 @@ public class Booking extends Application{
                     newRecord.add(tempDateLocation.get(2));
                     // Destination
                     newRecord.add(tempDateLocation.get(3));
+                    // Ticket number
+                    newRecord.add(tempInnerSeatList.get(4));
                     // Colombo or badulla customer list
                     customerDetails.add(newRecord);
                     // Main list with all customer details
@@ -623,7 +633,7 @@ public class Booking extends Application{
      *                  placeholder values whether its booked or not
      * @param customerDetails   this List can be either colomboCustomer or badullaCustomers List based on the route selected
      */
-    public void viewAllSeats(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation, List<String> stationStops, HashMap<Integer,String> seatList, List<List<String>> customerDetails){
+    public void viewAllSeats(Pane root, Stage stage, Scene scene, List<String> tempDateLocation, List<String> stationStops, HashMap<Integer,String> seatList, List<List<String>> customerDetails){
         // If you add seats and then load a previous save this makes sure it does not conflict with previous data
         seatList.clear();
         // Starts at 0 goes upto inside the loop 42
@@ -636,7 +646,7 @@ public class Booking extends Application{
                     to create 42 seats in 6 rows and 7 columns */
                 Label seat = createSeat(row, column, ++seatNumber);
                 // Creates 42 placeholder seats with "nb" as value when the program starts the first time
-                if(seatList.size() < seatingCapacity){
+                if(seatList.size() < SEATING_CAPACITY){
                     seatList.put(seatNumber, "nb"); // nb = Not Booked
                 }
                 // This loop checks if the record is there in colomboCustomers or badullaCustomers list if not
@@ -734,7 +744,7 @@ public class Booking extends Application{
      * @param customerDetails   this List can be either colomboCustomer or badullaCustomers List based on
      *                          the route selected
      */
-    public void displayEmptySeats(Pane root, Stage stage, Scene scene, ArrayList<String> tempDateLocation, List<String> stationStops,
+    public void displayEmptySeats(Pane root, Stage stage, Scene scene, List<String> tempDateLocation, List<String> stationStops,
                                   HashMap<Integer,String> seatList, List<List<String>> customerDetails){
 
         // If you add seats and then load a previous save this makes sure it does not conflict with previous data
@@ -749,7 +759,7 @@ public class Booking extends Application{
                     to create 42 seats in 6 rows and 7 columns */
                 Label seat = createSeat(row, column, ++seatNumber);
                 // Creates 42 placeholder seats with "nb" as value when the program starts the first time
-                if(seatList.size() < seatingCapacity){
+                if(seatList.size() < SEATING_CAPACITY){
                     seatList.put(seatNumber, "nb"); // nb = Not Booked
                 }
                 // This loop checks if the record is there in colomboCustomers or badullaCustomers list if not it adds a placeholder value "nb" to seatList
@@ -863,7 +873,8 @@ public class Booking extends Application{
                     "\nSurname    : " + details.get(4) +
                     "\nDate       : " + details.get(5) +
                     "\nFrom       : " + details.get(6) +
-                    "\nTo         : " + details.get(7));
+                    "\nTo         : " + details.get(7) +
+                    "\nTicket     : " + details.get(8));
         }
         // Removes data stored in deleteRecords
         deletedRecords.clear();
@@ -891,7 +902,8 @@ public class Booking extends Application{
                         "\nSurname    : " + details.get(4) +
                         "\nDate       : " + details.get(5) +
                         "\nFrom       : " + details.get(6) +
-                        "\nTo         : " + details.get(7));
+                        "\nTo         : " + details.get(7) +
+                        "\nTicket     : " + details.get(8));
             }
         }
     }
@@ -906,8 +918,8 @@ public class Booking extends Application{
     public void saveToDatabase(List<List<String>> colomboBadullaDetails){
         //Connecting to MongoDB then creating a database and then two collections for each train route
         MongoClient mongoClient = new MongoClient("localhost",27017);
-        MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
-        MongoCollection<Document> customerCollection = customerDatabase.getCollection("customerDetails");
+        MongoDatabase trainDatabase = mongoClient.getDatabase("trainStation");
+        MongoCollection<Document> customerCollection = trainDatabase.getCollection("customerDetails");
         System.out.println("Connected to the Database");
 
         // Checks if the documents for each route stored in two separate collections has any document
@@ -932,6 +944,8 @@ public class Booking extends Application{
                 customerDocument.append("from", details.get(6));
                 // Gets the destination
                 customerDocument.append("to", details.get(7));
+                // Gets the ticket number
+                customerDocument.append("ticket", details.get(8));
                 // Add the document to the collection
                 customerCollection.insertOne(customerDocument);
             }
@@ -966,6 +980,8 @@ public class Booking extends Application{
                 customerDocument.append("from", details.get(6));
                 // Gets the destination
                 customerDocument.append("to", details.get(7));
+                // Gets the ticket number
+                customerDocument.append("ticket", details.get(8));
                 // Add the document to the collection
                 customerCollection.insertOne(customerDocument);
             }
@@ -987,8 +1003,8 @@ public class Booking extends Application{
     public void loadFromDatabase(List<List<String>> colomboCustomers,List<List<String>> badullaCustomers, List<List<String>> colomboBadullaDetails){
         //Connecting to MongoDB then creating a database and then two collections for each train route
         MongoClient mongoClient = new MongoClient("localhost",27017);
-        MongoDatabase customerDatabase = mongoClient.getDatabase("customers");
-        MongoCollection<Document> customerCollection = customerDatabase.getCollection("customerDetails");
+        MongoDatabase trainDatabase = mongoClient.getDatabase("trainStation");
+        MongoCollection<Document> customerCollection = trainDatabase.getCollection("customerDetails");
         System.out.println("Connected to the Database");
 
         // Gets all the documents in colomboCollection train route into findColomboDocument
@@ -1006,6 +1022,7 @@ public class Booking extends Application{
             details.add(document.getString("date"));
             details.add(document.getString("from"));
             details.add(document.getString("to"));
+            details.add(document.getString("ticket"));
 
             if(document.getString("train").equals("1001")) {
                 colomboCustomers.add(details);
