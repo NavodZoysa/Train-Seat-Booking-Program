@@ -1,7 +1,5 @@
 package CW2;
 
-import java.util.Arrays;
-
 public class PassengerQueue {
     private Passenger[] queueArray = new Passenger[42];
     private int first;
@@ -15,18 +13,23 @@ public class PassengerQueue {
 
     public void add(Passenger next){
         queueArray[last] = next;
-        last++;
+        last = last+1%42;
         maxLength++;
     }
 
-    public void remove(){}
+    public Passenger remove(){
+        Passenger passenger = queueArray[first];
+        first = first+1%42;
+        maxLength--;
+        return passenger;
+    }
 
     public boolean isEmpty(){
-        return first == last;
+        return maxLength==0;
     }
 
     public boolean isFull(){
-        return last==maxLength-1;
+        return maxLength==queueArray.length;
     }
 
     public void display(){}
@@ -37,5 +40,10 @@ public class PassengerQueue {
 
     public int getMaxStay(){
         return maxStayInQueue;
+    }
+
+    public void setFirstAndLast(int first, int last){
+        this.first = first;
+        this.last = last;
     }
 }

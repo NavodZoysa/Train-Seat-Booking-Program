@@ -21,6 +21,7 @@ public class TrainStation extends Application {
     private Passenger[] waitingRoom = new Passenger[42];
     private PassengerQueue trainQueue = new PassengerQueue();
     Passenger[] trainQueueArray = trainQueue.getQueueArray();
+    Passenger[] boardedPassengers = new Passenger[42];
     TableView<Passenger> waitingRoomTableView;
     TableView<Passenger> trainQueueTableView;
 
@@ -53,7 +54,7 @@ public class TrainStation extends Application {
                     "Please enter 'R' to run the simulation and produce report\n" +
                     "Please enter 'Q' to quit the program");
 
-            String userInput = scanner.next().toUpperCase();
+            String userInput = scanner.nextLine().toUpperCase();
             // Switch case used to check which inputs were taken
             switch(userInput){
                 /* For add, view and empty welcomeScreen is used to select route, destination and date. Then inside
@@ -255,6 +256,22 @@ public class TrainStation extends Application {
         }
     }
 
+    public void sortPassengers(Passenger[] trainQueueArray){
+        for(Passenger passenger : trainQueueArray) {
+            if (passenger != null) {
+                for (int i = 0; i < trainQueue.getLength(); i++) {
+                    for (int j = i + 1; j < trainQueue.getLength(); j++) {
+                        if ((Integer.parseInt(trainQueueArray[i].getSeatNumber()) > (Integer.parseInt(trainQueueArray[j].getSeatNumber())))) {
+                            Passenger temp = trainQueueArray[i];
+                            trainQueueArray[i] = trainQueueArray[j];
+                            trainQueueArray[j] = temp;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public ObservableList<Passenger> getPassengersToTableView(Passenger[] passengerArray){
         ObservableList<Passenger> passengerObservableList = FXCollections.observableArrayList();
         for(Passenger passenger : passengerArray){
@@ -265,6 +282,11 @@ public class TrainStation extends Application {
         return passengerObservableList;
     }
 
+    public int randomNumberGenerator(){
+        Random random = new Random();
+        return random.nextInt(6)+1;
+    }
+
     public void addPassenger(){
         Stage stage = new Stage();
         BorderPane root = new BorderPane();
@@ -273,7 +295,7 @@ public class TrainStation extends Application {
         stage.setTitle("Train Station Queue Application");
 
         Pane waitingRoomPane = new Pane();
-        waitingRoomPane.setPrefSize(600, 450);
+        waitingRoomPane.setPrefSize(590, 500);
         waitingRoomPane.setStyle("-fx-border-width: 2; -fx-border-style: solid; -fx-background-color: #fcba03");
         Label waitingRoomTitle = new Label("Waiting Room");
         waitingRoomTitle.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black;");
@@ -282,26 +304,42 @@ public class TrainStation extends Application {
         waitingRoomPane.getChildren().addAll(waitingRoomTitle);
 
         TableColumn<Passenger, String> ticketIdColumn = new TableColumn<>("Ticket No");
-        ticketIdColumn.setMinWidth(100);
+        ticketIdColumn.setMaxWidth(80);
         ticketIdColumn.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
 
         TableColumn<Passenger, String> nameColumn = new TableColumn<>("Name");
-        nameColumn.setMinWidth(100);
+        nameColumn.setMaxWidth(150);
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Passenger, String> seatNumberColumn = new TableColumn<>("Seat Number");
-        seatNumberColumn.setMinWidth(100);
+        TableColumn<Passenger, String> seatNumberColumn = new TableColumn<>("Seat");
+        seatNumberColumn.setMaxWidth(50);
         seatNumberColumn.setCellValueFactory(new PropertyValueFactory<>("seatNumber"));
 
+        TableColumn<Passenger, String> trainColumn = new TableColumn<>("Train");
+        trainColumn.setMaxWidth(50);
+        trainColumn.setCellValueFactory(new PropertyValueFactory<>("train"));
+
+        TableColumn<Passenger, String> dateColumn = new TableColumn<>("Date");
+        dateColumn.setMaxWidth(80);
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        TableColumn<Passenger, String> fromColumn = new TableColumn<>("From");
+        fromColumn.setMaxWidth(125);
+        fromColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
+
+        TableColumn<Passenger, String> toColumn = new TableColumn<>("To");
+        toColumn.setMaxWidth(125);
+        toColumn.setCellValueFactory(new PropertyValueFactory<>("to"));
+
         waitingRoomTableView = new TableView<>();
-        waitingRoomTableView.setPrefSize(598,505);
+        waitingRoomTableView.setPrefSize(590,505);
         waitingRoomTableView.setLayoutY(50);
         waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
-        waitingRoomTableView.getColumns().addAll(ticketIdColumn, nameColumn, seatNumberColumn);
+        waitingRoomTableView.getColumns().addAll(ticketIdColumn, nameColumn, seatNumberColumn, trainColumn, dateColumn, fromColumn, toColumn);
         waitingRoomPane.getChildren().addAll(waitingRoomTableView);
 
         Pane queuePane = new Pane();
-        queuePane.setPrefSize(600, 450);
+        queuePane.setPrefSize(590, 505);
         queuePane.setStyle("-fx-border-width: 2; -fx-border-style: solid; -fx-background-color: #00ad71");
         Label queuePaneTitle = new Label("Train Queue");
         queuePaneTitle.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black;");
@@ -309,24 +347,40 @@ public class TrainStation extends Application {
         queuePaneTitle.setLayoutY(10);
         queuePane.getChildren().addAll(queuePaneTitle);
 
-        seatNumberColumn = new TableColumn<>("Seat Number");
-        seatNumberColumn.setMinWidth(100);
-        seatNumberColumn.setCellValueFactory(new PropertyValueFactory<>("seatNumber"));
-
-        nameColumn = new TableColumn<>("Name");
-        nameColumn.setMinWidth(100);
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-
         ticketIdColumn = new TableColumn<>("Ticket No");
-        ticketIdColumn.setMinWidth(100);
+        ticketIdColumn.setMaxWidth(80);
         ticketIdColumn.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
 
+        nameColumn = new TableColumn<>("Name");
+        nameColumn.setMaxWidth(150);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        seatNumberColumn = new TableColumn<>("Seat");
+        seatNumberColumn.setMaxWidth(50);
+        seatNumberColumn.setCellValueFactory(new PropertyValueFactory<>("seatNumber"));
+
+        trainColumn = new TableColumn<>("Train");
+        trainColumn.setMaxWidth(50);
+        trainColumn.setCellValueFactory(new PropertyValueFactory<>("train"));
+
+        dateColumn = new TableColumn<>("Date");
+        dateColumn.setMaxWidth(80);
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        fromColumn = new TableColumn<>("From");
+        fromColumn.setMaxWidth(125);
+        fromColumn.setCellValueFactory(new PropertyValueFactory<>("from"));
+
+        toColumn = new TableColumn<>("To");
+        toColumn.setMaxWidth(125);
+        toColumn.setCellValueFactory(new PropertyValueFactory<>("to"));
+
         trainQueueTableView = new TableView<>();
-        trainQueueTableView.setPrefSize(598,505);
+        trainQueueTableView.setPrefSize(590,505);
         trainQueueTableView.setLayoutX(2);
         trainQueueTableView.setLayoutY(50);
         trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
-        trainQueueTableView.getColumns().addAll(seatNumberColumn,ticketIdColumn, nameColumn);
+        trainQueueTableView.getColumns().addAll(seatNumberColumn, nameColumn,ticketIdColumn, trainColumn, dateColumn, fromColumn, toColumn);
         queuePane.getChildren().addAll(trainQueueTableView);
 
         Pane buttonPane = new Pane();
@@ -350,6 +404,7 @@ public class TrainStation extends Application {
                     }
                 }
             }
+            sortPassengers(trainQueueArray);
             waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
             trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
         });
@@ -405,7 +460,44 @@ public class TrainStation extends Application {
         stage.showAndWait();
     }
 
-    public void deletePassenger(){}
+    public void deletePassenger(){
+        Passenger[] tempArray = new Passenger[trainQueueArray.length];
+        Passenger deletedPassenger = null;
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter the seat number of passenger to remove from the train queue : ");
+        String seatSelected = scanner.nextLine();
+
+        System.out.println("Before delete "+Arrays.toString(trainQueueArray));
+        for(int i = 0,j=0;i < trainQueueArray.length;i++){
+            if(trainQueueArray[i]==(null)){
+                continue;
+            }
+            else if(!trainQueueArray[i].getSeatNumber().equals(seatSelected)) {
+                tempArray[j++] = trainQueueArray[i];
+                System.out.println("During delete " + Arrays.toString(tempArray));
+            }
+            else if(trainQueueArray[i].getSeatNumber().equals(seatSelected)){
+                deletedPassenger = trainQueueArray[i];
+            }
+            trainQueueArray[i] = null;
+        }
+
+        System.out.println("After delete "+Arrays.toString(trainQueueArray));
+        trainQueue.setFirstAndLast(0, 0);
+        for(Passenger passenger : tempArray){
+            trainQueue.add(passenger);
+        }
+
+        System.out.println("After add "+Arrays.toString(trainQueueArray));
+        for(int i = 0; i < waitingRoom.length; i++){
+            if(waitingRoom[i]==null){
+                waitingRoom[i] = deletedPassenger;
+                break;
+            }
+        }
+        System.out.println("Waiting Room "+Arrays.toString(waitingRoom));
+    }
 
     public void saveTrainQueue(){
         //Connecting to MongoDB then creating a database and then two collections for each train route
@@ -516,5 +608,22 @@ public class TrainStation extends Application {
         System.out.println("Details loaded from the database successfully");
     }
 
-    public void runSimulation(){}
+    public void runSimulation(){
+        Passenger boardedPassenger;
+
+        for(int i =0; i<trainQueueArray.length;i++){
+            if(trainQueueArray[i]!=null){
+                boardedPassenger = trainQueue.remove();
+                boardedPassenger.setSecondsInQueue(randomNumberGenerator()+randomNumberGenerator()+randomNumberGenerator());
+                boardedPassengers[i] = boardedPassenger;
+                trainQueueArray[i] = null;
+            }
+        }
+        System.out.println("Train Queue "+Arrays.toString(trainQueueArray));
+        System.out.println("Boarded passengers "+Arrays.toString(boardedPassengers));
+        System.out.println("Passenger 1 "+boardedPassengers[0].getTicketId());
+        System.out.println("Passenger 1 "+boardedPassengers[0].getSecondsInQueue());
+        System.out.println("Passenger 2 "+boardedPassengers[1].getTicketId());
+        System.out.println("Passenger 2 "+boardedPassengers[1].getSecondsInQueue());
+    }
 }
