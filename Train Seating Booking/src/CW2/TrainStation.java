@@ -24,12 +24,13 @@ public class TrainStation extends Application {
     Passenger[] boardedPassengers = new Passenger[42];
     TableView<Passenger> waitingRoomTableView;
     TableView<Passenger> trainQueueTableView;
+    TableView<Passenger> boardedTableView;
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void consoleMenu() {
+    public void consoleMenu() throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
 
         // List created to store both train details
@@ -84,7 +85,7 @@ public class TrainStation extends Application {
                     loadTrainQueue();
                     break;
                 case "R":
-                    runSimulation(userInput);
+                    runSimulation(userInput, stationStops, stationDetails, customerDetails);
                     break;
                 case "Q":
                     System.exit(0);
@@ -96,7 +97,7 @@ public class TrainStation extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws InterruptedException {
         consoleMenu();
     }
 
@@ -428,14 +429,13 @@ public class TrainStation extends Application {
 
     public Pane displayBoardedTable(){
         Pane boardedPane = new Pane();
-        Pane queuePane = new Pane();
-        queuePane.setPrefSize(590, 500);
-        queuePane.setStyle("-fx-border-width: 2; -fx-border-style: solid; -fx-background-color: #00ad71");
-        Label queuePaneTitle = new Label("Train Queue");
+        boardedPane.setPrefSize(590, 500);
+        boardedPane.setStyle("-fx-border-width: 2; -fx-border-style: solid; -fx-background-color: #3670b5");
+        Label queuePaneTitle = new Label("Boarded Passengers");
         queuePaneTitle.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black;");
         queuePaneTitle.setLayoutX(200);
         queuePaneTitle.setLayoutY(10);
-        queuePane.getChildren().addAll(queuePaneTitle);
+        boardedPane.getChildren().addAll(queuePaneTitle);
 
         TableColumn<Passenger, String> ticketIdColumn = new TableColumn<>("Ticket No");
         ticketIdColumn.setMaxWidth(80);
@@ -469,6 +469,13 @@ public class TrainStation extends Application {
         toColumn.setMaxWidth(125);
         toColumn.setCellValueFactory(new PropertyValueFactory<>("to"));
 
+        boardedTableView = new TableView<>();
+        boardedTableView.setPrefSize(515,502);
+        boardedTableView.setLayoutX(2);
+        boardedTableView.setLayoutY(50);
+        boardedTableView.setItems(getPassengersToTableView(boardedPassengers));
+        boardedTableView.getColumns().addAll(seatNumberColumn, nameColumn, ticketIdColumn, trainColumn, nicColumn, dateColumn, fromColumn, toColumn);
+        boardedPane.getChildren().addAll(boardedTableView);
 
         return boardedPane;
     }
@@ -480,28 +487,25 @@ public class TrainStation extends Application {
         Scene scene = new Scene(root, 1110, 700);    // Size of the window
         stage.setTitle("Train Station Queue Application");
 
-        if(userInput.equals("A")) {
-            Pane buttonPane = new Pane();
-            buttonPane.setPrefSize(1100, 145);
-            Button addButton = new Button("Add to Queue");
-            addButton.setPrefSize(120, 50);
-            addButton.setStyle("-fx-font: 14 arial;");
-            addButton.setLayoutX(530);
-            addButton.setLayoutY(40);
+        Pane buttonPane = new Pane();
+        buttonPane.setPrefSize(1100, 145);
+        Button addButton = new Button("Add to Queue");
+        addButton.setPrefSize(120, 50);
+        addButton.setStyle("-fx-font: 14 arial;");
+        addButton.setLayoutX(530);
+        addButton.setLayoutY(40);
+        buttonPane.getChildren().addAll(addButton);
 
-            addButton.setOnAction(event -> {
-                addPassengerToTrainQueue();
-                sortPassengers(trainQueueArray);
-                waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
-                trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
-            });
-
-            buttonPane.getChildren().addAll(addButton);
-            root.setBottom(buttonPane);
-        }
+        addButton.setOnAction(event -> {
+            addPassengerToTrainQueue();
+            sortPassengers(trainQueueArray);
+            waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
+            trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
+        });
 
         root.setLeft(displayWaitingRoomTable());
         root.setCenter(displayTrainQueueTable());
+        root.setBottom(buttonPane);
 
         stage.setScene(scene);
         stage.showAndWait();
@@ -766,39 +770,100 @@ public class TrainStation extends Application {
         System.out.println("Details loaded from the database successfully");
     }
 
-    public void runSimulation(String userInput){
+    public void runSimulation(String userInput, List<String> stationStops, List<String> stationDetails, List<List<String>> customerDetails) throws InterruptedException {
         Stage stage = new Stage();
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1b87c2");
         Scene scene = new Scene(root, 1110, 560);    // Size of the window
         stage.setTitle("Train Station Queue Application");
-        while(checkWaitingRoom()>0) {
-            addPassenger(userInput);
-        }
 
-        Passenger boardedPassenger;
-        int maxQueueLength = trainQueue.getLength();
-        int maxWaitingTime = trainQueue.getMaxStayInQueue();
-        int minWaitingTime = trainQueue.getMinStayInQueue();
-        int avgWaitingTime = trainQueue.getMaxStayInQueue()/trainQueue.getLength();
+        Pane waitingRoomPane = displayWaitingRoomTable();
+        Pane queuePane = displayTrainQueueTable();
+        Pane boardedPane = displayBoardedTable();
 
-        for(int i =0; i<trainQueueArray.length;i++){
-            if(trainQueueArray[i]!=null){
-                boardedPassenger = trainQueue.remove();
-                boardedPassengers[i] = boardedPassenger;
-                trainQueueArray[i] = null;
+        Pane buttonPane = new Pane();
+        buttonPane.setPrefSize(1100, 145);
+        Button addButton = new Button("Run Simulation");
+        addButton.setPrefSize(120, 50);
+        addButton.setStyle("-fx-font: 14 arial;");
+        addButton.setLayoutX(530);
+        addButton.setLayoutY(40);
+        buttonPane.getChildren().addAll(addButton);
+
+        Passenger[] boardedPassenger = new Passenger[1];
+        int[] reportStats = new int[4];
+        addButton.setOnAction(event -> {
+            if(checkWaitingRoom()==0 && trainQueue.isEmpty()){
+                selectStation(userInput, stationStops, stationDetails);
+                loadCustomersFromBooking(stationDetails, customerDetails);
+                waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
             }
-        }
-        System.out.println("Train Queue "+Arrays.toString(trainQueueArray));
-        System.out.println("Boarded passengers "+Arrays.toString(boardedPassengers));
-        System.out.println("Passenger 1 "+boardedPassengers[0].getTicketId());
-        System.out.println("Passenger 1 "+boardedPassengers[0].getSecondsInQueue());
-        System.out.println("Passenger 2 "+boardedPassengers[1].getTicketId());
-        System.out.println("Passenger 2 "+boardedPassengers[1].getSecondsInQueue());
+            while(checkWaitingRoom()>0) {
+                addPassengerToTrainQueue();
+                sortPassengers(trainQueueArray);
+                waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
+                trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
+            }
 
-        System.out.println("Max length : "+maxQueueLength);
-        System.out.println("Max waiting : "+maxWaitingTime);
-        System.out.println("Min waiting : "+minWaitingTime);
-        System.out.println("Avg waiting : "+avgWaitingTime);
+            reportStats[0] = trainQueue.getLength();    // Maximum queue attained
+            reportStats[1] = trainQueue.getMaxStayInQueue();    // Maximum waiting time
+            reportStats[2] = trainQueue.getMinStayInQueue();    // Minimum waiting time
+            reportStats[3] = trainQueue.getMaxStayInQueue()/trainQueue.getLength(); // Average waiting time
+
+            for(int i =0; i<trainQueueArray.length;i++){
+                if(trainQueueArray[i]!=null){
+                    boardedPassenger[0] = trainQueue.remove();
+                    boardedPassengers[i] = boardedPassenger[0];
+                    trainQueueArray[i] = null;
+                }
+            }
+            trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
+            boardedTableView.setItems(getPassengersToTableView(boardedPassengers));
+
+            System.out.println("Max length : "+reportStats[0]);
+            System.out.println("Max waiting : "+reportStats[1]);
+            System.out.println("Min waiting : "+reportStats[2]);
+            System.out.println("Avg waiting : "+reportStats[3]);
+        });
+//        while(checkWaitingRoom()>0) {
+//            addPassengerToTrainQueue();
+//            sortPassengers(trainQueueArray);
+//            waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
+//            trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
+//        }
+
+//        Passenger boardedPassenger;
+//        int maxQueueLength = trainQueue.getLength();
+//        int maxWaitingTime = trainQueue.getMaxStayInQueue();
+//        int minWaitingTime = trainQueue.getMinStayInQueue();
+//        int avgWaitingTime = trainQueue.getMaxStayInQueue()/trainQueue.getLength();
+//
+//        for(int i =0; i<trainQueueArray.length;i++){
+//            if(trainQueueArray[i]!=null){
+//                boardedPassenger = trainQueue.remove();
+//                boardedPassengers[i] = boardedPassenger;
+//                trainQueueArray[i] = null;
+//            }
+//        }
+
+//        System.out.println("Train Queue "+Arrays.toString(trainQueueArray));
+//        System.out.println("Boarded passengers "+Arrays.toString(boardedPassengers));
+//        System.out.println("Passenger 1 "+boardedPassengers[0].getTicketId());
+//        System.out.println("Passenger 1 "+boardedPassengers[0].getSecondsInQueue());
+//        System.out.println("Passenger 2 "+boardedPassengers[1].getTicketId());
+//        System.out.println("Passenger 2 "+boardedPassengers[1].getSecondsInQueue());
+
+        System.out.println("Max length : "+reportStats[0]);
+        System.out.println("Max waiting : "+reportStats[1]);
+        System.out.println("Min waiting : "+reportStats[2]);
+        System.out.println("Avg waiting : "+reportStats[3]);
+
+        root.setLeft(waitingRoomPane);
+        root.setCenter(queuePane);
+        root.setRight(boardedPane);
+        root.setBottom(buttonPane);
+
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 }
