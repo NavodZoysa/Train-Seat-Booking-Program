@@ -12,15 +12,25 @@ public class PassengerQueue {
     }
 
     public void add(Passenger next){
-        queueArray[last] = next;
-        last = last+1%42;
-        maxLength++;
+        if(!isFull()) {
+            queueArray[last] = next;
+            last = last + 1 % 42;
+            maxLength++;
+        }
+        else {
+            System.out.println("Queue is full");
+        }
     }
 
     public Passenger remove(){
         Passenger passenger = queueArray[first];
-        first = first+1%42;
-        maxLength--;
+        if(!isEmpty()) {
+            first = first + 1 % 42;
+            maxLength--;
+        }
+        else{
+            System.out.println("Queue is empty");
+        }
         return passenger;
     }
 
@@ -39,9 +49,6 @@ public class PassengerQueue {
     }
 
     public int getMaxStayInQueue(){
-//        for(int i =0; i < maxLength;i++){
-//            maxStayInQueue = maxStayInQueue + queueArray[i].getSecondsInQueue();
-//        }
         return maxStayInQueue;
     }
 
