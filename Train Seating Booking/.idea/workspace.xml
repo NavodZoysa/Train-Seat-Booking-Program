@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="Sorting and deleting working as intended. Simulation done halfway.">
+    <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CW2/PassengerQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CW2/PassengerQueue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CW2/TrainStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CW2/TrainStation.java" afterDir="false" />
@@ -321,7 +321,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586684767968</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Sorting and deleting working as intended. Simulation done halfway.">
+      <created>1586789848172</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1586789848172</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -337,7 +344,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Hashmap used for order with bubblesort." />
     <MESSAGE value="Fixed empty input." />
     <MESSAGE value="Added train details." />
     <MESSAGE value="Name validation implemented." />
@@ -362,7 +368,8 @@
     <MESSAGE value="Removed file handling and removed repeated code in database. And intermediate partially functional." />
     <MESSAGE value="Intermediate stops partially implemented couldn't get to work as expected." />
     <MESSAGE value="Add, view, save and load working for TrainStation. Left to implement sorting, deleting and simulation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add, view, save and load working for TrainStation. Left to implement sorting, deleting and simulation." />
+    <MESSAGE value="Sorting and deleting working as intended. Simulation done halfway." />
+    <option name="LAST_COMMIT_MESSAGE" value="Sorting and deleting working as intended. Simulation done halfway." />
   </component>
   <component name="WindowStateProjectService">
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories" timestamp="1582101440626">
@@ -405,34 +412,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1150" y="467" key="#com.intellij.tools.ToolEditorDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584040720896" />
-    <state x="481" y="83" key="CommitChangelistDialog2" timestamp="1586789808029">
+    <state x="481" y="83" key="CommitChangelistDialog2" timestamp="1586789847198">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="481" y="83" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586789808029" />
+    <state x="481" y="83" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586789847198" />
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl" timestamp="1586151295981">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1586151295981" />
-    <state width="366" height="282" key="Git.Branch.Popup" timestamp="1586684775730">
+    <state width="368" height="284" key="Git.Branch.Popup" timestamp="1586789853528">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="366" height="282" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586684775730" />
-    <state width="667" height="912" key="GridCell.Tab.0.bottom" timestamp="1586789718845">
+    <state width="368" height="284" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586789853528" />
+    <state width="667" height="912" key="GridCell.Tab.0.bottom" timestamp="1586832534464">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="667" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586789718845" />
-    <state width="667" height="912" key="GridCell.Tab.0.center" timestamp="1586789718844">
+    <state width="667" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1586832534464" />
+    <state width="667" height="912" key="GridCell.Tab.0.center" timestamp="1586832534464">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="667" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586789718844" />
-    <state width="667" height="912" key="GridCell.Tab.0.left" timestamp="1586789718844">
+    <state width="667" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1586832534464" />
+    <state width="667" height="912" key="GridCell.Tab.0.left" timestamp="1586832534464">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="667" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586789718844" />
-    <state width="667" height="912" key="GridCell.Tab.0.right" timestamp="1586789718845">
+    <state width="667" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1586832534464" />
+    <state width="667" height="912" key="GridCell.Tab.0.right" timestamp="1586832534464">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="667" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586789718845" />
+    <state width="667" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1586832534464" />
     <state width="610" height="912" key="GridCell.Tab.1.bottom" timestamp="1584457376460">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -469,10 +476,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="582" y="38" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1586751236772" />
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1586684777753">
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1586789854790">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586684777753" />
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586789854790" />
     <state x="92" y="92" width="1736" height="856" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584317310862">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

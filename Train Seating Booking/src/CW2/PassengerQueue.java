@@ -4,7 +4,7 @@ public class PassengerQueue {
     private Passenger[] queueArray = new Passenger[42];
     private int first;
     private int last;
-    private int maxStayInQueue;
+    private static int maxStayInQueue;
     private int maxLength;
 
     public Passenger[] getQueueArray(){
@@ -38,8 +38,20 @@ public class PassengerQueue {
         return maxLength;
     }
 
-    public int getMaxStay(){
+    public int getMaxStayInQueue(){
+//        for(int i =0; i < maxLength;i++){
+//            maxStayInQueue = maxStayInQueue + queueArray[i].getSecondsInQueue();
+//        }
         return maxStayInQueue;
+    }
+
+    public void setMaxStayInQueue(int seconds){
+        maxStayInQueue = maxStayInQueue + seconds;
+        queueArray[last-1].setSecondsInQueue(maxStayInQueue);
+    }
+
+    public int getMinStayInQueue(){
+        return queueArray[first].getSecondsInQueue();
     }
 
     public void setFirstAndLast(int first, int last){
