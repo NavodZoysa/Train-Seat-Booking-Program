@@ -23,19 +23,15 @@ public class Booking extends Application{
 
     public void consoleMenu(Pane root, Stage stage, Scene scene) {
         Scanner scanner = new Scanner(System.in);
-
-        // List created to store both train details
         List<List<String>> colomboBadullaDetails = new ArrayList<>();
 
-        // Temporary ArrayList to store train number, date booked, start location and destination
+        // List to store train number, date booked, start location and destination
         List<String> trainAndDateList = new ArrayList<>(Arrays.asList("0","0","0","0"));
 
-        // A List created to store each stop in the colonbo to badulla train
         List<String > stationStops = Arrays.asList("Colombo Fort" , "Polgahawela", "Peradeniya Junction", "Gampola",
                 "Nawalapitiya", "Hatton", "Talawakelle", "Nanu Oya", "Haputale", "Diyatalawa", "Bandarawela",
                 "Ella", "Badulla");
 
-        // Main loop the program runs on
         while(true){
             System.out.println(
                     "\nWelcome To Sri Lanka Railways Department\n" +
@@ -52,8 +48,9 @@ public class Booking extends Application{
                     "Please enter 'Q' to quit the program");
 
             String userInput = scanner.next().toUpperCase();
-            // Switch case used to check which inputs were taken
             switch(userInput){
+                // A welcomescreen is presented to select train route and date before going to add, view or empty
+                // and throws an error if nothing was selected
                 case "A":
                     welcomeScreen(stage, userInput, trainAndDateList, stationStops);
                     if(trainAndDateList.contains(null) || trainAndDateList.get(2).equals(trainAndDateList.get(3))){
@@ -107,10 +104,9 @@ public class Booking extends Application{
         Stage stage = new Stage();
         Pane root = new Pane();
         root.setStyle("-fx-background-color: #1b87c2");
-        Scene scene = new Scene(root, 1000, 500);    // Size of the window
+        Scene scene = new Scene(root, 1000, 500);
         stage.setTitle("Train Seat Booking Application");
 
-        // Title and details that display on each screen (add, view and empty) except welcome screen
         Label title = new Label("Welcome to Sri Lanka Railways Department");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
@@ -137,10 +133,8 @@ public class Booking extends Application{
         int yCord = 60;
         Label seat = new Label("S-"+(seatNumber));
         seat.setPrefSize(50, 50);
-
         // Passed column number is multiplied with XCord to create seats on the x-axis
         seat.setLayoutX(column * xCord);
-
         // Passed row number is multiplied with YCord to create seats on the y-axis
         seat.setLayoutY(row * yCord);
         seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; " +
@@ -176,7 +170,7 @@ public class Booking extends Application{
         endStation.setLayoutX(420);
         endStation.setLayoutY(250);
 
-        // For loop to add the stations to each ComboBox and the List
+        // Add each stations to each ComboBox
         for(String item : stationStops){
             startStation.getItems().add(item);
             endStation.getItems().add(item);
@@ -210,16 +204,14 @@ public class Booking extends Application{
         information.setLayoutX(200);
         information.setLayoutY(200);
 
-        // Confirm selected date,route and destination
         Button confirmDestination = new Button("Confirm Destination");
         confirmDestination.setPrefSize(150, 40);
         confirmDestination.setLayoutX(310);
         confirmDestination.setLayoutY(400);
 
-        /*  When confirm destination button is clicked it checks which route was selected using radio buttons and
-            executes the colombo route path or badulla route path, then the selected destination is stored in
-            endLocation and selected date from DatePicker to bookedDate. Train number, bookedDate, start location
-            and endLocation is then added to the trainAndDateList.  */
+        /*  When confirm destination button is clicked it checks which route was selected using the index position
+            of stationStops list and adds train number, date, starting station and destination to trainDateList
+            based on that */
         confirmDestination.setOnAction(event -> {
             String startLocation = startStation.getSelectionModel().getSelectedItem();
             String endLocation = endStation.getSelectionModel().getSelectedItem();
@@ -266,11 +258,183 @@ public class Booking extends Application{
         return "DM"+range;
     }
 
+    public HashMap<Integer, String> displaySeats(Pane root, String userInput, List<String> trainAndDateList,
+                                                 List<String> stationStops, List<List<String>> colomboBadullaDetails){
+        // Hashmap to store seat and name of customers with a starting capacity of 42 elements
+        HashMap<Integer,String> seatList = new HashMap<>(SEATING_CAPACITY);
+
+        int seatNumber = 0;
+        // Used to create 6 seat rows in the GUI
+        for(int row = 1; row <= 6; row++){
+            // Used to create 7 seat columns in the GUI
+            for(int column = 1; column <= 7; column++){
+                /*  Row and column is passed to createSeat which then multiplies it with the coordinates given inside
+                    to create 42 seats in 6 rows and 7 columns */
+                Label seat = createSeat(row, column, ++seatNumber);
+                // Creates 42 placeholder seats with "nb" as value when the program starts the first time
+                if(seatList.size() < SEATING_CAPACITY){
+                    seatList.put(seatNumber, "nb"); // nb = Not Booked
+                }
+                // Checks if the train is going from colombo to badulla
+                if(trainAndDateList.get(0).equals("1001")) {
+                    // This loop checks if the record is there in the list and adds customer nic, first and surname
+                    // values to seatList based on the stops selected by the user
+                    for (List<String> detail : colomboBadullaDetails) {
+                        for (int item : seatList.keySet()) {
+                            // Checks the train number, date and seat is already there and if the selected starting
+                            // and ending station are greater/less than what's already booked
+                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) <= stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) >= stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                            }
+                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) < stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) <= stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                            }
+                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) > stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) < stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                            }
+                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) > stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) >= stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                            }
+                        }
+                    }
+                    // This loop is to show on the GUI that if the selected starting and ending station are
+                    // less/greater than already booked stations it is available for booking
+                    for (List<String> detail : colomboBadullaDetails) {
+                        for (int item : seatList.keySet()) {
+                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) >= stationStops.indexOf(detail.get(7)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) > stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, "nb");
+                            } else if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) < stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) <= stationStops.indexOf(detail.get(6))) {
+                                seatList.put(item, "nb");
+                            }
+                        }
+                    }
+                }
+                // Checks if the train is going from colombo to badulla
+                else if(trainAndDateList.get(0).equals("1002")) {
+                    // This loop checks if the record is there in the list and adds customer nic, first and surname
+                    // values to seatList based on the stops selected by the user
+                    for (List<String> detail : colomboBadullaDetails) {
+                        for (int item : seatList.keySet()) {
+                            // Checks the train number, date and seat is already there and if the selected starting
+                            // and ending station are greater/less than what's already booked
+                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) >= stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) <= stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                            }
+                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) > stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) >= stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                            }
+                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) < stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) > stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                            }
+                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) < stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) <= stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
+                            }
+                        }
+                    }
+                    // This loop is to show on the GUI that if the selected starting and ending station are
+                    // less/greater than already booked stations it is available for booking
+                    for (List<String> detail : colomboBadullaDetails) {
+                        for (int item : seatList.keySet()) {
+                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) <= stationStops.indexOf(detail.get(7)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) < stationStops.indexOf(detail.get(7))) {
+                                seatList.put(item, "nb");
+                            } else if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
+                                    detail.get(1).equals(String.valueOf(item)) &&
+                                    stationStops.indexOf(trainAndDateList.get(2)) > stationStops.indexOf(detail.get(6)) &&
+                                    stationStops.indexOf(trainAndDateList.get(3)) >= stationStops.indexOf(detail.get(6))) {
+                                seatList.put(item, "nb");
+                            }
+                        }
+                    }
+                }
+                root.getChildren().add(seat);
+
+                if(userInput.equals("A")){
+                    int selectedSeat = seatNumber;
+                    // When a Label is clicked on the screen the color is changed and adds a placeholder value to seatList
+                    // whether its booked or not
+                    seat.setOnMouseClicked(event -> {
+                        // If the selected seat on the GUI is not booked when clicked then change its color to red and
+                        // add booked to seatList
+                        if(seatList.get(selectedSeat).equals("nb")){
+                            seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid;" +
+                                    "-fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+                            seatList.put(selectedSeat, "b");
+                        }
+                        // This if condition is used to undo the booked status from previous click but works only once
+                        seat.setOnMouseClicked(event1 -> {
+                            if(seatList.get(selectedSeat).equals("b")){
+                                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid;" +
+                                        "-fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+                                seatList.put(selectedSeat, "nb");
+                            }
+                        });
+                    });
+                }
+                if(userInput.equals("E")) {
+                    // If the seat on the GUI is already booked then change its color to the background color to hide
+                    if (!seatList.get(seatNumber).equals("nb")) {
+                        seat.setStyle("-fx-background-color: #1b87c2;");
+                        seat.setTextFill(Paint.valueOf("#1b87c2"));
+                    }
+                }
+                if(userInput.equals("A") || userInput.equals("V")) {
+                    // If the seat on the GUI is already booked then change its color to red
+                    if (!seatList.get(seatNumber).equals("nb")) {
+                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black;" +
+                                "-fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
+                    }
+                }
+                // If the seat on the GUI is not booked then change its color to green
+                if(seatList.get(seatNumber).equals("nb")){
+                    seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid;" +
+                            "-fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold;" +
+                            "-fx-text-fill: black;");
+                }
+            }
+        }
+        return seatList;
+    }
+
     public void addCustomerToSeat(Pane root, Stage stage, Scene scene, String userInput, List<String> trainAndDateList,
                                   List<String> stationStops, List<List<String>> colomboBadullaDetails){
         // Temporary List to store seat and name of customers
         List<List<String>> tempSeatList = new ArrayList<>();
 
+        // Made the repeated code in add, view and empty to be inside displaySeats and it returns a hashmap with
+        // seat number and name as key/value pairs
         HashMap<Integer, String> seatList = displaySeats(root, userInput, trainAndDateList, stationStops, colomboBadullaDetails);
 
         Label firstNameLabel = new Label("First Name : ");
@@ -316,7 +480,6 @@ public class Booking extends Application{
         bookedSeat.setLayoutX(160);
         bookedSeat.setLayoutY(440);
 
-        // Creates confirm button
         Button bookButton = new Button("Confirm Booking");
         bookButton.setPrefSize(120,40);
         bookButton.setStyle("-fx-background-color: #2144cf; -fx-border-width: 1.5; -fx-border-radius: 3;" +
@@ -325,7 +488,6 @@ public class Booking extends Application{
         bookButton.setLayoutX(560);
         bookButton.setLayoutY(410);
 
-        // Creates clear button
         Button clearButton = new Button("Clear Seats");
         clearButton.setPrefSize(100,40);
         clearButton.setStyle("-fx-background-color: #bd1520; -fx-border-width: 1.5; -fx-border-radius: 3;" +
@@ -341,10 +503,14 @@ public class Booking extends Application{
             String firstName = firstNameText.getText();
             String surName = surNameText.getText();
 
+            // NIC input validated so that the user can enter 9 or 12 numbered characters and firstname and surname
+            // should be alphabetic characters with or without 1 space between them allowed
             if((!nic.trim().isEmpty() && !firstName.trim().isEmpty() && !surName.trim().isEmpty()) &&
                     (nic.length()==9 || nic.length()==12) && (nic.matches("[0-9]+")) &&
                     (firstName.matches("[a-zA-Z\\s]+")) && (surName.matches("[a-zA-Z\\s]+"))){
 
+                // This loop is created so that multiple seats booked to 1 person are 1st stored inside a templist
+                // before adding to the main list
                 for(int item : seatList.keySet()){
                     if(seatList.get(item).equals("b")) {
                         seatList.put(item, nic + " - " + firstName + " " + surName);
@@ -357,6 +523,8 @@ public class Booking extends Application{
                         tempSeatList.add(tempInnerSeatList);
                     }
                 }
+                // This loop is where all the details stored in the tempsealist are added to the main list
+                // in the order of train number, seat number, nic, firstname, surname, date, from, to and ticket number
                 for(List<String> tempInnerSeatList : tempSeatList){
                     List<String> newRecord = new ArrayList<>();
                     // Train route
@@ -377,9 +545,11 @@ public class Booking extends Application{
                     newRecord.add(trainAndDateList.get(3));
                     // Ticket number
                     newRecord.add(tempInnerSeatList.get(4));
-                    // Main list with all customer details
+                    //List with all customer details
                     colomboBadullaDetails.add(newRecord);
                 }
+                // Clears  the templist so the same booked seats are not added again in the next time add method
+                // is called
                 tempSeatList.clear();
 
                 // Throws a confirmation alert for successfully booking seats
@@ -436,6 +606,7 @@ public class Booking extends Application{
     public void viewAllSeats(Pane root, Stage stage, Scene scene, String userInput, List<String> trainAndDateList,
                              List<String> stationStops, List<List<String>> colomboBadullaDetails){
 
+        // Made the repeated code in add, view and empty to be inside displaySeats
         displaySeats(root, userInput, trainAndDateList, stationStops, colomboBadullaDetails);
 
         Label emptySeat = new Label("Available");
@@ -462,6 +633,7 @@ public class Booking extends Application{
     public void displayEmptySeats(Pane root, Stage stage, Scene scene, String userInput, List<String> trainAndDateList,
                                   List<String> stationStops, List<List<String>> colomboBadullaDetails){
 
+        // Made the repeated code in add, view and empty to be inside displaySeats
         displaySeats(root, userInput, trainAndDateList, stationStops, colomboBadullaDetails);
 
         Label emptySeat = new Label("Available");
@@ -470,171 +642,12 @@ public class Booking extends Application{
                 "-fx-alignment: center;-fx-font-weight: bold; -fx-text-fill: black;");
         emptySeat.setLayoutX(60);
         emptySeat.setLayoutY(440);
+
         root.getChildren().add(emptySeat);
         stage.setScene(scene);
         stage.showAndWait();
         stage.close();
         root.getChildren().removeAll(root,emptySeat);
-    }
-
-    public HashMap<Integer, String> displaySeats(Pane root, String userInput, List<String> trainAndDateList,
-                                                 List<String> stationStops, List<List<String>> colomboBadullaDetails){
-        // Hashmap to store seat and name of customers with a starting capacity of 42 elements
-        HashMap<Integer,String> seatList = new HashMap<>(SEATING_CAPACITY);
-
-        // Starts at 0 goes upto inside the loop 42
-        int seatNumber = 0;
-        // Used to create 6 rows in the GUI
-        for(int row = 1; row <= 6; row++){
-            // Used to create 7 columns in the GUI
-            for(int column = 1; column <= 7; column++){
-                /*  Row and column is passed to createSeat which then multiplies it with the coordinates given inside
-                    to create 42 seats in 6 rows and 7 columns */
-                Label seat = createSeat(row, column, ++seatNumber);
-                // Creates 42 placeholder seats with "nb" as value when the program starts the first time
-                if(seatList.size() < SEATING_CAPACITY){
-                    seatList.put(seatNumber, "nb"); // nb = Not Booked
-                }
-                if(trainAndDateList.get(0).equals("1001")) {
-                    // This loop checks if the record is there in colomboCustomers list if there is adds a placeholder value "b" to seatList
-                    for (List<String> detail : colomboBadullaDetails) {
-                        for (int item : seatList.keySet()) {
-                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) <= stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) >= stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
-                            }
-                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) < stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) <= stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
-                            }
-                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) > stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) < stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
-                            }
-                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) > stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) >= stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
-                            }
-                        }
-                    }
-
-                    for (List<String> detail : colomboBadullaDetails) {
-                        for (int item : seatList.keySet()) {
-                            if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) >= stationStops.indexOf(detail.get(7)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) > stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, "nb");
-                            } else if (detail.get(0).equals("1001") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) < stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) <= stationStops.indexOf(detail.get(6))) {
-                                seatList.put(item, "nb");
-                            }
-                        }
-                    }
-                }
-                else if(trainAndDateList.get(0).equals("1002")) {
-                    // This loop checks if the record is there in colomboCustomers list if there is adds a placeholder value "b" to seatList
-                    for (List<String> detail : colomboBadullaDetails) {
-                        for (int item : seatList.keySet()) {
-                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) >= stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) <= stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
-                            }
-                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) > stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) >= stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
-                            }
-                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) < stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) > stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
-                            }
-                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) < stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) <= stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, detail.get(2) + " - " + detail.get(3) + " " + detail.get(4));
-                            }
-                        }
-                    }
-
-                    for (List<String> detail : colomboBadullaDetails) {
-                        for (int item : seatList.keySet()) {
-                            if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) <= stationStops.indexOf(detail.get(7)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) < stationStops.indexOf(detail.get(7))) {
-                                seatList.put(item, "nb");
-                            } else if (detail.get(0).equals("1002") && detail.get(5).equals(trainAndDateList.get(1)) &&
-                                    detail.get(1).equals(String.valueOf(item)) &&
-                                    stationStops.indexOf(trainAndDateList.get(2)) > stationStops.indexOf(detail.get(6)) &&
-                                    stationStops.indexOf(trainAndDateList.get(3)) >= stationStops.indexOf(detail.get(6))) {
-                                seatList.put(item, "nb");
-                            }
-                        }
-                    }
-                }
-                root.getChildren().add(seat);
-
-                if(userInput.equals("A")){
-                    int selectedSeat = seatNumber;
-                    // When a Label is clicked on the screen the color is changed and adds a placeholder value to seatList
-                    // whether its booked or not
-                    seat.setOnMouseClicked(event -> {
-                        // If the selected seat on the GUI is not booked when clicked then change its color to red and
-                        // add booked to seatList
-                        if(seatList.get(selectedSeat).equals("nb")){
-                            seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid;" +
-                                    "-fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-                            seatList.put(selectedSeat, "b");
-                        }
-                        // This if condition is used to undo the booked status from previous click but works only once
-                        seat.setOnMouseClicked(event1 -> {
-                            if(seatList.get(selectedSeat).equals("b")){
-                                seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid;" +
-                                        "-fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-                                seatList.put(selectedSeat, "nb");
-                            }
-                        });
-                    });
-                }
-                if(userInput.equals("E")) {
-                    // If the seat on the GUI is already booked then change its color to the background color
-                    if (!seatList.get(seatNumber).equals("nb")) {
-                        seat.setStyle("-fx-background-color: #1b87c2;");
-                        seat.setTextFill(Paint.valueOf("#1b87c2"));
-                    }
-                }
-                if(userInput.equals("A") || userInput.equals("V")) {
-                    if (!seatList.get(seatNumber).equals("nb")) {
-                        seat.setStyle("-fx-background-color: RED; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black;" +
-                                "-fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-                    }
-                }
-                // If the seat on the GUI is not booked then change its color to green
-                if(seatList.get(seatNumber).equals("nb")){
-                    seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid;" +
-                            "-fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold;" +
-                            "-fx-text-fill: black;");
-                }
-            }
-        }
-        return seatList;
     }
 
     public void deleteCustomer(List<List<String>> colomboBadullaDetails){
@@ -647,17 +660,17 @@ public class Booking extends Application{
         System.out.print("\nPlease enter the NIC of the customer you want to remove : ");
         String nic = scanner.nextLine();
 
+        // Checks for the user entered details in the main list
         for (List<String> details : colomboBadullaDetails) {
-            // Checks if the date and name is in colomboBadullaDetails List if it is then add that record to deletedRecords List
             if (details.contains(date) && details.contains(nic)) {
                 deletedRecords.add(details);
                 found = true;
+                break;
             }
         }
         if(found) {
-            // Removes the records that has the date and name match user input from all Lists
+            // Removes the records that has the date and name which match user input from the list
             colomboBadullaDetails.removeIf(details -> details.contains(date) && details.contains(nic));
-            // Loop to display the deletedRecords in a formatted manner
             for (List<String> details : deletedRecords) {
                 System.out.println(
                         "\nTrain      : " + details.get(0) +
@@ -670,7 +683,6 @@ public class Booking extends Application{
                                 "\nTo         : " + details.get(7) +
                                 "\nTicket     : " + details.get(8));
             }
-            // Removes data stored in deleteRecords
             deletedRecords.clear();
         }
         else{
@@ -685,8 +697,8 @@ public class Booking extends Application{
         System.out.print("Please enter the NIC of the customer to find the related seat booked : ");
         String nic = scanner.nextLine();
 
+        // Checks for the user entered details in the main list
         for(List<String> details : colomboBadullaDetails){
-            // If the name is in the colomboBadullaDetails List print them in a formatted manner
             if(details.contains(nic)){
                 found = true;
                 break;
@@ -694,7 +706,6 @@ public class Booking extends Application{
         }
         if(found) {
             for (List<String> details : colomboBadullaDetails) {
-                // If the name is in the colomboBadullaDetails List print them in a formatted manner
                 if (details.contains(nic)) {
                     System.out.println(
                             "\nTrain      : " + details.get(0) +
@@ -715,93 +726,70 @@ public class Booking extends Application{
     }
 
     public void saveToDatabase(List<List<String>> colomboBadullaDetails){
-        //Connecting to MongoDB then creating a database and then two collections for each train route
+        //Connecting to MongoDB then creating a database and then a collection
         MongoClient mongoClient = new MongoClient("localhost",27017);
         MongoDatabase trainDatabase = mongoClient.getDatabase("trainStation");
         MongoCollection<Document> customerCollection = trainDatabase.getCollection("customerDetails");
         System.out.println("Connected to the Database");
 
-        // Checks if the documents for each route stored in two separate collections has any document
+        // Checks if the documents in the collection has any documents
         if(customerCollection.countDocuments() == 0){
-            // Loops through each inner list in olomboCustomers to get [Date, Start location, Destination, Seat number, Name]
+            // Loops through each inner list in colomboBadullaDetails to get all the details stored
             for (List<String> details : colomboBadullaDetails) {
-                // Creates a new document
                 Document customerDocument = new Document();
-                // Gets the train number
                 customerDocument.append("train", details.get(0));
-                // Gets the seat number
                 customerDocument.append("seat", details.get(1));
-                // Gets the NIC
                 customerDocument.append("NIC", details.get(2));
-                // Gets the first name
                 customerDocument.append("firstname", details.get(3));
-                // Gets the surname
                 customerDocument.append("surname", details.get(4));
-                // Gets the date
                 customerDocument.append("date", details.get(5));
-                // Gets the boarding station
                 customerDocument.append("from", details.get(6));
-                // Gets the destination
                 customerDocument.append("to", details.get(7));
-                // Gets the ticket number
                 customerDocument.append("ticket", details.get(8));
-                // Add the document to the collection
                 customerCollection.insertOne(customerDocument);
             }
         }
-        // Checks if the documents for each route stored in two separate collections has 1 or more documents
+        // Checks if the documents stored in the collection has 1 or more documents
         else if(customerCollection.countDocuments() > 0){
-            // Gets all the documents in colomboCollection train route into findColomboDocument
+            // Gets all the documents in customerCollection into findCustomerDocument
             FindIterable<Document> findCustomerDocument = customerCollection.find();
 
-            // Loops through each document in colomboCollection and deletes them
+            // Loops through each document in findCustomerDocument and deletes them
             for(Document document : findCustomerDocument){
                 customerCollection.deleteOne(document);
             }
-            // Loops through each inner list in colomboCustomers to get [Date, Start location, Destination,
-            // Seat number, Name]
+            // Loops through each inner list in colomboCustomers to get all the train details
             for(List<String> details : colomboBadullaDetails){
-                // Creates a new document
                 Document customerDocument = new Document();
-                // Gets the train number
                 customerDocument.append("train", details.get(0));
-                // Gets the seat number
                 customerDocument.append("seat", details.get(1));
-                // Gets the NIC
                 customerDocument.append("NIC", details.get(2));
-                // Gets the first name
                 customerDocument.append("firstname", details.get(3));
-                // Gets the surname
                 customerDocument.append("surname", details.get(4));
-                // Gets the date
                 customerDocument.append("date", details.get(5));
-                // Gets the boarding station
                 customerDocument.append("from", details.get(6));
-                // Gets the destination
                 customerDocument.append("to", details.get(7));
-                // Gets the ticket number
                 customerDocument.append("ticket", details.get(8));
-                // Add the document to the collection
                 customerCollection.insertOne(customerDocument);
             }
         }
-        mongoClient.close(); // Closes the database connection
+        mongoClient.close();
         System.out.println("Saved the details to the database successfully");
     }
 
     public void loadFromDatabase(List<List<String>> colomboBadullaDetails){
-        //Connecting to MongoDB then creating a database and then two collections for each train route
+        //Connecting to MongoDB then creating a database and then a collection
         MongoClient mongoClient = new MongoClient("localhost",27017);
         MongoDatabase trainDatabase = mongoClient.getDatabase("trainStation");
         MongoCollection<Document> customerCollection = trainDatabase.getCollection("customerDetails");
         System.out.println("Connected to the Database");
 
-        // Gets all the documents in colomboCollection train route into findColomboDocument
+        // Gets all the documents in customerCollection train route into findCustomerDocument
         FindIterable<Document> findCustomerDocument = customerCollection.find();
 
         colomboBadullaDetails.clear();
-        // Loops through each document in colomboColletion and adds each value from the keys to colomboCustomers
-        // and colomboBadullaDetails List
+        // Loops through each document in findCustomerDocument and adds each value from the keys
+        // to the colomboBadullaDetails
         for(Document document : findCustomerDocument){
             List<String> details = new ArrayList<>();
             details.add(document.getString("train"));
@@ -815,7 +803,7 @@ public class Booking extends Application{
             details.add(document.getString("ticket"));
             colomboBadullaDetails.add(details);
         }
-        mongoClient.close(); // Closes the database connection
+        mongoClient.close();
         System.out.println("Details loaded from the database successfully");
         System.out.println(colomboBadullaDetails);
     }
@@ -824,24 +812,26 @@ public class Booking extends Application{
         // Create new List to store name and seat from the main list
         List<String> orderedList = new ArrayList<>();
 
+        // Adds the first name, surname and seat number to orderedList
         for (List<String> details : colomboBadullaCustomers) {
             orderedList.add(details.get(3) + " " + details.get(4) + " - " +details.get(1));
         }
         System.out.println("\nCustomer names ordered based on first come first served basis\n");
-        // Loops through each item in the orderedList to show the order which was added
         for (String item : orderedList) {
             System.out.println(item);
         }
+
         // Bubble sort algorithm used to sort each item in orderedList in the ascending order
         for (int i = 0; i < orderedList.size(); i++) {
             for (int j = i + 1; j < orderedList.size(); j++) {
-                // Checks if the value of index i is less than the value of index j if it is smaller then it goes inside the loop
+                // Checks if the value of index i is less than the value of index j and if it is smaller
+                // then it goes inside the loop
                 if (orderedList.get(i).compareTo(orderedList.get(j)) > 0) {
                     // Stores the value of index i in hold which is less than j
                     String hold = orderedList.get(i);
-                    // Sets the value of index j into the index of i
+                    // Sets the index i to the value value of index j
                     orderedList.set(i, orderedList.get(j));
-                    // Sets the value of hold into the index of j
+                    // Sets the  index of j to the value of hold
                     orderedList.set(j, hold);
                 }
             }
