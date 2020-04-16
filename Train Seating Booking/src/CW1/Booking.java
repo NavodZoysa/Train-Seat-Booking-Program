@@ -662,10 +662,9 @@ public class Booking extends Application{
 
         // Checks for the user entered details in the main list
         for (List<String> details : colomboBadullaDetails) {
-            if (details.contains(date) && details.contains(nic)) {
+            if (details.get(5).equals(date) && details.get(2).equals(nic)) {
                 deletedRecords.add(details);
                 found = true;
-                break;
             }
         }
         if(found) {
@@ -699,7 +698,7 @@ public class Booking extends Application{
 
         // Checks for the user entered details in the main list
         for(List<String> details : colomboBadullaDetails){
-            if(details.contains(nic)){
+            if(details.get(2).equals(nic)){
                 found = true;
                 break;
             }
@@ -840,6 +839,6 @@ public class Booking extends Application{
         for (String item : orderedList) {
             System.out.println(item);
         }
-        orderedList.clear(); // Removes the data stored so it doesn't conflict with the other train route
+        orderedList.clear();
     }
 }
