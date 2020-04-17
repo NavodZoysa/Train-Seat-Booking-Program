@@ -20,8 +20,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="71216279-dc11-4455-9d3a-e00f75aaee87" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/9/690a585c43eb2c6d8d771737c1bfd7a7910d3061" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/d/6df69807fde25a928030bc333b04c30d9bc49362" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/e/6ef2b3c39bfc31998c77e619d5905079cce4b4ca" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/e/ae76967be9ca4bee930b7194ed500797622d7e5f" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CW1/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CW1/Booking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CW2/TrainStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CW2/TrainStation.java" afterDir="false" />
     </list>
     <list id="3a1c9dab-66b7-4788-9167-adfd46704e33" name="local history" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,17 +68,17 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Google Drive\IIT\Year 1\Modules\Programming Principles 2 4COSC010C\Assignments\Summative\CW1\Test\Train Seating Booking\src\CW1" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Booking">
+  <component name="RunManager" selected="Application.TrainStation">
     <configuration name="Booking" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CW1.Booking" />
       <module name="Train Seating Booking" />
@@ -388,7 +395,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586970721593</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Fixed some issues which went unnoticed in find and delete.">
+      <created>1587006496352</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1587006496352</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -404,7 +418,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added 2 trains colombo to badulla and back." />
     <MESSAGE value="Removed repetition of creating seats." />
     <MESSAGE value="Added datepicker." />
     <MESSAGE value="Added main list to store all." />
@@ -429,7 +442,8 @@
     <MESSAGE value="Intermediate stops working without issues." />
     <MESSAGE value="Tested the whole program and working as intended some validation to be implemented." />
     <MESSAGE value="Validated find and deleted. Added relevant comments without overdoing it." />
-    <option name="LAST_COMMIT_MESSAGE" value="Validated find and deleted. Added relevant comments without overdoing it." />
+    <MESSAGE value="Fixed some issues which went unnoticed in find and delete." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed some issues which went unnoticed in find and delete." />
   </component>
   <component name="WindowStateProjectService">
     <state x="640" y="281" width="800" height="672" key="#Custom_Plugin_Repositories" timestamp="1582101440626">
@@ -472,34 +486,34 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1150" y="467" key="#com.intellij.tools.ToolEditorDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584040720896" />
-    <state x="481" y="83" key="CommitChangelistDialog2" timestamp="1586970720972">
+    <state x="481" y="83" key="CommitChangelistDialog2" timestamp="1587006495166">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="481" y="83" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586970720972" />
+    <state x="481" y="83" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587006495166" />
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl" timestamp="1586151295981">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="743" y="277" width="588" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1586151295981" />
-    <state width="386" height="302" key="Git.Branch.Popup" timestamp="1586970725434">
+    <state width="390" height="306" key="Git.Branch.Popup" timestamp="1587009346297">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="386" height="302" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586970725434" />
-    <state width="891" height="912" key="GridCell.Tab.0.bottom" timestamp="1587005726301">
+    <state width="390" height="306" key="Git.Branch.Popup/0.0.1920.1040@0.0.1920.1040" timestamp="1587009346297" />
+    <state width="1048" height="912" key="GridCell.Tab.0.bottom" timestamp="1587148608837">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="891" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587005726301" />
-    <state width="891" height="912" key="GridCell.Tab.0.center" timestamp="1587005726301">
+    <state width="1048" height="912" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587148608837" />
+    <state width="1048" height="912" key="GridCell.Tab.0.center" timestamp="1587148608837">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="891" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587005726301" />
-    <state width="891" height="912" key="GridCell.Tab.0.left" timestamp="1587005726301">
+    <state width="1048" height="912" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587148608837" />
+    <state width="1048" height="912" key="GridCell.Tab.0.left" timestamp="1587148608837">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="891" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587005726301" />
-    <state width="891" height="912" key="GridCell.Tab.0.right" timestamp="1587005726301">
+    <state width="1048" height="912" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587148608837" />
+    <state width="1048" height="912" key="GridCell.Tab.0.right" timestamp="1587148608837">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="891" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587005726301" />
+    <state width="1048" height="912" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587148608837" />
     <state width="610" height="912" key="GridCell.Tab.1.bottom" timestamp="1584457376460">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -532,14 +546,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="269" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1584202645469" />
-    <state x="582" y="38" width="1024" height="840" key="SettingsEditor" timestamp="1587004891346">
+    <state x="540" y="263" key="IDE.errors.dialog" timestamp="1587137103879">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="582" y="38" width="1024" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587004891346" />
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1586970726583">
+    <state x="540" y="263" key="IDE.errors.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587137103879" />
+    <state x="20" y="65" width="1064" height="840" key="SettingsEditor" timestamp="1587113343919">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586970726583" />
+    <state x="20" y="65" width="1064" height="840" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1587113343919" />
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2" timestamp="1587006501606">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="702" y="323" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1587006501606" />
     <state x="92" y="92" width="1736" height="856" maximized="true" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584317310862">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -576,10 +594,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="180" key="scopes/0.0.1920.1040@0.0.1920.1040" timestamp="1582377140490" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1586653725537">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1587142546602">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1586653725537" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1587142546602" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Train_Seating_Booking$Booking.ic" NAME="Booking Coverage Results" MODIFIED="1582992003880" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

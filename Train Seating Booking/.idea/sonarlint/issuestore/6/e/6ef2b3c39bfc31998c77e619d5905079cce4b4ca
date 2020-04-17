@@ -1,0 +1,68 @@
+
+V	java:S106Œ"9Replace this use of System.out or System.err by a logger.(ÆÀûı8Ùè–ô•.
+m	java:S128^"LEnd this switch case with an unconditional break, return or throw statement.(ÄƒŠóüÿÿÿÿ8Ùè–ô•.
+O	java:S106ÿ"9Replace this use of System.out or System.err by a logger.(Ì ˜Ò
+b
+java:S1192Á"FDefine a constant instead of duplicating this literal "train" 3 times.(»¸¿ãüÿÿÿÿ
+_
+java:S1192É"HDefine a constant instead of duplicating this literal "surname" 3 times.(Øâ¨²
+N	java:S106("9Replace this use of System.out or System.err by a logger.(ÆÀûı
+R
+java:S2864Õ"4Iterate over the "entrySet" instead of the "keySet".(ß­´8Ùè–ô•.
+T	java:S106™"9Replace this use of System.out or System.err by a logger.(™ë‚Šûÿÿÿÿ
+R
+java:S2864¥"4Iterate over the "entrySet" instead of the "keySet".(ß­´8Ùè–ô•.
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(·ƒİş
+¼
+java:S1192´"Define a constant instead of duplicating this literal "-fx-border-color: black; -fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;" 5 times.(öâ¸8Ùè–ô•.
+O	java:S106·"9Replace this use of System.out or System.err by a logger.(›ÇÕÀ
+£
+java:S1192•"„Define a constant instead of duplicating this literal "-fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;" 3 times.(‹ê“õ8Ùè–ô•.
+e
+java:S2184“"HCast one of the operands of this multiplication operation to a "double".(°³èt8Ùè–ô•.
+O	java:S106ù"9Replace this use of System.out or System.err by a logger.(ÇÍ“ç
+O	java:S106Ÿ"9Replace this use of System.out or System.err by a logger.(œ…³¶
+f
+java:S1192Ç"JDefine a constant instead of duplicating this literal "firstname" 3 times.(ã°ª•ùÿÿÿÿ
+m
+java:S1192©"JDefine a constant instead of duplicating this literal "Available" 3 times.(“íÃüÿÿÿÿ8Ùè–ô•.
+¤
+java:S1192‘"€Define a constant instead of duplicating this literal "-fx-font: 16 arial; -fx-text-fill: black; -fx-font-weight: bold" 3 times.(ÕØ¬Áÿÿÿÿÿ8Ùè–ô•.
+T	java:S106a"9Replace this use of System.out or System.err by a logger.(—¥¸28Ùè–ô•.
+X	java:S110Ä"<This class has 8 parents which is greater than 5 authorized.(ôïœT8Ùè–ô•.
+O	java:S106¤"9Replace this use of System.out or System.err by a logger.(ÛéÕ×
+R
+java:S2864–"4Iterate over the "entrySet" instead of the "keySet".(ß­´8Ùè–ô•.
+V	java:S106š"9Replace this use of System.out or System.err by a logger.(ÇÍ“ç8Ùè–ô•.
+k
+java:S2184"HCast one of the operands of this multiplication operation to a "double".(é×ö³ÿÿÿÿÿ8¼é›ô•.
+O	java:S106¹"9Replace this use of System.out or System.err by a logger.(Òà´Ç
+T	java:S106„"9Replace this use of System.out or System.err by a logger.(ö¡½³üÿÿÿÿ
+O	java:S106ı"9Replace this use of System.out or System.err by a logger.(–œ»
+D
+java:S2189'""Add an end condition to this loop.(˜ïˆÿÿÿÿÿ8Ùè–ô•.
+O	java:S106¥"9Replace this use of System.out or System.err by a logger.(ÆÀûı
+T	java:S106¸"9Replace this use of System.out or System.err by a logger.(ö¡½³üÿÿÿÿ
+O	java:S106§"9Replace this use of System.out or System.err by a logger.(Òà´Ç
+O	java:S106û"9Replace this use of System.out or System.err by a logger.(²êıÂ
+‹
+java:S1319Ö"mThe return type of this method should be an interface such as "Map" rather than the implementation "HashMap".(×Ï”²8¸øãñ—.
+©
+java:S1192´"‹Define a constant instead of duplicating this literal "-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid;" 3 times.(Ú€w8¸øãñ—.
+e
+java:S1192Ñ"GDefine a constant instead of duplicating this literal "ticket" 3 times.(ÖôÖÎ8¸øãñ—.
+M
+java:S1066ß"/Merge this if statement with the enclosing one.(’ÚŒ”8¸øãñ—.
+;
+java:S2119€"Save and re-use this "Random".(¼İÅf8¸øãñ—.
+p
+java:S3776…"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(¬êõÔ8¸øãñ—.
+[	java:S106Ì"9Replace this use of System.out or System.err by a logger.(’­ ¡øÿÿÿÿ8¸øãñ—.
+[	java:S106Í"9Replace this use of System.out or System.err by a logger.(—ˆ˜½şÿÿÿÿ8¸øãñ—.
+[	java:S106á"9Replace this use of System.out or System.err by a logger.(‚¾àÿÿÿÿÿ8¸øãñ—.
+q
+java:S3776Ö"SRefactor this method to reduce its Cognitive Complexity from 136 to the 15 allowed.(×Ï”²8¸øãñ—.
+k
+java:S1871‘"MThis branch's code block is the same as the block for the branch on line 523.(¶õ±È8¸øãñ—.
+p
+java:S1871À"MThis branch's code block is the same as the block for the branch on line 570.(¾äàûÿÿÿÿ8¸øãñ—.

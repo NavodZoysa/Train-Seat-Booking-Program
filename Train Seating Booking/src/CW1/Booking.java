@@ -119,7 +119,8 @@ public class Booking extends Application{
                 "Departure time - 06:45AM / 07:20AM\n" +
                 "Arrival  time - 03:27PM / 04:03PM\n" +
                 "Class - 1st Class A/C Compartment\n");
-        details.setStyle("-fx-font: 18 arial; -fx-text-fill: black; -fx-font-weight: bold");
+        details.setStyle("-fx-font: 18 arial; -fx-text-fill: black; " +
+                        "-fx-font-weight: bold");
         details.setLayoutX(500);
         details.setLayoutY(100);
 
@@ -137,12 +138,15 @@ public class Booking extends Application{
         seat.setLayoutX(column * xCord);
         // Passed row number is multiplied with YCord to create seats on the y-axis
         seat.setLayoutY(row * yCord);
-        seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; -fx-border-style: solid; -fx-border-color: black; " +
+        seat.setStyle("-fx-background-color: GREEN; -fx-border-width: 2; " +
+                "-fx-border-style: solid; -fx-border-color: black; " +
                 "-fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
         return seat;
     }
 
-    public void welcomeScreen(Stage stage, String userInput, List<String> trainAndDateList, List<String> stationStops){
+    public void welcomeScreen(Stage stage, String userInput, List<String> trainAndDateList,
+                              List<String> stationStops){
+
         Label title = new Label("Welcome to Sri Lanka Railways Department");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black");
         title.setLayoutX(95);
