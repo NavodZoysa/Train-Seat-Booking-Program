@@ -12,12 +12,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.bson.Document;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -308,8 +307,8 @@ public class TrainStation extends Application {
     public void sortPassengers(Passenger[] trainQueueArray){
         for(Passenger passenger : trainQueueArray) {
             if (passenger != null) {
-                for (int i = 0; i < trainQueue.getLength(); i++) {
-                    for (int j = i + 1; j < trainQueue.getLength(); j++) {
+                for (int i = 0; i < trainQueue.getMaxLength(); i++) {
+                    for (int j = i + 1; j < trainQueue.getMaxLength(); j++) {
                         if ((Integer.parseInt(trainQueueArray[i].getSeatNumber()) > (Integer.parseInt(trainQueueArray[j].getSeatNumber())))) {
                             Passenger temp = trainQueueArray[i];
                             trainQueueArray[i] = trainQueueArray[j];
@@ -336,7 +335,6 @@ public class TrainStation extends Application {
         return random.nextInt(6)+1;
     }
 
-
     public void addTableColumns(TableView<Passenger> tableView){
         TableColumn<Passenger, String> seatNumberColumn = new TableColumn<>("Seat");
         seatNumberColumn.setMaxWidth(50);
@@ -355,7 +353,7 @@ public class TrainStation extends Application {
         trainColumn.setCellValueFactory(new PropertyValueFactory<>("train"));
 
         TableColumn<Passenger, String> nicColumn = new TableColumn<>("NIC");
-        nicColumn.setMaxWidth(50);
+        nicColumn.setMaxWidth(100);
         nicColumn.setCellValueFactory(new PropertyValueFactory<>("nic"));
 
         TableColumn<Passenger, String> dateColumn = new TableColumn<>("Date");
@@ -372,10 +370,9 @@ public class TrainStation extends Application {
 
         tableView.getColumns().addAll(seatNumberColumn, nameColumn, ticketIdColumn, trainColumn, nicColumn, dateColumn, fromColumn, toColumn);
     }
-
-    public Pane createPane(String title, String color){
-        Pane pane = new Pane();
-        pane.setPrefSize(590, 500);
+    public AnchorPane createPane(String title, String color){
+        AnchorPane pane = new AnchorPane();
+        pane.setPrefSize(600, 500);
         pane.setStyle("-fx-border-width: 2; -fx-border-style: solid; -fx-background-color:"+color);
         Label paneTitle = new Label(title);
         paneTitle.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black;");
@@ -385,36 +382,45 @@ public class TrainStation extends Application {
         return pane;
     }
 
-    public Pane displayWaitingRoomTable(Pane pane){
+    public AnchorPane displayWaitingRoomTable(AnchorPane pane){
         waitingRoomTableView = new TableView<>();
-        waitingRoomTableView.setPrefSize(588,502);
-        waitingRoomTableView.setLayoutY(50);
         waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
         addTableColumns(waitingRoomTableView);
+        AnchorPane.setBottomAnchor(waitingRoomTableView, 0.0);
+        AnchorPane.setLeftAnchor(waitingRoomTableView, 0.0);
+        AnchorPane.setRightAnchor(waitingRoomTableView, 0.0);
+        AnchorPane.setTopAnchor(waitingRoomTableView, 50.0);
         pane.getChildren().addAll(waitingRoomTableView);
 
         return pane;
     }
 
-    public Pane displayTrainQueueTable(Pane pane){
+    public AnchorPane displayTrainQueueTable(AnchorPane pane){
         trainQueueTableView = new TableView<>();
-        trainQueueTableView.setPrefSize(515,502);
-        trainQueueTableView.setLayoutX(2);
-        trainQueueTableView.setLayoutY(50);
         trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
         addTableColumns(trainQueueTableView);
+        AnchorPane.setBottomAnchor(trainQueueTableView, 0.0);
+        AnchorPane.setLeftAnchor(trainQueueTableView, 0.0);
+        AnchorPane.setRightAnchor(trainQueueTableView, 0.0);
+        AnchorPane.setTopAnchor(trainQueueTableView, 50.0);
         pane.getChildren().addAll(trainQueueTableView);
 
         return pane;
     }
 
-    public Pane displayBoardedTable(Pane pane){
+    public AnchorPane displayBoardedTable(AnchorPane pane){
+        TableColumn<Passenger, String> secondsColumn = new TableColumn<>("Queue Time");
+        secondsColumn.setMinWidth(70);
+        secondsColumn.setCellValueFactory(new PropertyValueFactory<>("secondsInQueue"));
+
         boardedTableView = new TableView<>();
-        boardedTableView.setPrefSize(515,502);
-        boardedTableView.setLayoutX(2);
-        boardedTableView.setLayoutY(50);
         boardedTableView.setItems(getPassengersToTableView(boardedPassengers));
         addTableColumns(boardedTableView);
+        boardedTableView.getColumns().add(secondsColumn);
+        AnchorPane.setBottomAnchor(boardedTableView, 0.0);
+        AnchorPane.setLeftAnchor(boardedTableView, 0.0);
+        AnchorPane.setRightAnchor(boardedTableView, 0.0);
+        AnchorPane.setTopAnchor(boardedTableView, 50.0);
         pane.getChildren().addAll(boardedTableView);
 
         return pane;
@@ -424,11 +430,11 @@ public class TrainStation extends Application {
         Stage stage = new Stage();
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1b87c2");
-        Scene scene = new Scene(root, 1110, 700);    // Size of the window
+        Scene scene = new Scene(root, 1200, 700);    // Size of the window
         stage.setTitle("Train Station Queue Application");
 
-        Pane waitingRoomPane = createPane("Waiting Room","#fcba03");
-        Pane trainQueuePane = createPane("Train Queue","#00ad71");
+        AnchorPane waitingRoomPane = createPane("Waiting Room","#fcba03");
+        AnchorPane trainQueuePane = createPane("Train Queue","#00ad71");
 
         Pane buttonPane = new Pane();
         buttonPane.setPrefSize(1100, 145);
@@ -467,24 +473,44 @@ public class TrainStation extends Application {
 
         Label title = new Label("Seats of passengers in Train Queue");
         title.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black;");
-        title.setPadding(new Insets(0, 0, 0, 250));
+        title.setPadding(new Insets(10, 0, 0, 320));
 
         GridPane grid = new GridPane();
-        grid.setPadding(new Insets(50, 50, 50, 50));
-        grid.setHgap(10);
-        grid.setVgap(10);
-        Scene scene = new Scene(root, 1110, 560);    // Size of the window
+        grid.setPadding(new Insets(40, 50, 50, 50));
+        grid.setHgap(20);
+        grid.setVgap(20);
+        Scene scene = new Scene(root, 1250, 650);    // Size of the window
         stage.setTitle("Train Station Queue Application");
 
         int seatNumber = 0;
         for(int i = 0; i < 6; i++){
             for(int j = 0; j<7; j++){
-                Label seat = new Label(String.valueOf(seatNumber++));
-                seat.setPrefSize(120,50);
-                seat.setStyle("-fx-background-color: GREY; -fx-border-width: 2; " +
+                VBox seatBox = new VBox();
+                seatBox.setPrefSize(150,50);
+                seatBox.setStyle("-fx-background-color: #fcba03; -fx-border-width: 2; " +
                         "-fx-border-style: solid; -fx-border-color: black; " +
                         "-fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
-                grid.add(seat,j, i);
+
+                Label passengerSeat = new Label("Seat "+(++seatNumber));
+                passengerSeat.setStyle("-fx-font: 18 arial; -fx-font-weight: bold; -fx-text-fill: black;");
+                Label passengerName = new Label("Name : "+"Empty");
+                Label passengerTicket = new Label("Ticket : "+"Empty");
+                Label passengerStatus = new Label("Status : "+"Empty");
+
+                if(!trainQueue.isEmpty()) {
+                    for (Passenger passenger : trainQueueArray) {
+                        if(passenger==null){
+                            continue;
+                        }
+                        if (passenger.getSeatNumber().equals(String.valueOf(seatNumber))) {
+                            passengerName.setText("Name : "+passenger.getName());
+                            passengerTicket.setText("Ticket : "+passenger.getTicketId());
+                            passengerStatus.setText("Status : "+"Empty");
+                        }
+                    }
+                }
+                seatBox.getChildren().addAll(passengerSeat, passengerName, passengerTicket, passengerStatus);
+                grid.add(seatBox,j, i);
             }
         }
         root.setTop(title);
@@ -497,40 +523,87 @@ public class TrainStation extends Application {
     public void deletePassenger(){
         Passenger[] tempArray = new Passenger[trainQueueArray.length];
         Passenger deletedPassenger = null;
+        boolean found = false;
 
         Scanner scanner = new Scanner(System.in);
         System.out.print("Please enter the seat number of passenger to remove from the train queue : ");
         String seatSelected = scanner.nextLine();
 
-        System.out.println("Before delete "+Arrays.toString(trainQueueArray));
-        for(int i = 0,j=0;i < trainQueueArray.length;i++){
-            if(trainQueueArray[i]==(null)){
-                continue;
+        if(!trainQueue.isEmpty() && !seatSelected.isEmpty() &&
+                (Integer.parseInt(seatSelected) >0) && (Integer.parseInt(seatSelected) <43)) {
+            for (Passenger passenger : trainQueueArray) {
+                if (passenger.getSeatNumber().equals(seatSelected)) {
+                    found = true;
+                    break;
+                }
             }
-            else if(!trainQueueArray[i].getSeatNumber().equals(seatSelected)) {
-                tempArray[j++] = trainQueueArray[i];
-                System.out.println("During delete " + Arrays.toString(tempArray));
-            }
-            else if(trainQueueArray[i].getSeatNumber().equals(seatSelected)){
-                deletedPassenger = trainQueueArray[i];
-            }
-            trainQueueArray[i] = null;
         }
 
-        System.out.println("After delete "+Arrays.toString(trainQueueArray));
-        trainQueue.setFirstAndLast(0, 0);
-        for(Passenger passenger : tempArray){
-            trainQueue.add(passenger);
-        }
+        if(found) {
+            for (int i = 0, j = 0; i < trainQueueArray.length; i++) {
+                if (trainQueueArray[i] == (null)) {
+                    continue;
+                } else if (!trainQueueArray[i].getSeatNumber().equals(seatSelected)) {
+                    tempArray[j++] = trainQueueArray[i];
+                } else if (trainQueueArray[i].getSeatNumber().equals(seatSelected)) {
+                    deletedPassenger = trainQueueArray[i];
+                }
+                trainQueueArray[i] = null;
+            }
 
-        System.out.println("After add "+Arrays.toString(trainQueueArray));
-        for(int i = 0; i < waitingRoom.length; i++){
-            if(waitingRoom[i]==null){
-                waitingRoom[i] = deletedPassenger;
-                break;
+            trainQueue.setFirstAndLast(0, 0);
+            trainQueue.setMaxLength(0);
+            for (Passenger passenger : tempArray) {
+                if (passenger != null) {
+                    trainQueue.add(passenger);
+                }
+            }
+            System.out.println("\nDeleted passenger details \n\n" +
+                    "Passenger seat number   : " + deletedPassenger.getSeatNumber() +
+                    "\nPassenger name          : " + deletedPassenger.getName() +
+                    "\nPassenger ticket number : " + deletedPassenger.getTicketId() +
+                    "\nPassenger train number  : " + deletedPassenger.getTrain() +
+                    "\nPassenger NIC           : " + deletedPassenger.getNic() +
+                    "\nPassenger Date          : " + deletedPassenger.getDate() +
+                    "\nPassenger From          : " + deletedPassenger.getFrom() +
+                    "\nPassenger To            : " + deletedPassenger.getTo());
+        }
+        else{
+            System.out.println("\nThe passenger for that seat entered is not in the queue. Please enter a passenger with a seat in the train queue.");
+        }
+    }
+
+    public void saveToCollectionFromArray(MongoCollection<Document> passengerCollection, Passenger[] passengerArray){
+        for (Passenger passenger : passengerArray) {
+            if (passenger != null) {
+                // Creates a new document
+                Document document = new Document();
+                // Gets the train number
+                document.append("train", passenger.getTrain());
+                // Gets the seat number
+                document.append("seat", passenger.getSeatNumber());
+                // Gets the NIC
+                document.append("NIC", passenger.getNic());
+                // Gets the first name
+                document.append("firstname", passenger.getFirstName());
+                // Gets the surname
+                document.append("surname", passenger.getSurname());
+                // Gets the date
+                document.append("date", passenger.getDate());
+                // Gets the boarding station
+                document.append("from", passenger.getFrom());
+                // Gets the destination
+                document.append("to", passenger.getTo());
+                // Gets the ticket number
+                document.append("ticket", passenger.getTicketId());
+                if(passenger.getSecondsInQueue()!=0){
+                    // Gets the seconds in queue
+                        document.append("seconds", String.valueOf(passenger.getSecondsInQueue()));
+                }
+                // Add the document to the collection
+                passengerCollection.insertOne(document);
             }
         }
-        System.out.println("Waiting Room "+Arrays.toString(waitingRoom));
     }
 
     public void saveTrainQueue(){
@@ -544,147 +617,52 @@ public class TrainStation extends Application {
         // Checks if the documents for each route stored in two separate collections has any document
         if(waitingRoomCollection.countDocuments() == 0 || queueCollection.countDocuments() == 0){
             if(waitingRoomCollection.countDocuments() == 0) {
-                // Loops through each inner list in olomboCustomers to get [Date, Start location, Destination, Seat number, Name]
-                for (Passenger passenger : waitingRoom) {
-                    if (passenger != null) {
-                        // Creates a new document
-                        Document waitingRoomDocument = new Document();
-                        // Gets the train number
-                        waitingRoomDocument.append("train", passenger.getTrain());
-                        // Gets the seat number
-                        waitingRoomDocument.append("seat", passenger.getSeatNumber());
-                        // Gets the NIC
-                        waitingRoomDocument.append("NIC", passenger.getNic());
-                        // Gets the first name
-                        waitingRoomDocument.append("firstname", passenger.getFirstName());
-                        // Gets the surname
-                        waitingRoomDocument.append("surname", passenger.getSurname());
-                        // Gets the date
-                        waitingRoomDocument.append("date", passenger.getDate());
-                        // Gets the boarding station
-                        waitingRoomDocument.append("from", passenger.getFrom());
-                        // Gets the destination
-                        waitingRoomDocument.append("to", passenger.getTo());
-                        // Gets the ticket number
-                        waitingRoomDocument.append("ticket", passenger.getTicketId());
-                        // Add the document to the collection
-                        waitingRoomCollection.insertOne(waitingRoomDocument);
-                    }
-                }
+                saveToCollectionFromArray(waitingRoomCollection, waitingRoom);
             }
             if(queueCollection.countDocuments() == 0) {
-                // Loops through each inner list in olomboCustomers to get [Date, Start location, Destination, Seat number, Name]
-                for (Passenger passenger : trainQueueArray) {
-                    if (passenger != null) {
-                        // Creates a new document
-                        Document queueDocument = new Document();
-                        // Gets the train number
-                        queueDocument.append("train", passenger.getTrain());
-                        // Gets the seat number
-                        queueDocument.append("seat", passenger.getSeatNumber());
-                        // Gets the NIC
-                        queueDocument.append("NIC", passenger.getNic());
-                        // Gets the first name
-                        queueDocument.append("firstname", passenger.getFirstName());
-                        // Gets the surname
-                        queueDocument.append("surname", passenger.getSurname());
-                        // Gets the date
-                        queueDocument.append("date", passenger.getDate());
-                        // Gets the boarding station
-                        queueDocument.append("from", passenger.getFrom());
-                        // Gets the destination
-                        queueDocument.append("to", passenger.getTo());
-                        // Gets the ticket number
-                        queueDocument.append("ticket", passenger.getTicketId());
-                        // Gets the seconds in queue
-                        queueDocument.append("seconds", String.valueOf(passenger.getSecondsInQueue()));
-                        // Add the document to the collection
-                        queueCollection.insertOne(queueDocument);
-                    }
-                }
+                saveToCollectionFromArray(queueCollection, trainQueueArray);
             }
         }
         // Checks if the documents for each route stored in two separate collections has 1 or more documents
         else if(waitingRoomCollection.countDocuments() > 0 || queueCollection.countDocuments() > 0){
             if(waitingRoomCollection.countDocuments() > 0) {
-                // Gets all the documents in colomboCollection train route into findColomboDocument
-                FindIterable<Document> findWaitingRoomDocument = waitingRoomCollection.find();
-
-                // Loops through each document in colomboCollection and deletes them
-                for (Document document : findWaitingRoomDocument) {
-                    waitingRoomCollection.deleteOne(document);
-                }
-                // Loops through each inner list in colomboCustomers to get [Date, Start location, Destination,
-                // Seat number, Name]
-                for (Passenger passenger : waitingRoom) {
-                    if (passenger != null) {
-                        // Creates a new document
-                        Document waitingRoomDocument = new Document();
-                        // Gets the train number
-                        waitingRoomDocument.append("train", passenger.getTrain());
-                        // Gets the seat number
-                        waitingRoomDocument.append("seat", passenger.getSeatNumber());
-                        // Gets the NIC
-                        waitingRoomDocument.append("NIC", passenger.getNic());
-                        // Gets the first name
-                        waitingRoomDocument.append("firstname", passenger.getFirstName());
-                        // Gets the surname
-                        waitingRoomDocument.append("surname", passenger.getSurname());
-                        // Gets the date
-                        waitingRoomDocument.append("date", passenger.getDate());
-                        // Gets the boarding station
-                        waitingRoomDocument.append("from", passenger.getFrom());
-                        // Gets the destination
-                        waitingRoomDocument.append("to", passenger.getTo());
-                        // Gets the ticket number
-                        waitingRoomDocument.append("ticket", passenger.getTicketId());
-                        // Add the document to the collection
-                        waitingRoomCollection.insertOne(waitingRoomDocument);
-                    }
-                }
+                trainDatabase.getCollection("waitingRoomDetails").drop();
+                saveToCollectionFromArray(waitingRoomCollection, waitingRoom);
             }
             if(queueCollection.countDocuments() > 0) {
-                // Gets all the documents in colomboCollection train route into findColomboDocument
-                FindIterable<Document> findQueueDocument = queueCollection.find();
-
-                // Loops through each document in colomboCollection and deletes them
-                for (Document document : findQueueDocument) {
-                    queueCollection.deleteOne(document);
-                }
-                // Loops through each inner list in colomboCustomers to get [Date, Start location, Destination,
-                // Seat number, Name]
-                for (Passenger passenger : trainQueueArray) {
-                    if (passenger != null) {
-                        // Creates a new document
-                        Document queueDocument = new Document();
-                        // Gets the train number
-                        queueDocument.append("train", passenger.getTrain());
-                        // Gets the seat number
-                        queueDocument.append("seat", passenger.getSeatNumber());
-                        // Gets the NIC
-                        queueDocument.append("NIC", passenger.getNic());
-                        // Gets the first name
-                        queueDocument.append("firstname", passenger.getFirstName());
-                        // Gets the surname
-                        queueDocument.append("surname", passenger.getSurname());
-                        // Gets the date
-                        queueDocument.append("date", passenger.getDate());
-                        // Gets the boarding station
-                        queueDocument.append("from", passenger.getFrom());
-                        // Gets the destination
-                        queueDocument.append("to", passenger.getTo());
-                        // Gets the ticket number
-                        queueDocument.append("ticket", passenger.getTicketId());
-                        // Gets the seconds in queue
-                        queueDocument.append("seconds", String.valueOf(passenger.getSecondsInQueue()));
-                        // Add the document to the collection
-                        queueCollection.insertOne(queueDocument);
-                    }
-                }
+                trainDatabase.getCollection("queueDetails").drop();
+                saveToCollectionFromArray(queueCollection, trainQueueArray);
             }
         }
         mongoClient.close(); // Closes the database connection
         System.out.println("Saved the details to the database successfully");
+    }
+
+    public void loadToArrayFromCollection(MongoCollection<Document> passengerCollection, Passenger[] passengerArray){
+        // Gets all the documents in colomboCollection train route into findColomboDocument
+        FindIterable<Document> findDocuments = passengerCollection.find();
+
+        // Loops through each document in colomboColletion and adds each value from the keys to colomboCustomers
+        // and colomboBadullaDetails List
+        Arrays.fill(passengerArray, null);
+        for(Document document : findDocuments){
+            for(int i = 0; i < passengerArray.length; i++) {
+                if(passengerArray[i]==null) {
+                    Passenger passenger = new Passenger();
+                    passenger.setTrain(document.getString("train"));
+                    passenger.setSeatNumber(document.getString("seat"));
+                    passenger.setNic(document.getString("NIC"));
+                    passenger.setName(document.getString("firstname"), document.getString("surname"));
+                    passenger.setDate(document.getString("date"));
+                    passenger.setFrom(document.getString("from"));
+                    passenger.setTo(document.getString("to"));
+                    passenger.setTicketId(document.getString("ticket"));
+                    passengerArray[i] = passenger;
+                    break;
+                }
+            }
+        }
+        System.out.println("Array "+ Arrays.toString(passengerArray));
     }
 
     public void loadTrainQueue(){
@@ -695,29 +673,7 @@ public class TrainStation extends Application {
         MongoCollection<Document> queueCollection = trainDatabase.getCollection("queueDetails");
         System.out.println("Connected to the Database");
 
-        // Gets all the documents in colomboCollection train route into findColomboDocument
-        FindIterable<Document> findWaitingRoomDocument = waitingRoomCollection.find();
-
-        // Loops through each document in colomboColletion and adds each value from the keys to colomboCustomers
-        // and colomboBadullaDetails List
-        Arrays.fill(waitingRoom, null);
-        for(Document document : findWaitingRoomDocument){
-            for(int i = 0; i < waitingRoom.length; i++) {
-                if(waitingRoom[i]==null) {
-                    Passenger passenger = new Passenger();
-                    passenger.setTrain(document.getString("train"));
-                    passenger.setSeatNumber(document.getString("seat"));
-                    passenger.setNic(document.getString("NIC"));
-                    passenger.setName(document.getString("firstname"), document.getString("surname"));
-                    passenger.setDate(document.getString("date"));
-                    passenger.setFrom(document.getString("from"));
-                    passenger.setTo(document.getString("to"));
-                    passenger.setTicketId(document.getString("ticket"));
-                    waitingRoom[i] = passenger;
-                    break;
-                }
-            }
-        }
+        loadToArrayFromCollection(waitingRoomCollection, waitingRoom);
 
         // Gets all the documents in colomboCollection train route into findColomboDocument
         FindIterable<Document> findQueueDocument = queueCollection.find();
@@ -740,32 +696,77 @@ public class TrainStation extends Application {
         System.out.println("Details loaded from the database successfully");
     }
 
+    public void displayReport(int[] reportStats){
+        Stage stage = new Stage();
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #1b87c2");
+        Scene scene = new Scene(root, 1240, 700);    // Size of the window
+        stage.setTitle("Train Station Queue Application");
+
+        GridPane reportPane = new GridPane();
+        reportPane.setMinSize(400,500);
+        reportPane.setPadding(new Insets(0, 50, 50, 50));
+        reportPane.setHgap(20);
+        reportPane.setVgap(20);
+        Label reportTitle = new Label("Report");
+        reportTitle.setStyle("-fx-font: 30 arial; -fx-font-weight: bold; -fx-text-fill: black;");
+        reportTitle.setPadding(new Insets(10,0,0,200));
+        reportPane.add(reportTitle,0,0,4,2);
+
+        AnchorPane boardedPane = createPane("Boarded Passengers", "#3670b5");
+
+        VBox detailBox = new VBox();
+        Label length = new Label("Maximum queue length : "+reportStats[0]+" passengers");
+        Label maxWait = new Label("Maximum waiting time : "+reportStats[1]+" seconds");
+        Label minWait = new Label("Minimum waiting time : "+reportStats[2]+" seconds");
+        Label avgWait = new Label("Average waiting time : "+reportStats[3]+" seconds");
+
+        Label[] labels = new Label[]{length, maxWait, minWait, avgWait};
+
+        for(Label label : labels){
+            label.setPrefSize(400,100);
+            label.setStyle("-fx-background-color: #fcba03; -fx-border-width: 2; " +
+                    "-fx-border-style: solid; -fx-border-color: black; " +
+                    "-fx-alignment: center; -fx-font: 16 arial; -fx-font-weight: bold;" +
+                    " -fx-text-fill: black;");
+            detailBox.getChildren().add(label);
+        }
+
+        reportPane.add(detailBox,2,4);
+
+        root.setLeft(reportPane);
+        root.setCenter(displayBoardedTable(boardedPane));
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
     public void runSimulation(String userInput, List<String> stationStops, List<String> stationDetails, List<List<String>> customerDetails) {
         Stage stage = new Stage();
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1b87c2");
-        Scene scene = new Scene(root, 1600, 700);    // Size of the window
+        Scene scene = new Scene(root, 1800, 700);
         stage.setTitle("Train Station Queue Application");
 
-        Pane waitingRoomPane = createPane("Waiting Room", "#fcba03");
-        Pane queuePane = createPane("Train Queue", "#00ad71");
-        Pane boardedPane = createPane("Boarded Passengers", "#3670b5");
+        AnchorPane waitingRoomPane = createPane("Waiting Room", "#fcba03");
+        AnchorPane queuePane = createPane("Train Queue", "#00ad71");
+        AnchorPane boardedPane = createPane("Boarded Passengers", "#3670b5");
 
         Pane buttonPane = new Pane();
         buttonPane.setPrefSize(1100, 145);
-        Button addButton = new Button("Run Simulation");
-        addButton.setPrefSize(120, 50);
-        addButton.setStyle("-fx-font: 14 arial;");
-        addButton.setLayoutX(530);
-        addButton.setLayoutY(40);
-        buttonPane.getChildren().addAll(addButton);
+        Button simulateButton = new Button("Run Simulation");
+        simulateButton.setPrefSize(120, 50);
+        simulateButton.setStyle("-fx-font: 14 arial;");
+        simulateButton.setLayoutX(800);
+        simulateButton.setLayoutY(40);
+        buttonPane.getChildren().addAll(simulateButton);
 
-        PauseTransition wait1 = new PauseTransition(Duration.millis(500));
-        PauseTransition wait2 = new PauseTransition(Duration.millis(1000));
+        PauseTransition wait1 = new PauseTransition(Duration.millis(1000));
+        PauseTransition wait2 = new PauseTransition(Duration.millis(2000));
+        PauseTransition wait3 = new PauseTransition(Duration.millis(3000));
 
         Passenger[] boardedPassenger = new Passenger[1];
         int[] reportStats = new int[4];
-        addButton.setOnAction(event -> {
+        simulateButton.setOnAction(event -> {
             if(checkWaitingRoom()==0 && trainQueue.isEmpty()){
                 selectStation(userInput, stationStops, stationDetails);
                 loadCustomersFromBooking(stationDetails, customerDetails);
@@ -778,12 +779,12 @@ public class TrainStation extends Application {
                     waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
                     trainQueueTableView.setItems(getPassengersToTableView(trainQueueArray));
                 }
-                reportStats[0] = trainQueue.getLength();    // Maximum queue attained
-                reportStats[1] = trainQueue.getMaxStayInQueue();    // Maximum waiting time
-                reportStats[2] = trainQueue.getMinStayInQueue();    // Minimum waiting time
-                reportStats[3] = trainQueue.getMaxStayInQueue()/trainQueue.getLength(); // Average waiting time
+                reportStats[0] = trainQueue.getMaxLength();
+                reportStats[1] = trainQueue.getMaxStayInQueue();
+                reportStats[2] = trainQueue.getMinStayInQueue();
+                reportStats[3] = trainQueue.getMaxStayInQueue()/trainQueue.getMaxLength();
             });
-            wait1.playFromStart();
+            wait1.play();
 
             wait2.setOnFinished(event2 -> {
                 for(int i =0; i<trainQueueArray.length;i++){
@@ -795,14 +796,13 @@ public class TrainStation extends Application {
                         boardedTableView.setItems(getPassengersToTableView(boardedPassengers));
                     }
                 }
-                System.out.println("Max length : "+reportStats[0]);
-                System.out.println("Max waiting : "+reportStats[1]);
-                System.out.println("Min waiting : "+reportStats[2]);
-                System.out.println("Avg waiting : "+reportStats[3]);
             });
-            wait2.playFromStart();
-        });
+            wait2.play();
 
+            wait3.setOnFinished(event3 -> stage.close());
+            wait3.play();
+
+        });
         root.setLeft(displayWaitingRoomTable(waitingRoomPane));
         root.setCenter(displayTrainQueueTable(queuePane));
         root.setRight(displayBoardedTable(boardedPane));
@@ -810,5 +810,6 @@ public class TrainStation extends Application {
 
         stage.setScene(scene);
         stage.showAndWait();
+        displayReport(reportStats);
     }
 }

@@ -16,8 +16,10 @@ public class PassengerQueue {
             queueArray[last] = next;
             last = last + 1 % 42;
             maxLength++;
+//            System.out.println("last "+last);
+//            System.out.println("maxlength "+maxLength);
         }
-        else {
+        else if(isFull()){
             System.out.println("Queue is full");
         }
     }
@@ -44,7 +46,7 @@ public class PassengerQueue {
 
     public void display(){}
 
-    public int getLength(){
+    public int getMaxLength(){
         return maxLength;
     }
 
@@ -61,8 +63,12 @@ public class PassengerQueue {
         return queueArray[first].getSecondsInQueue();
     }
 
-    public void setFirstAndLast(int first, int last){
-        this.first = first;
-        this.last = last;
+    public void setFirstAndLast(int start, int end){
+        this.first = start;
+        this.last = end;
+    }
+
+    public void setMaxLength(int length){
+        this.maxLength = length;
     }
 }
