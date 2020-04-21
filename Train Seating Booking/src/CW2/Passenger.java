@@ -12,6 +12,8 @@ public class Passenger {
     private String from;
     private String to;
     private String ticketId;
+    private boolean arrived;
+    private String queueNumber;
 
     public String getName(){
         return name = firstName+" "+surname;
@@ -92,6 +94,22 @@ public class Passenger {
 
     public void setSecondsInQueue(int sec){
         this.secondsInQueue = sec;
+    }
+
+    public boolean isArrived() {
+        return arrived;
+    }
+
+    public void setArrived(boolean arrived) {
+        this.arrived = arrived;
+    }
+
+    public String getQueueNumber() {
+        return queueNumber;
+    }
+
+    public void setQueueNumber(String queueNumber) {
+        this.queueNumber = queueNumber;
     }
 
     public void display(){}

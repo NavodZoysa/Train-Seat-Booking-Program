@@ -494,8 +494,11 @@ public class TrainStation extends Application {
                 Label passengerSeat = new Label("Seat "+(++seatNumber));
                 passengerSeat.setStyle("-fx-font: 18 arial; -fx-font-weight: bold; -fx-text-fill: black;");
                 Label passengerName = new Label("Name : "+"Empty");
+                passengerName.setStyle("-fx-text-fill: black;");
                 Label passengerTicket = new Label("Ticket : "+"Empty");
+                passengerTicket.setStyle("-fx-text-fill: black;");
                 Label passengerStatus = new Label("Status : "+"Empty");
+                passengerStatus.setStyle("-fx-text-fill: black;");
 
                 if(!trainQueue.isEmpty()) {
                     for (Passenger passenger : trainQueueArray) {
@@ -506,6 +509,9 @@ public class TrainStation extends Application {
                             passengerName.setText("Name : "+passenger.getName());
                             passengerTicket.setText("Ticket : "+passenger.getTicketId());
                             passengerStatus.setText("Status : "+"Empty");
+                            seatBox.setStyle("-fx-background-color: #bd244f; -fx-border-width: 2; " +
+                                    "-fx-border-style: solid; -fx-border-color: black; " +
+                                    "-fx-alignment: center; -fx-font-weight: bold; -fx-text-fill: black;");
                         }
                     }
                 }
@@ -801,7 +807,6 @@ public class TrainStation extends Application {
 
             wait3.setOnFinished(event3 -> stage.close());
             wait3.play();
-
         });
         root.setLeft(displayWaitingRoomTable(waitingRoomPane));
         root.setCenter(displayTrainQueueTable(queuePane));
