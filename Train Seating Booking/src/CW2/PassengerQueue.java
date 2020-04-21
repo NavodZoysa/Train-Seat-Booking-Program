@@ -1,10 +1,10 @@
 package CW2;
 
 public class PassengerQueue {
-    private Passenger[] queueArray = new Passenger[42];
+    private Passenger[] queueArray = new Passenger[21];
     private int first;
     private int last;
-    private static int maxStayInQueue;
+    private int maxStayInQueue;
     private int maxLength;
 
     public Passenger[] getQueueArray(){
@@ -14,7 +14,7 @@ public class PassengerQueue {
     public void add(Passenger next){
         if(!isFull()) {
             queueArray[last] = next;
-            last = last + 1 % 42;
+            last = last + 1 % 21;
             maxLength++;
 //            System.out.println("last "+last);
 //            System.out.println("maxlength "+maxLength);
@@ -27,7 +27,7 @@ public class PassengerQueue {
     public Passenger remove(){
         Passenger passenger = queueArray[first];
         if(!isEmpty()) {
-            first = first + 1 % 42;
+            first = first + 1 % 21;
             maxLength--;
         }
         else{
@@ -56,7 +56,7 @@ public class PassengerQueue {
 
     public void setMaxStayInQueue(int seconds){
         maxStayInQueue = maxStayInQueue + seconds;
-        queueArray[last-1].setSecondsInQueue(maxStayInQueue);
+        queueArray[first-1].setSecondsInQueue(maxStayInQueue);
     }
 
     public int getMinStayInQueue(){
