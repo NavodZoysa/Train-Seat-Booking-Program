@@ -997,10 +997,15 @@ public class TrainStation extends Application {
         }
     }
 
-    public void reportToFile(int[] reportStats) throws IOException {
+    public void reportToFile(int[] reportStats, List<String> stationDetails) throws IOException {
         FileWriter writer = new FileWriter("src/CW2/report.txt");
 
-        writer.write("Maximum Queue 1 Length : "+reportStats[0]);
+        writer.write("Train Station Queue for Denuwara Menike\n");
+        writer.write("Train Station : "+ stationDetails.get(2));
+        writer.write("\nTrain Number : "+ stationDetails.get(1));
+        writer.write("\nDate : "+ stationDetails.get(0));
+
+        writer.write("\n\nMaximum Queue 1 Length : "+reportStats[0]);
         writer.write("\nMaximum Queue 1 Waiting Time : "+reportStats[1]);
         writer.write("\nMinimum Queue 1 Waiting Time : "+reportStats[2]);
         writer.write("\nAverage Queue 1 Waiting Time : "+reportStats[3]);
@@ -1015,6 +1020,21 @@ public class TrainStation extends Application {
         writer.write("\nMinimum Waiting Time of both Queues : "+reportStats[10]);
         writer.write("\nAverage Queue Waiting Time of both Queues : "+reportStats[11]);
 
+        writer.write("\n\nSeat   " +
+                "Queue Seconds     "+
+                "Ticket          " +
+                "Arrived           "+
+                "Name\n");
+
+        for(Passenger passenger : boardedPassengers){
+            if(passenger!=null){
+                writer.write(passenger.getSeatNumber() +"           "+
+                        passenger.getSecondsInQueue() +"           "+
+                        passenger.getTicketId() +"          " +
+                        passenger.isArrived() +"            "+
+                        passenger.getName()+"\n");
+            }
+        }
         writer.close();
     }
 
@@ -1146,6 +1166,6 @@ public class TrainStation extends Application {
         stage.setScene(scene);
         stage.showAndWait();
         displayReport(reportStats);
-        reportToFile(reportStats);
+        reportToFile(reportStats, stationDetails);
     }
 }

@@ -1,14 +1,34 @@
-Maximum Queue 1 Length : 0
-Maximum Queue 1 Waiting Time : 0
-Minimum Queue 1 Waiting Time : 0
-Average Queue 1 Waiting Time : 0
+Train Station Queue for Denuwara Menike
+Train Station : Colombo Fort
+Train Number : 1001
+Date : 2020-04-23
 
-Maximum Queue 2 Length : 0
-Maximum Queue 2 Waiting Time : 0
-Minimum Queue 2 Waiting Time : 0
-Average Queue 2 Waiting Time : 0
+Maximum Queue 1 Length : 7
+Maximum Queue 1 Waiting Time : 75
+Minimum Queue 1 Waiting Time : 10
+Average Queue 1 Waiting Time : 10
 
-Maximum Queue Length of both Queues : 0
-Maximum Waiting Time of both Queues : 0
-Minimum Waiting Time of both Queues : 0
-Average Queue Waiting Time of both Queues : 0
+Maximum Queue 2 Length : 6
+Maximum Queue 2 Waiting Time : 65
+Minimum Queue 2 Waiting Time : 12
+Average Queue 2 Waiting Time : 10
+
+Maximum Queue Length of both Queues : 13
+Maximum Waiting Time of both Queues : 140
+Minimum Waiting Time of both Queues : 22
+Average Queue Waiting Time of both Queues : 10
+
+Seat   Queue Seconds     Ticket          Arrived           Name
+1           10           DM1148          Yes            Geralt Of Rivia
+2           12           DM1854          Yes            Geralt Of Rivia
+5           26           DM1501          Yes            Geralt Of Rivia
+11           21           DM1776          Yes            Geralt Of Rivia
+15           33           DM1951          Yes            Yennefer Of Vengerberg
+16           38           DM1754          Yes            Yennefer Of Vengerberg
+18           41           DM1221          Yes            Yennefer Of Vengerberg
+19           46           DM1021          Yes            Yennefer Of Vengerberg
+20           49           DM1806          Yes            Yennefer Of Vengerberg
+21           59           DM1549          Yes            Yennefer Of Vengerberg
+32           66           DM1977          Yes            Geralt Of Rivia
+37           65           DM1116          Yes            Geralt Of Rivia
+42           75           DM1340          Yes            Geralt Of Rivia
