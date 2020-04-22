@@ -1,0 +1,14 @@
+Maximum Queue 1 Length : 0
+Maximum Queue 1 Waiting Time : 0
+Minimum Queue 1 Waiting Time : 0
+Average Queue 1 Waiting Time : 0
+
+Maximum Queue 2 Length : 0
+Maximum Queue 2 Waiting Time : 0
+Minimum Queue 2 Waiting Time : 0
+Average Queue 2 Waiting Time : 0
+
+Maximum Queue Length of both Queues : 0
+Maximum Waiting Time of both Queues : 0
+Minimum Waiting Time of both Queues : 0
+Average Queue Waiting Time of both Queues : 0

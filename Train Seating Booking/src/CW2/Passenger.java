@@ -96,12 +96,22 @@ public class Passenger {
         this.secondsInQueue = sec;
     }
 
-    public boolean isArrived() {
-        return arrived;
+    public String isArrived() {
+        if(arrived){
+            return "Yes";
+        }
+        else{
+            return "No";
+        }
     }
 
-    public void setArrived(boolean arrived) {
-        this.arrived = arrived;
+    public void setArrived(String arrived) {
+        if(arrived.equals("Yes")) {
+            this.arrived = true;
+        }
+        else if(arrived.equals("No")){
+            this.arrived = false;
+        }
     }
 
     public String getQueueNumber() {

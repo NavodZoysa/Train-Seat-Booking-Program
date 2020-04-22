@@ -16,8 +16,6 @@ public class PassengerQueue {
             queueArray[last] = next;
             last = last + 1 % 21;
             maxLength++;
-//            System.out.println("last "+last);
-//            System.out.println("maxlength "+maxLength);
         }
         else if(isFull()){
             System.out.println("Queue is full");
@@ -60,7 +58,7 @@ public class PassengerQueue {
     }
 
     public int getMinStayInQueue(){
-        return queueArray[first].getSecondsInQueue();
+        return queueArray[first-1].getSecondsInQueue();
     }
 
     public void setFirstAndLast(int start, int end){
