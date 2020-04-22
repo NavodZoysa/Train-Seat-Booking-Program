@@ -2,10 +2,7 @@ package CW2;
 
 public class PassengerQueue {
     private Passenger[] queueArray = new Passenger[21];
-    private int first;
-    private int last;
-    private int maxStayInQueue;
-    private int maxLength;
+    private int first, last, maxStayInQueue, maxLength;
 
     public Passenger[] getQueueArray(){
         return queueArray;
@@ -41,8 +38,6 @@ public class PassengerQueue {
     public boolean isFull(){
         return maxLength==queueArray.length;
     }
-
-    public void display(){}
 
     public int getMaxLength(){
         return maxLength;

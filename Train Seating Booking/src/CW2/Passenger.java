@@ -1,19 +1,10 @@
 package CW2;
 
 public class Passenger {
-    private String firstName;
-    private String surname;
-    private String name;
-    private int secondsInQueue;
-    private String train;
-    private String seatNumber;
-    private String nic;
-    private String date;
-    private String from;
-    private String to;
-    private String ticketId;
+    private String firstName, surname, name, train, seatNumber, nic, date, from,
+            to, ticketId, queueNumber;
     private boolean arrived;
-    private String queueNumber;
+    private int secondsInQueue;
 
     public String getName(){
         return name = firstName+" "+surname;
@@ -121,6 +112,4 @@ public class Passenger {
     public void setQueueNumber(String queueNumber) {
         this.queueNumber = queueNumber;
     }
-
-    public void display(){}
 }

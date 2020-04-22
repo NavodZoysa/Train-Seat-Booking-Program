@@ -1,34 +1,63 @@
 Train Station Queue for Denuwara Menike
 Train Station : Colombo Fort
 Train Number : 1001
-Date : 2020-04-23
+Date : 2020-04-22
 
-Maximum Queue 1 Length : 7
-Maximum Queue 1 Waiting Time : 75
-Minimum Queue 1 Waiting Time : 10
-Average Queue 1 Waiting Time : 10
+Maximum Queue 1 Length : 20
+Maximum Queue 1 Waiting Time : 222
+Minimum Queue 1 Waiting Time : 13
+Average Queue 1 Waiting Time : 11
 
-Maximum Queue 2 Length : 6
-Maximum Queue 2 Waiting Time : 65
-Minimum Queue 2 Waiting Time : 12
-Average Queue 2 Waiting Time : 10
+Maximum Queue 2 Length : 19
+Maximum Queue 2 Waiting Time : 216
+Minimum Queue 2 Waiting Time : 14
+Average Queue 2 Waiting Time : 11
 
-Maximum Queue Length of both Queues : 13
-Maximum Waiting Time of both Queues : 140
-Minimum Waiting Time of both Queues : 22
-Average Queue Waiting Time of both Queues : 10
+Maximum Queue Length of both Queues : 39
+Maximum Waiting Time of both Queues : 438
+Minimum Waiting Time of both Queues : 27
+Average Queue Waiting Time of both Queues : 11
 
 Seat   Queue Seconds     Ticket          Arrived           Name
-1           10           DM1148          Yes            Geralt Of Rivia
-2           12           DM1854          Yes            Geralt Of Rivia
-5           26           DM1501          Yes            Geralt Of Rivia
-11           21           DM1776          Yes            Geralt Of Rivia
-15           33           DM1951          Yes            Yennefer Of Vengerberg
-16           38           DM1754          Yes            Yennefer Of Vengerberg
-18           41           DM1221          Yes            Yennefer Of Vengerberg
-19           46           DM1021          Yes            Yennefer Of Vengerberg
-20           49           DM1806          Yes            Yennefer Of Vengerberg
-21           59           DM1549          Yes            Yennefer Of Vengerberg
-32           66           DM1977          Yes            Geralt Of Rivia
-37           65           DM1116          Yes            Geralt Of Rivia
-42           75           DM1340          Yes            Geralt Of Rivia
+1           13           DM1756          Yes            Carl Johnson
+2           25           DM1596          Yes            Jill Valentine
+3           14           DM1357          Yes            Jill Valentine
+4           25           DM1669          Yes            Arthur Morgan
+5           0           DM1969          No            Arthur Morgan
+6           40           DM1466          Yes            Arthur Morgan
+7           40           DM1209          Yes            Arthur Morgan
+8           49           DM1882          Yes            Jill Valentine
+9           52           DM1626          Yes            Jill Valentine
+10           60           DM1620          Yes            Carl Johnson
+11           61           DM1008          Yes            Carl Johnson
+12           70           DM1950          Yes            Jill Valentine
+13           67           DM1217          Yes            Jill Valentine
+14           82           DM1732          Yes            Jill Valentine
+15           94           DM1483          Yes            Navod Zoysa
+16           74           DM1122          Yes            Navod Zoysa
+17           106           DM1070          Yes            Navod Zoysa
+18           87           DM1619          Yes            Navod Zoysa
+19           102           DM1226          Yes            Jill Valentine
+20           113           DM1004          Yes            Jill Valentine
+21           112           DM1594          Yes            Jill Valentine
+22           122           DM1427          Yes            Arthur Morgan
+23           122           DM1957          Yes            Arthur Morgan
+24           131           DM1353          Yes            Arthur Morgan
+25           129           DM1311          Yes            Arthur Morgan
+26           141           DM1265          Yes            Arthur Morgan
+27           0           DM1308          No            Arthur Morgan
+28           142           DM1171          Yes            Arthur Morgan
+29           154           DM1192          Yes            Arthur Morgan
+30           155           DM1912          Yes            Arthur Morgan
+31           163           DM1677          Yes            Arthur Morgan
+32           168           DM1428          Yes            Arthur Morgan
+33           180           DM1678          Yes            Arthur Morgan
+34           182           DM1980          Yes            Arthur Morgan
+35           190           DM1107          Yes            Navod Zoysa
+36           197           DM1048          Yes            Navod Zoysa
+37           198           DM1707          Yes            Navod Zoysa
+38           204           DM1425          Yes            Navod Zoysa
+39           210           DM1978          Yes            Navod Zoysa
+40           0           DM1483          No            Navod Zoysa
+41           216           DM1392          Yes            Navod Zoysa
+42           222           DM1534          Yes            Navod Zoysa
