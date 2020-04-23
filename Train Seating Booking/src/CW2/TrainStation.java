@@ -48,6 +48,7 @@ public class TrainStation extends Application {
                 "Peradeniya Junction", "Gampola", "Nawalapitiya", "Hatton", "Talawakelle",
                 "Nanu Oya", "Haputale", "Diyatalawa", "Bandarawela", "Ella", "Badulla");
 
+        // A list to store train number, train station and date selected
         List<String> stationDetails = new ArrayList<>(Arrays.asList("0","0","0"));
 
         while(true){
@@ -70,19 +71,31 @@ public class TrainStation extends Application {
                 destination and date. Then inside trainDestination the relevant
                 methods for adding, viewing and viewing only empty seats are called. */
                 case "A":
+                    // Checks if waiting room has no passengers and if the train queues
+                    // are empty
                     if(checkWaitingRoom()==0 && trainQueue1.isEmpty() && trainQueue2.isEmpty()) {
                         selectStation(userInput, stationStops, stationDetails);
                         loadCustomersFromBooking(stationDetails, customerDetails);
                     }
+                    // Only if there is atleast 1 passenger is there in the waitingroom
+                    // addPassenger method is run
                     if(checkWaitingRoom()>0) {
                         addPassenger();
                     }
                     else {
+                        // Error saying no passengers for that day
                         errorAlert("waitingRoom");
                     }
                     break;
                 case "V":
-                    viewPassenger();
+                    // Checks if a station and a date was selected before showing
+                    // the passengers in trainqueue
+                    if(stationDetails.contains("0")){
+                        errorAlert("emptyWaiting");
+                    }
+                    else {
+                        viewPassenger();
+                    }
                     break;
                 case "D":
                     deletePassenger();
@@ -255,12 +268,15 @@ public class TrainStation extends Application {
 
                 if (details.get(5).equals(stationDetails.get(0)) && details.get(0).equals(stationDetails.get(1)) &&
                         details.get(6).equals(stationDetails.get(2))) {
-                    // Add each details List to customerDetails List
+                    // Retrieving details from cw1 and adding to this list
                     customerDetails.add(details);
                 }
             }
             mongoClient.close();
             System.out.println("Details loaded from the database successfully");
+            // If there are more than 10 passengers then randomly select upto 4
+            // passengers as not arrived which is 10% chance of not arriving when 42
+            // passengers are there
             if(customerDetails.size()>10){
                 notArrivedPassengers(customerDetails);
             }
@@ -272,13 +288,9 @@ public class TrainStation extends Application {
         Random random = new Random();
         int randomChance = random.nextInt(4);
         Passenger[] notArrivedPassengersArray = new Passenger[randomChance];
-        System.out.println(randomChance);
-        System.out.println("Before delete "+customerDetails);
-        System.out.println("size before "+customerDetails.size());
         if(randomChance!=0) {
             for (int i = 0; i < randomChance; i++) {
                 int randomPassenger = random.nextInt(customerDetails.size()) + 1;
-                System.out.println(randomPassenger);
                 for (List<String> customer : customerDetails) {
                     if (customerDetails.indexOf(customer) == randomPassenger) {
                         Passenger passenger = new Passenger();
@@ -291,6 +303,7 @@ public class TrainStation extends Application {
                         passenger.setTo(customer.get(7));
                         passenger.setTicketId(customer.get(8));
                         passenger.setArrived("No");
+                        // Keep the not arrived passengers in this array for later use
                         for (int j = 0; j < notArrivedPassengersArray.length; j++) {
                             if (notArrivedPassengersArray[j] == null) {
                                 notArrivedPassengersArray[j] = passenger;
@@ -302,14 +315,12 @@ public class TrainStation extends Application {
                     }
                 }
             }
+            // Adding the not arrived passengers to the boarded passenger queue to be
+            // later shown as not arrived in the report
             for (int i = 0; i < notArrivedPassengersArray.length; i++) {
                 boardedPassengers[i] = notArrivedPassengersArray[i];
             }
         }
-        System.out.println("After delete "+customerDetails);
-        System.out.println("size after "+customerDetails.size());
-        System.out.println("not arrived "+ Arrays.toString(notArrivedPassengersArray));
-        System.out.println("boarded "+ Arrays.toString(boardedPassengers));
     }
 
     public void addPassengerToWaitingRoom(List<List<String>> customerDetails){
@@ -330,7 +341,6 @@ public class TrainStation extends Application {
 
     public void addPassengerToTrainQueue() {
         int randomQueueSize = randomNumberGenerator();
-        System.out.println("Random number : "+randomQueueSize);
         for(int i = 0; i < randomQueueSize; i++){
             if(trainQueue1.isFull() && trainQueue2.isFull()){
                 break;
@@ -338,6 +348,7 @@ public class TrainStation extends Application {
             else if(checkWaitingRoom()==0){
                 break;
             }
+            // Adds passengers to the one of the trainqueues based on the shortest queue
             for(int j = 0; j < waitingRoom.length; j++) {
                 if (waitingRoom[j]!=null) {
                     if(trainQueue1.getMaxLength()==trainQueue2.getMaxLength()){
@@ -365,10 +376,16 @@ public class TrainStation extends Application {
 
     public void errorAlert(String queuePlace){
         Alert warning = new Alert(Alert.AlertType.WARNING);
-        if(queuePlace.equals("waitingRoom")) {
+        if(queuePlace.equals("waitingRoom") || queuePlace.equals("emptyWaiting")) {
             warning.setTitle("Waiting Room is Empty");
             warning.setHeaderText("Waiting Room is Empty!");
-            warning.setContentText("Waiting room passengers are empty for the current date");
+            if(queuePlace.equals("waitingRoom")) {
+                warning.setContentText("Waiting room passengers are empty for the current date");
+            }
+            else if(queuePlace.equals("emptyWaiting")){
+                warning.setContentText("Waiting room is empty please add passengers first " +
+                                        "before viewing the train queue");
+            }
         }
         else if(queuePlace.equals("trainQueue")){
             warning.setTitle("Queue 1 or 2 is Full");
@@ -393,6 +410,8 @@ public class TrainStation extends Application {
         }
     }
 
+    // Observable list used for the tableview which is used to represent the queues in
+    // the GUI
     public ObservableList<Passenger> getPassengersToTableView(Passenger[] passengerArray){
         ObservableList<Passenger> passengerObservableList =
                 FXCollections.observableArrayList();
@@ -445,6 +464,7 @@ public class TrainStation extends Application {
         tableView.getColumns().addAll(seatNumberColumn, nameColumn, ticketIdColumn,
                 trainColumn, nicColumn, dateColumn, fromColumn, toColumn);
     }
+
     public AnchorPane createPane(String title, String color){
         AnchorPane pane = new AnchorPane();
         pane.setPrefSize(600, 500);
@@ -539,6 +559,9 @@ public class TrainStation extends Application {
         buttonPane.getChildren().addAll(addButton);
 
         addButton.setOnAction(event -> {
+            // When add to queue button is clicked it takes passengers from waiting room
+            // and adds them to the trainquque 1-6 passengers per turn and sorts them
+            // after
             addPassengerToTrainQueue();
             sortPassengersInQueue(trainQueue1,trainQueueArray1);
             sortPassengersInQueue(trainQueue2,trainQueueArray2);
@@ -578,6 +601,7 @@ public class TrainStation extends Application {
         stage.setTitle("Train Station Queue Application");
 
         int seatNumber = 0;
+        // Creates 6 rows and 7 columns to represent passengers against seats in the GUI
         for(int i = 0; i < 6; i++){
             for(int j = 0; j<7; j++){
                 VBox seatBox = new VBox();
@@ -594,6 +618,8 @@ public class TrainStation extends Application {
                 Label passengerTicket = new Label("Ticket : "+"Empty");
                 passengerTicket.setStyle("-fx-text-fill: black;");
 
+                // Changes the seat and displays passenger name, seat and ticket by
+                // checking on which queue the passenger is present
                 if(!trainQueue1.isEmpty()) {
                     for (Passenger passenger : trainQueueArray1) {
                         if(passenger==null){
@@ -676,14 +702,22 @@ public class TrainStation extends Application {
             for (int i = 0, j = 0; i < trainQueueArray1.length; i++) {
                 if (trainQueueArray1[i] == (null)) {
                     continue;
-                } else if (!trainQueueArray1[i].getSeatNumber().equals(seatSelected)) {
+                }
+                // Checks if the selected seat is not in the train queue if not add to
+                // temp array
+                else if (!trainQueueArray1[i].getSeatNumber().equals(seatSelected)) {
                     tempQueueArray1[j++] = trainQueueArray1[i];
-                } else if (trainQueueArray1[i].getSeatNumber().equals(seatSelected)) {
+                }
+                // Checks if selected seat is in the train queue if it is copy that
+                // passenger to deletePassenger then make trainqueue null
+                else if (trainQueueArray1[i].getSeatNumber().equals(seatSelected)) {
                     deletedPassenger = trainQueueArray1[i];
                 }
                 trainQueueArray1[i] = null;
             }
 
+            // Reset first and last in passenger queue because we are going to
+            // add each passenger from the tempqueuearray to the trainqueue again
             trainQueue1.setFirstAndLast(0, 0);
             trainQueue1.setMaxLength(0);
             for (Passenger passenger : tempQueueArray1) {
@@ -692,28 +726,37 @@ public class TrainStation extends Application {
                 }
             }
             System.out.println("\nDeleted passenger details \n\n" +
-                    "Passenger seat number   : " + deletedPassenger.getSeatNumber() +
-                    "\nPassenger name          : " + deletedPassenger.getName() +
-                    "\nPassenger ticket number : " + deletedPassenger.getTicketId() +
-                    "\nPassenger train number  : " + deletedPassenger.getTrain() +
+                    "Passenger Seat Number   : " + deletedPassenger.getSeatNumber() +
+                    "\nPassenger Name          : " + deletedPassenger.getName() +
+                    "\nPassenger Ticket Number : " + deletedPassenger.getTicketId() +
+                    "\nPassenger Train Number  : " + deletedPassenger.getTrain() +
                     "\nPassenger NIC           : " + deletedPassenger.getNic() +
                     "\nPassenger Date          : " + deletedPassenger.getDate() +
                     "\nPassenger From          : " + deletedPassenger.getFrom() +
                     "\nPassenger To            : " + deletedPassenger.getTo() +
+                    "\nPassenger Arrived       : "+ deletedPassenger.isArrived() +
                     "\nPassenger Queue Number  : "+ deletedPassenger.getQueueNumber());
         }
         else if(foundInQueue2){
             for (int i = 0, j = 0; i < trainQueueArray2.length; i++) {
                 if (trainQueueArray2[i] == (null)) {
                     continue;
-                } else if (!trainQueueArray2[i].getSeatNumber().equals(seatSelected)) {
+                }
+                // Checks if the selected seat is not in the train queue if not add to
+                // temp array
+                else if (!trainQueueArray2[i].getSeatNumber().equals(seatSelected)) {
                     tempQueueArray2[j++] = trainQueueArray2[i];
-                } else if (trainQueueArray2[i].getSeatNumber().equals(seatSelected)) {
+                }
+                // Checks if selected seat is in the train queue if it is copy that
+                // passenger to deletePassenger then make trainqueue null
+                else if (trainQueueArray2[i].getSeatNumber().equals(seatSelected)) {
                     deletedPassenger = trainQueueArray2[i];
                 }
                 trainQueueArray2[i] = null;
             }
 
+            // Reset first and last in passenger queue because we are going to
+            // add each passenger from the tempqueuearray to the trainqueue again
             trainQueue2.setFirstAndLast(0, 0);
             trainQueue2.setMaxLength(0);
             for (Passenger passenger : tempQueueArray2) {
@@ -722,14 +765,15 @@ public class TrainStation extends Application {
                 }
             }
             System.out.println("\nDeleted passenger details \n\n" +
-                    "Passenger seat number   : " + deletedPassenger.getSeatNumber() +
-                    "\nPassenger name          : " + deletedPassenger.getName() +
-                    "\nPassenger ticket number : " + deletedPassenger.getTicketId() +
-                    "\nPassenger train number  : " + deletedPassenger.getTrain() +
+                    "Passenger Seat Number   : " + deletedPassenger.getSeatNumber() +
+                    "\nPassenger Name          : " + deletedPassenger.getName() +
+                    "\nPassenger Ticket Number : " + deletedPassenger.getTicketId() +
+                    "\nPassenger Train Number  : " + deletedPassenger.getTrain() +
                     "\nPassenger NIC           : " + deletedPassenger.getNic() +
                     "\nPassenger Date          : " + deletedPassenger.getDate() +
                     "\nPassenger From          : " + deletedPassenger.getFrom() +
                     "\nPassenger To            : " + deletedPassenger.getTo() +
+                    "\nPassenger Arrived       : "+ deletedPassenger.isArrived() +
                     "\nPassenger Queue Number  : "+ deletedPassenger.getQueueNumber());
         }
         else{
@@ -743,45 +787,30 @@ public class TrainStation extends Application {
 
         for (Passenger passenger : passengerArray) {
             if (passenger != null) {
-                // Creates a new document
                 Document document = new Document();
-                // Gets the train number
                 document.append("train", passenger.getTrain());
-                // Gets the seat number
                 document.append("seat", passenger.getSeatNumber());
-                // Gets the NIC
                 document.append("NIC", passenger.getNic());
-                // Gets the first name
                 document.append("firstname", passenger.getFirstName());
-                // Gets the surname
                 document.append("surname", passenger.getSurname());
-                // Gets the date
                 document.append("date", passenger.getDate());
-                // Gets the boarding station
                 document.append("from", passenger.getFrom());
-                // Gets the destination
                 document.append("to", passenger.getTo());
-                // Gets the ticket number
                 document.append("ticket", passenger.getTicketId());
                 if(String.valueOf(passenger.getSecondsInQueue())!=null){
                     document.append("seconds",
                             String.valueOf(passenger.getSecondsInQueue()));
                 }
-                // Gets arrived
                 document.append("arrived", passenger.isArrived());
                 if(passenger.getQueueNumber()!=null){
-                    // Gets the queue number
                     document.append("queue", String.valueOf(passenger.getQueueNumber()));
                 }
-                // Add the document to the collection
                 passengerCollection.insertOne(document);
             }
         }
     }
 
     public void saveTrainQueue(){
-        //Connecting to MongoDB then creating a database and then two collections for
-        // each train route
         MongoClient mongoClient = new MongoClient("localhost",27017);
         MongoDatabase trainDatabase = mongoClient.getDatabase("trainStation");
         MongoCollection<Document> waitingRoomCollection =
@@ -792,8 +821,7 @@ public class TrainStation extends Application {
                 trainDatabase.getCollection("boardedDetails");
         System.out.println("Connected to the Database");
 
-        // Checks if the documents for each route stored in two separate collections
-        // has any document
+        // Checks if there are any documents in the collections and saves
         if(waitingRoomCollection.countDocuments() == 0 ||
                 queueCollection.countDocuments() == 0 ||
                 boardedCollection.countDocuments() == 0){
@@ -809,8 +837,8 @@ public class TrainStation extends Application {
                 saveToCollectionFromArray(boardedCollection, boardedPassengers);
             }
         }
-        // Checks if the documents for each route stored in two separate collections
-        // has 1 or more documents
+        // Checks if there are 1 or more documents in the collections if it is drop the
+        // collection before adding to the collection
         else if(waitingRoomCollection.countDocuments() > 0 ||
                 queueCollection.countDocuments() > 0 ||
                 boardedCollection.countDocuments() > 0){
@@ -829,18 +857,15 @@ public class TrainStation extends Application {
                 saveToCollectionFromArray(boardedCollection, boardedPassengers);
             }
         }
-        mongoClient.close(); // Closes the database connection
+        mongoClient.close();
         System.out.println("Saved the details to the database successfully");
     }
 
     public void loadWaitingAndBoardedFromCollection(
             MongoCollection<Document> passengerCollection, Passenger[] passengerArray){
 
-        // Gets all the documents in colomboCollection train route into findColomboDocument
         FindIterable<Document> findDocuments = passengerCollection.find();
 
-        // Loops through each document in colomboColletion and adds each value from the
-        // keys to colomboCustomers and colomboBadullaDetails List
         Arrays.fill(passengerArray, null);
         for(Document document : findDocuments){
             for(int i = 0; i < passengerArray.length; i++) {
@@ -861,7 +886,6 @@ public class TrainStation extends Application {
                     }
                     passenger.setArrived(document.getString("arrived"));
                     if(document.getString("queue")!=null){
-                        // Gets the queue number
                         passenger.setQueueNumber(document.getString("queue"));
                     }
                     passengerArray[i] = passenger;
@@ -873,7 +897,7 @@ public class TrainStation extends Application {
     }
 
     public void loadTrainQueueFromCollection(MongoCollection<Document> passengerCollection){
-        // Gets all the documents in colomboCollection train route into findColomboDocument
+
         FindIterable<Document> findQueueDocument = passengerCollection.find();
 
         Arrays.fill(trainQueueArray1, null);
@@ -912,7 +936,6 @@ public class TrainStation extends Application {
     }
 
     public void loadTrainQueue(){
-        //Connecting to MongoDB then creating a database and then two collections for each train route
         MongoClient mongoClient = new MongoClient("localhost",27017);
         MongoDatabase trainDatabase = mongoClient.getDatabase("trainStation");
         MongoCollection<Document> waitingRoomCollection =
@@ -929,7 +952,7 @@ public class TrainStation extends Application {
 
         loadWaitingAndBoardedFromCollection(boardedCollection, boardedPassengers);
 
-        mongoClient.close(); // Closes the database connection
+        mongoClient.close();
         System.out.println("Details loaded from the database successfully");
     }
 
@@ -990,6 +1013,7 @@ public class TrainStation extends Application {
                 queue2maxWait, queue2minWait, queue2avgWait, finalLength, finalMaxWait,
                 finalMinWait, finalAvgWait};
 
+        // Created the label array so it would be easy to style them by looping
         for(int i = 0;i<labelArray.length;i++){
             if(i<=9){
                 labelArray[i].setPrefSize(200,50);
@@ -1127,6 +1151,8 @@ public class TrainStation extends Application {
         simulateButton.setLayoutY(40);
         buttonPane.getChildren().addAll(simulateButton);
 
+        // Pause transition used to simulate the delay of waiting times in real time
+        // in the GUI
         PauseTransition wait1 = new PauseTransition(Duration.millis(1000));
         PauseTransition wait2 = new PauseTransition(Duration.millis(2000));
         PauseTransition wait3 = new PauseTransition(Duration.millis(3000));
@@ -1134,11 +1160,16 @@ public class TrainStation extends Application {
         Passenger[] boardedPassenger = new Passenger[1];
         int[] reportStats = new int[12];
         simulateButton.setOnAction(event -> {
+            // Checks if the waiting room is empty before removing passengers from the
+            // trainqueue, if there are no passengers in the waiting room then it loads
+            // and automates the process till everyone is boarded
             if(checkWaitingRoom()==0 && trainQueue1.isEmpty() && trainQueue2.isEmpty()){
                 selectStation(userInput, stationStops, stationDetails);
                 loadCustomersFromBooking(stationDetails, customerDetails);
                 waitingRoomTableView.setItems(getPassengersToTableView(waitingRoom));
             }
+            // First delay in the GUI and place where passengers are added to the
+            // trainqueue
             wait1.setOnFinished(event1 -> {
                 while(checkWaitingRoom()>0) {
                     if(trainQueue1.isFull() && trainQueue2.isFull()){
@@ -1154,6 +1185,9 @@ public class TrainStation extends Application {
             });
             wait1.play();
 
+            // Second delay in the GUI and place where passengers are removed from
+            // trainqueue and added to the boarded passengers. Also the place where all
+            // the statistics are recorded
             wait2.setOnFinished(event2 -> {
                 reportStats[0] = trainQueue1.getMaxLength();
                 reportStats[4] = trainQueue2.getMaxLength();
@@ -1233,6 +1267,7 @@ public class TrainStation extends Application {
             });
             wait2.play();
 
+            // Third delay in the GUI
             wait3.setOnFinished(event3 -> stage.close());
             wait3.play();
         });
