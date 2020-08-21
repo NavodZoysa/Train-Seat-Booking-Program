@@ -1,0 +1,33 @@
+Train Station Queue for Denuwara Menike
+Train Station : Colombo Fort
+Train Number : 1001
+Date : 2020-04-23
+
+Maximum Queue 1 Length : 6
+Maximum Queue 1 Waiting Time : 54
+Minimum Queue 1 Waiting Time : 3
+Average Queue 1 Waiting Time : 9
+
+Maximum Queue 2 Length : 5
+Maximum Queue 2 Waiting Time : 56
+Minimum Queue 2 Waiting Time : 9
+Average Queue 2 Waiting Time : 11
+
+Maximum Queue Length of both Queues : 11
+Maximum Waiting Time of both Queues : 110
+Minimum Waiting Time of both Queues : 12
+Average Queue Waiting Time of both Queues : 10
+
+Seat   Queue Seconds     Ticket          Arrived           Name
+1           3           DM1148          Yes            Geralt Of Rivia
+2           9           DM1854          Yes            Geralt Of Rivia
+5           16           DM1501          Yes            Geralt Of Rivia
+11           0           DM1776          No            Geralt Of Rivia
+15           19           DM1951          Yes            Yennefer Of Vengerberg
+16           24           DM1754          Yes            Yennefer Of Vengerberg
+18           32           DM1221          Yes            Yennefer Of Vengerberg
+19           37           DM1021          Yes            Yennefer Of Vengerberg
+20           43           DM1806          Yes            Yennefer Of Vengerberg
+21           45           DM1549          Yes            Yennefer Of Vengerberg
+32           56           DM1977          Yes            Geralt Of Rivia
+37           54           DM1116          Yes            Geralt Of Rivia
