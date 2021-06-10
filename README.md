@@ -12,11 +12,11 @@ A train seat booking program using Java and JavaFX for the UI. Additionally Mong
 
 ## Steps to run Booking locally
 
-1. Run the Booking.java inside src/CW1
+1. Run the <code>Booking.java</code> inside <code>src/CW1</code>
 2. Inisde this console menu you can add, view, delete, find, sort customers by name and save/load booking data to a mongoDB database
 
 ## Steps to run Queue simulation locally
 
 1. Do the booking part before running the simulation
-2. Run the TrainStation.java inside src/CW2
+2. Run the <code>TrainStation.java</code> inside <code>src/CW2</code>
 3. Inside this console menu you can add, view, delete and save/load queue data to a mongoDB database. Also the option to simulate the passesngers boarding to the train.
